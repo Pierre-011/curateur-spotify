@@ -1,97 +1,409 @@
+```html
 <!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101410">
+  <meta name="description" content="Gère tes placements Spotify et tes playlists depuis GitHub.">
   <title>Curator Desk</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar">
-      <div class="brand"><span class="brand-mark">♪</span><div><strong>Curator Desk</strong><small>SPOTIFY PLAYLISTS</small></div></div>
-      <nav>
+      <div class="brand">
+        <span class="brand-mark">♪</span>
+        <div>
+          <strong>Curator Desk</strong>
+          <small>SPOTIFY PLAYLISTS</small>
+        </div>
+      </div>
+
+      <nav aria-label="Navigation principale">
         <button class="nav-item active" data-view="dashboard">▦ <span>Vue d'ensemble</span></button>
         <button class="nav-item" data-view="placements">♫ <span>Placements</span></button>
         <button class="nav-item" data-view="playlists">▤ <span>Playlists</span></button>
         <button class="nav-item" data-view="settings">⚙ <span>Connexion & données</span></button>
       </nav>
-      <div class="sidebar-bottom"><span class="status-dot"></span><span id="connectionLabel">Non connecté à GitHub</span></div>
+
+      <div class="sidebar-bottom">
+        <span class="status-dot"></span>
+        <span id="connectionLabel">Non connecté à GitHub</span>
+      </div>
     </aside>
+
     <main class="main">
       <header class="topbar">
-        <div><div class="eyebrow">ESPACE CURATEUR</div><h1 id="pageTitle">Vue d'ensemble</h1></div>
-        <div class="top-actions"><span id="todayLabel"></span><button class="btn btn-primary" id="quickAdd">＋ Nouveau placement</button></div>
-      </header>
-      <section id="notice" class="notice hidden"></section>
-      <section id="view-dashboard" class="view">
-        <div class="welcome"><div><p class="eyebrow">TON CATALOGUE, EN UN COUP D'ŒIL</p><h2>Garde le contrôle de tes placements.</h2><p>Les échéances sont calculées automatiquement à partir de tes dates de fin.</p></div><div class="welcome-icon">♫</div></div>
-        <div class="stats-grid">
-          <article class="stat-card"><span class="stat-label">Playlists actives</span><strong id="statPlaylists">0</strong><span class="stat-foot">dans ton catalogue</span></article>
-          <article class="stat-card"><span class="stat-label">Placements en cours</span><strong id="statActive">0</strong><span class="stat-foot">à suivre</span></article>
-          <article class="stat-card warning"><span class="stat-label">Fin sous 7 jours</span><strong id="statSoon">0</strong><span class="stat-foot">à anticiper</span></article>
-          <article class="stat-card danger"><span class="stat-label">En retard</span><strong id="statOverdue">0</strong><span class="stat-foot">à vérifier</span></article>
+        <div>
+          <div class="eyebrow">ESPACE CURATEUR</div>
+          <h1 id="pageTitle">Vue d'ensemble</h1>
         </div>
-        <div class="section-heading"><div><h2>Priorités</h2><p>Les placements qui demandent ton attention.</p></div><button class="btn btn-ghost" data-goto="placements">Voir tout →</button></div>
+
+        <div class="top-actions">
+          <span id="todayLabel"></span>
+          <button class="btn btn-primary" id="quickAdd">＋ Nouveau placement</button>
+        </div>
+      </header>
+
+      <section id="notice" class="notice hidden" role="status" aria-live="polite"></section>
+
+      <!-- VUE D'ENSEMBLE -->
+      <section id="view-dashboard" class="view">
+        <div class="welcome">
+          <div>
+            <p class="eyebrow">TON CATALOGUE, EN UN COUP D'ŒIL</p>
+            <h2>Garde le contrôle de tes placements.</h2>
+            <p>Les échéances sont calculées automatiquement à partir de tes dates de fin.</p>
+          </div>
+          <div class="welcome-icon">♫</div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-label">Playlists actives</span>
+            <strong id="statPlaylists">0</strong>
+            <span class="stat-foot">dans ton catalogue</span>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label">Placements en cours</span>
+            <strong id="statActive">0</strong>
+            <span class="stat-foot">à suivre</span>
+          </article>
+
+          <article class="stat-card warning">
+            <span class="stat-label">Fin sous 7 jours</span>
+            <strong id="statSoon">0</strong>
+            <span class="stat-foot">à anticiper</span>
+          </article>
+
+          <article class="stat-card danger">
+            <span class="stat-label">En retard</span>
+            <strong id="statOverdue">0</strong>
+            <span class="stat-foot">à vérifier</span>
+          </article>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Priorités</h2>
+            <p>Les placements qui demandent ton attention.</p>
+          </div>
+          <button class="btn btn-ghost" data-goto="placements">Voir tout →</button>
+        </div>
+
         <div id="priorityList" class="table-card"></div>
-        <div class="section-heading"><div><h2>Récemment ajoutés</h2><p>Les derniers placements enregistrés.</p></div></div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Récemment ajoutés</h2>
+            <p>Les derniers placements enregistrés.</p>
+          </div>
+        </div>
+
         <div id="recentList" class="table-card"></div>
       </section>
+
+      <!-- PLACEMENTS -->
       <section id="view-placements" class="view hidden">
-        <div class="toolbar"><input id="placementSearch" class="input search" placeholder="Rechercher un titre, artiste ou playlist…"><select id="statusFilter" class="input"><option value="all">Tous les statuts</option><option value="active">Actifs</option><option value="upcoming">À venir</option><option value="removed">Retirés</option><option value="overdue">En retard</option><option value="soon">Fin sous 7 jours</option></select><button class="btn btn-primary" id="addPlacement">＋ Ajouter</button></div>
+        <div class="toolbar">
+          <input
+            id="placementSearch"
+            class="input search"
+            type="search"
+            placeholder="Rechercher un titre, artiste ou playlist…"
+            aria-label="Rechercher un placement"
+          >
+
+          <select id="statusFilter" class="input" aria-label="Filtrer par statut">
+            <option value="all">Tous les statuts</option>
+            <option value="active">Actifs</option>
+            <option value="upcoming">À venir</option>
+            <option value="removed">Retirés</option>
+            <option value="overdue">En retard</option>
+            <option value="soon">Fin sous 7 jours</option>
+          </select>
+
+          <button class="btn btn-primary" id="addPlacement">＋ Ajouter</button>
+        </div>
+
         <div id="placementsList" class="table-card"></div>
       </section>
+
+      <!-- PLAYLISTS -->
       <section id="view-playlists" class="view hidden">
-        <div class="section-heading"><div><h2>Tes playlists</h2><p>Organise les espaces où tu places les morceaux.</p></div><button class="btn btn-primary" id="addPlaylist">＋ Ajouter une playlist</button></div>
+        <div class="section-heading">
+          <div>
+            <h2>Tes playlists</h2>
+            <p>Organise les espaces où tu places les morceaux.</p>
+          </div>
+          <button class="btn btn-primary" id="addPlaylist">＋ Ajouter une playlist</button>
+        </div>
+
         <div id="playlistsGrid" class="playlist-grid"></div>
       </section>
+
+      <!-- PARAMÈTRES -->
       <section id="view-settings" class="view hidden">
         <div class="settings-grid">
-          <article class="panel"><div class="panel-head"><h2>Connexion au dépôt GitHub</h2><span class="pill">Sans API Spotify</span></div>
-            <p class="muted">Le site lit et enregistre tes données dans un fichier JSON de ton dépôt. Chaque appareil doit être connecté séparément. Le jeton reste uniquement dans la mémoire de cet onglet et n'est jamais enregistré dans le dépôt.</p>
-            <label class="field-label" for="repoOwner">Nom du compte ou de l'organisation</label><input class="input full" id="repoOwner" placeholder="ex. mon-compte">
-            <label class="field-label" for="repoName">Nom du dépôt privé</label><input class="input full" id="repoName" placeholder="ex. curator-data">
-            <label class="field-label" for="branchName">Branche</label><input class="input full" id="branchName" value="main">
-            <label class="field-label" for="tokenInput">Fine-grained Personal Access Token</label><input class="input full" id="tokenInput" type="password" autocomplete="off" placeholder="github_pat_…">
-            <p class="hint">Crée un jeton limité à ce dépôt, avec le droit <b>Contents: Read and write</b>. Ne le partage jamais. Évite un jeton à portée de tous tes dépôts.</p>
-            <div class="button-row"><button id="connectBtn" class="btn btn-primary">Connecter et charger</button><button id="disconnectBtn" class="btn btn-ghost">Déconnecter</button></div>
-            <div id="connectionStatus" class="inline-status"></div>
+
+          <article class="panel">
+            <div class="panel-head">
+              <h2>Connexion à GitHub</h2>
+              <span class="pill">Device Flow</span>
+            </div>
+
+            <p class="muted">
+              Connecte ton compte GitHub pour charger et sauvegarder tes placements
+              dans ton dépôt privé. Tu n'as pas besoin de créer un Personal Access Token.
+            </p>
+
+            <label class="field-label" for="repoOwner">
+              Compte GitHub ou organisation
+            </label>
+            <input
+              class="input full"
+              id="repoOwner"
+              type="text"
+              autocomplete="username"
+              placeholder="ex. Pierre-011"
+            >
+
+            <label class="field-label" for="repoName">
+              Nom du dépôt
+            </label>
+            <input
+              class="input full"
+              id="repoName"
+              type="text"
+              placeholder="ex. curateur-spotify"
+            >
+
+            <label class="field-label" for="branchName">
+              Branche
+            </label>
+            <input
+              class="input full"
+              id="branchName"
+              type="text"
+              value="main"
+            >
+
+            <div class="auth-explanation">
+              <h3>Comment fonctionne la connexion ?</h3>
+              <ol class="steps">
+                <li>Clique sur le bouton de connexion.</li>
+                <li>Le site te fournira un code temporaire.</li>
+                <li>Ouvre la page officielle de vérification GitHub.</li>
+                <li>Saisis le code et autorise l'application.</li>
+              </ol>
+            </div>
+
+            <div class="button-row">
+              <button id="connectBtn" class="btn btn-primary" type="button">
+                Connecter avec GitHub
+              </button>
+
+              <button id="disconnectBtn" class="btn btn-ghost" type="button">
+                Déconnecter
+              </button>
+            </div>
+
+            <!-- Zone prévue pour les instructions du Device Flow -->
+            <div id="deviceAuth" class="device-auth hidden" aria-live="polite">
+              <p id="deviceAuthMessage"></p>
+
+              <label class="field-label" for="deviceCode">
+                Code d'autorisation
+              </label>
+              <input
+                class="input full"
+                id="deviceCode"
+                type="text"
+                readonly
+                autocomplete="off"
+              >
+
+              <button id="copyDeviceCodeBtn" class="btn btn-secondary" type="button">
+                Copier le code
+              </button>
+
+              <a
+                id="verificationLink"
+                class="btn btn-secondary"
+                href="https://github.com/login/device"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ouvrir GitHub pour autoriser
+              </a>
+
+              <p class="hint">
+                Saisis le code uniquement sur le site officiel github.com.
+                Ne le communique à personne.
+              </p>
+            </div>
+
+            <div id="connectionStatus" class="inline-status" role="status" aria-live="polite"></div>
           </article>
-          <article class="panel"><div class="panel-head"><h2>Sauvegarde & restauration</h2></div><p class="muted">Exporte une copie JSON pour conserver une sauvegarde indépendante ou la restaurer sur un autre dépôt.</p><div class="button-row"><button id="exportBtn" class="btn btn-secondary">↓ Exporter JSON</button><label class="btn btn-secondary file-label">↑ Importer JSON<input id="importFile" type="file" accept="application/json" hidden></label></div><hr><h3>Configuration conseillée</h3><ol class="steps"><li>Crée un dépôt <b>privé</b> pour les données.</li><li>Crée un jeton finement limité à ce dépôt.</li><li>Connecte chaque appareil depuis cette page.</li><li>Active GitHub Pages sur le dépôt du site.</li></ol><p class="hint">Les fichiers JSON ne contiennent pas de secret. Le dépôt de données doit rester privé si tu ne veux pas rendre tes informations publiques.</p></article>
+
+          <!-- DONNÉES -->
+          <article class="panel">
+            <div class="panel-head">
+              <h2>Sauvegarde & restauration</h2>
+            </div>
+
+            <p class="muted">
+              Exporte une copie JSON pour conserver une sauvegarde indépendante
+              ou restaurer tes données.
+            </p>
+
+            <div class="button-row">
+              <button id="exportBtn" class="btn btn-secondary" type="button">
+                ↓ Exporter JSON
+              </button>
+
+              <label class="btn btn-secondary file-label">
+                ↑ Importer JSON
+                <input id="importFile" type="file" accept="application/json" hidden>
+              </label>
+            </div>
+
+            <hr>
+
+            <h3>Configuration</h3>
+            <ol class="steps">
+              <li>Utilise un dépôt privé pour tes données.</li>
+              <li>Installe ton application GitHub sur ce dépôt.</li>
+              <li>Accorde uniquement les permissions nécessaires.</li>
+              <li>Active GitHub Pages pour héberger le site.</li>
+            </ol>
+
+            <p class="hint">
+              Les données du catalogue sont stockées dans le dépôt GitHub.
+              Un dépôt privé limite leur consultation aux personnes autorisées.
+            </p>
+
+            <p class="hint">
+              La connexion est gérée dans le navigateur. Ne place jamais de
+              Client Secret ni de clé privée dans le code de GitHub Pages.
+            </p>
+          </article>
         </div>
       </section>
-      <footer>CURATOR DESK <span>•</span> Données hébergées sur ton dépôt GitHub · Aucun accès Spotify</footer>
+
+      <footer>
+        CURATOR DESK <span>•</span>
+        Données hébergées sur ton dépôt GitHub · Aucun accès Spotify
+      </footer>
     </main>
   </div>
 
+  <!-- FORMULAIRE DE PLACEMENT -->
   <dialog id="placementDialog" class="modal">
     <form id="placementForm" method="dialog">
-      <div class="modal-head"><div><p class="eyebrow">CATALOGUE</p><h2 id="placementModalTitle">Nouveau placement</h2></div><button type="button" class="icon-btn" data-close="placementDialog">✕</button></div>
-      <input type="hidden" id="placementId">
-      <div class="form-grid">
-        <label class="field-label">Titre *<input class="input full" id="trackTitle" required maxlength="180"></label>
-        <label class="field-label">Artiste *<input class="input full" id="trackArtist" required maxlength="180"></label>
-        <label class="field-label">Playlist *<select class="input full" id="trackPlaylist" required></select></label>
-        <label class="field-label">Lien Spotify<input class="input full" id="trackUrl" type="url" placeholder="https://open.spotify.com/track/…"></label>
-        <label class="field-label">Début du placement *<input class="input full" id="trackStart" type="date" required></label>
-        <label class="field-label">Fin du placement *<input class="input full" id="trackEnd" type="date" required></label>
-        <label class="field-label span-2">Notes<textarea class="input full" id="trackNotes" rows="3" maxlength="1500" placeholder="Infos de campagne, contact, conditions…"></textarea></label>
+      <div class="modal-head">
+        <div>
+          <p class="eyebrow">CATALOGUE</p>
+          <h2 id="placementModalTitle">Nouveau placement</h2>
+        </div>
+        <button type="button" class="icon-btn" data-close="placementDialog" aria-label="Fermer">✕</button>
       </div>
-      <div class="modal-actions"><button type="button" class="btn btn-ghost" data-close="placementDialog">Annuler</button><button type="submit" class="btn btn-primary">Enregistrer</button></div>
+
+      <input type="hidden" id="placementId">
+
+      <div class="form-grid">
+        <label class="field-label">
+          Titre *
+          <input class="input full" id="trackTitle" required maxlength="180">
+        </label>
+
+        <label class="field-label">
+          Artiste *
+          <input class="input full" id="trackArtist" required maxlength="180">
+        </label>
+
+        <label class="field-label">
+          Playlist *
+          <select class="input full" id="trackPlaylist" required></select>
+        </label>
+
+        <label class="field-label">
+          Lien Spotify
+          <input class="input full" id="trackUrl" type="url" placeholder="https://open.spotify.com/track/…">
+        </label>
+
+        <label class="field-label">
+          Début du placement *
+          <input class="input full" id="trackStart" type="date" required>
+        </label>
+
+        <label class="field-label">
+          Fin du placement *
+          <input class="input full" id="trackEnd" type="date" required>
+        </label>
+
+        <label class="field-label span-2">
+          Notes
+          <textarea
+            class="input full"
+            id="trackNotes"
+            rows="3"
+            maxlength="1500"
+            placeholder="Infos de campagne, contact, conditions…"
+          ></textarea>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close="placementDialog">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
     </form>
   </dialog>
+
+  <!-- FORMULAIRE DE PLAYLIST -->
   <dialog id="playlistDialog" class="modal">
     <form id="playlistForm" method="dialog">
-      <div class="modal-head"><div><p class="eyebrow">CATALOGUE</p><h2 id="playlistModalTitle">Nouvelle playlist</h2></div><button type="button" class="icon-btn" data-close="playlistDialog">✕</button></div>
+      <div class="modal-head">
+        <div>
+          <p class="eyebrow">CATALOGUE</p>
+          <h2 id="playlistModalTitle">Nouvelle playlist</h2>
+        </div>
+        <button type="button" class="icon-btn" data-close="playlistDialog" aria-label="Fermer">✕</button>
+      </div>
+
       <input type="hidden" id="playlistId">
-      <label class="field-label">Nom de la playlist *<input class="input full" id="playlistTitle" required maxlength="180"></label>
-      <label class="field-label">Lien Spotify<input class="input full" id="playlistUrl" type="url" placeholder="https://open.spotify.com/playlist/…"></label>
-      <label class="field-label">Genre / ambiance<input class="input full" id="playlistGenre" maxlength="120" placeholder="Chill, Indie, Electronic…"></label>
-      <label class="field-label">Description<textarea class="input full" id="playlistDescription" rows="3" maxlength="1000"></textarea></label>
-      <div class="modal-actions"><button type="button" class="btn btn-ghost" data-close="playlistDialog">Annuler</button><button type="submit" class="btn btn-primary">Enregistrer</button></div>
+
+      <label class="field-label">
+        Nom de la playlist *
+        <input class="input full" id="playlistTitle" required maxlength="180">
+      </label>
+
+      <label class="field-label">
+        Lien Spotify
+        <input class="input full" id="playlistUrl" type="url" placeholder="https://open.spotify.com/playlist/…">
+      </label>
+
+      <label class="field-label">
+        Genre / ambiance
+        <input class="input full" id="playlistGenre" maxlength="120" placeholder="Chill, Indie, Electronic…">
+      </label>
+
+      <label class="field-label">
+        Description
+        <textarea class="input full" id="playlistDescription" rows="3" maxlength="1000"></textarea>
+      </label>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close="playlistDialog">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
     </form>
   </dialog>
+
   <script src="app.js"></script>
 </body>
 </html>
+```
