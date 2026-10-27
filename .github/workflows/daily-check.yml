@@ -1,0 +1,66 @@
+name: Vérification quotidienne des placements
+
+on:
+  schedule:
+    # 08:00 heure de Paris en hiver (07:00 UTC); en été, exécution à 09:00.
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  deadlines:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Vérifier les échéances et créer/actualiser une issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const file = 'data/curator.json';
+            if (!fs.existsSync(file)) {
+              core.warning(`Fichier ${file} introuvable.`);
+              return;
+            }
+            const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+            const tracks = Array.isArray(data.tracks) ? data.tracks : [];
+            const playlists = Array.isArray(data.playlists) ? data.playlists : [];
+            const today = new Date();
+            today.setUTCHours(0,0,0,0);
+            const iso = d => `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}-${String(d.getUTCDate()).padStart(2,'0')}`;
+            const todayStr = iso(today);
+            const upcoming = tracks.filter(t => {
+              if (!t.placementEnd || t.status === 'removed') return false;
+              const end = new Date(`${t.placementEnd}T00:00:00Z`);
+              const diff = Math.round((end - today) / 86400000);
+              return diff <= 7;
+            }).sort((a,b) => (a.placementEnd || '').localeCompare(b.placementEnd || ''));
+            const playlistMap = new Map(playlists.map(p => [p.id, p.name]));
+            const body = upcoming.length
+              ? `Vérification automatique du **${todayStr}**.\n\n| Morceau | Artiste | Playlist | Fin du placement | État |\n|---|---|---|---|---|\n` + upcoming.map(t => {
+                  const end = new Date(`${t.placementEnd}T00:00:00Z`);
+                  const diff = Math.round((end - today) / 86400000);
+                  const status = diff < 0 ? `EN RETARD (${Math.abs(diff)} j)` : diff === 0 ? `À retirer aujourd'hui` : `Dans ${diff} j`;
+                  const safe = s => String(s || '').replace(/\|/g, '\\|').replace(/\n/g, ' ');
+                  return `| ${safe(t.title)} | ${safe(t.artist)} | ${safe(playlistMap.get(t.playlistId) || '—')} | ${t.placementEnd} | ${status} |`;
+                }).join('\n')
+              : `Aucun placement à échéance dans les 7 prochains jours au ${todayStr}.`;
+            const title = '🎵 Échéances des placements — suivi automatique';
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100
+            });
+            const existing = issues.find(i => i.title === title && !i.pull_request);
+            if (existing) {
+              await github.rest.issues.update({owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, body});
+              core.info(`Issue #${existing.number} actualisée.`);
+            } else if (upcoming.length) {
+              const created = await github.rest.issues.create({owner: context.repo.owner, repo: context.repo.repo, title, body, labels: []});
+              core.info(`Issue #${created.data.number} créée.`);
+            } else {
+              core.info('Pas d échéance à signaler; aucune issue créée.');
+            }
