@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Curateur — gestion de playlists</title>
+  <meta name="description" content="Gère les entrées et sorties de tes playlists Spotify : rotation par ancienneté, archive, journal.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand"><span class="dot"></span> Curateur</div>
+  <div class="grow"></div>
+  <span id="who" class="muted"></span>
+  <button id="btn-logout" class="ghost" hidden>Se déconnecter</button>
+</header>
+
+<!-- ============ Connexion ============ -->
+<section id="screen-login" class="login" hidden>
+  <div class="card">
+    <h1>Gère les entrées et sorties de tes playlists</h1>
+    <p class="muted">Rotation par ancienneté, archive automatique, détection des changements faits ailleurs et journal complet de ce qui entre et sort.</p>
+    <div id="login-msg" class="notice" hidden></div>
+    <button id="btn-login" class="primary big">Se connecter avec Spotify</button>
+    <details class="how">
+      <summary>Adresse de redirection à déclarer dans ton app Spotify</summary>
+      <p>Copie cette adresse exactement dans « Redirect URIs » :</p>
+      <code id="redir"></code>
+    </details>
+  </div>
+</section>
+
+<!-- ============ Application ============ -->
+<div id="app" hidden>
+  <aside id="side">
+    <input id="pl-filter" type="search" placeholder="Filtrer les playlists…" aria-label="Filtrer les playlists">
+    <ul id="pl-list" class="pl-list"></ul>
+    <p class="muted small pad">Seules les playlists que tu possèdes ou auxquelles tu collabores sont gérables.</p>
+  </aside>
+
+  <main id="main">
+    <div id="pl-head" class="pl-head"></div>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-view="tracks" role="tab">Titres</button>
+      <button class="tab" data-view="add" role="tab">Ajouter</button>
+      <button class="tab" data-view="journal" role="tab">Journal</button>
+    </nav>
+
+    <!-- ----- Titres ----- -->
+    <section id="view-tracks" class="view">
+      <div class="toolbar">
+        <input id="flt" type="search" placeholder="Filtrer titre, artiste, album…" aria-label="Filtrer les titres">
+        <button id="btn-refresh" class="ghost">Actualiser</button>
+        <button id="btn-all" class="ghost">Tout sélectionner</button>
+        <button id="btn-none" class="ghost">Désélectionner</button>
+      </div>
+
+      <details id="rot" class="panel">
+        <summary>Rotation automatique (suggestions de sorties)</summary>
+        <div class="rot-grid">
+          <label>Taille cible (titres)
+            <input id="rot-size" type="number" min="0" step="1" placeholder="ex. 50">
+          </label>
+          <label>Âge maximum (jours)
+            <input id="rot-days" type="number" min="0" step="1" placeholder="ex. 90">
+          </label>
+          <button id="rot-apply" class="primary">Sélectionner les candidats</button>
+        </div>
+        <p id="rot-info" class="muted small">Les titres les plus anciens sont proposés en premier. Rien n’est retiré tant que tu ne confirmes pas.</p>
+      </details>
+
+      <div id="selbar" class="selbar" hidden>
+        <strong id="sel-count"></strong>
+        <button id="btn-exit" class="danger">Sortir la sélection…</button>
+      </div>
+
+      <div class="table-wrap">
+        <table id="tbl">
+          <thead>
+            <tr>
+              <th class="c"></th>
+              <th></th>
+              <th><button class="sort" data-key="name">Titre / artiste</button></th>
+              <th class="alb"><button class="sort" data-key="album">Album</button></th>
+              <th><button class="sort" data-key="added_at">Ajouté le</button></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="center"><button id="btn-more" class="ghost" hidden>Afficher plus</button></div>
+    </section>
+
+    <!-- ----- Ajouter ----- -->
+    <section id="view-add" class="view" hidden>
+      <p>Ajout dans : <strong id="add-target">—</strong></p>
+
+      <div class="panel">
+        <h3>Rechercher un titre</h3>
+        <form id="form-search" class="row">
+          <input id="q" type="search" placeholder="Titre, artiste…" aria-label="Recherche Spotify">
+          <button class="primary">Chercher</button>
+        </form>
+        <ul id="res" class="list"></ul>
+        <div class="center"><button id="btn-res-more" class="ghost" hidden>Résultats suivants</button></div>
+      </div>
+
+      <div class="panel">
+        <h3>Coller des liens ou URI Spotify</h3>
+        <textarea id="paste" rows="4" placeholder="https://open.spotify.com/track/…&#10;spotify:track:…&#10;(un par ligne, ou en vrac)"></textarea>
+        <button id="paste-go" class="ghost">Analyser</button>
+        <span id="paste-info" class="muted small"></span>
+      </div>
+
+      <div class="panel">
+        <h3>File d’ajout <span id="queue-count" class="muted"></span></h3>
+        <ul id="queue" class="list"></ul>
+        <div class="row">
+          <label class="check"><input id="at-top" type="checkbox"> Ajouter en tête de playlist</label>
+          <div class="grow"></div>
+          <button id="queue-clear" class="ghost">Vider</button>
+          <button id="add-go" class="primary">Ajouter</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----- Journal ----- -->
+    <section id="view-journal" class="view" hidden>
+      <div class="toolbar">
+        <select id="j-pl" aria-label="Playlist"></select>
+        <select id="j-type" aria-label="Type">
+          <option value="">Entrées et sorties</option>
+          <option value="in">Entrées</option>
+          <option value="out">Sorties</option>
+        </select>
+        <select id="j-days" aria-label="Période">
+          <option value="7">7 jours</option>
+          <option value="30" selected>30 jours</option>
+          <option value="90">90 jours</option>
+          <option value="0">Tout</option>
+        </select>
+        <input id="j-q" type="search" placeholder="Rechercher…" aria-label="Rechercher dans le journal">
+      </div>
+      <p id="j-sum" class="muted"></p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th></th><th>Titre / artiste</th><th>Playlist</th><th>Détail</th></tr></thead>
+          <tbody id="j-body"></tbody>
+        </table>
+      </div>
+      <div class="center"><button id="j-more" class="ghost" hidden>Afficher plus</button></div>
+      <div class="row foot">
+        <button id="j-json" class="ghost">Exporter (JSON)</button>
+        <button id="j-csv" class="ghost">Exporter (CSV)</button>
+        <button id="j-import" class="ghost">Importer…</button>
+        <input id="j-file" type="file" accept="application/json" hidden>
+        <div class="grow"></div>
+        <button id="j-clear" class="danger ghost">Vider le journal</button>
+      </div>
+      <p class="muted small">Le journal est stocké dans ce navigateur. Exporte-le régulièrement pour en garder une copie (ou le versionner dans ton dépôt GitHub).</p>
+    </section>
+  </main>
+</div>
+
+<!-- ============ Dialogue de sortie ============ -->
+<dialog id="dlg-exit">
+  <form method="dialog" id="form-exit">
+    <h2 id="ex-title">Sortir des titres</h2>
+    <label>Déplacer vers une playlist d’archive (optionnel)
+      <select id="ex-dest"></select>
+    </label>
+    <label>Raison
+      <select id="ex-reason">
+        <option>Trop ancien</option>
+        <option>Ne colle plus à la playlist</option>
+        <option>Doublon / déjà ailleurs</option>
+        <option>Mauvais retours</option>
+        <option>Autre</option>
+      </select>
+    </label>
+    <label>Note (optionnel)
+      <input id="ex-note" type="text" maxlength="200">
+    </label>
+    <p class="muted small">Si un titre apparaît plusieurs fois dans la playlist, toutes ses occurrences sont retirées.</p>
+    <div class="row end">
+      <button value="cancel" class="ghost">Annuler</button>
+      <button id="ex-ok" value="ok" class="danger">Confirmer</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="busy" class="busy" hidden><div class="spin"></div><span id="busy-msg">Chargement…</span></div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
