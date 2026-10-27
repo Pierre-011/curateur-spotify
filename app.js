@@ -1,25 +1,43 @@
-/* Curator Desk — GitHub App Device Flow + stockage JSON */
+/* Curator Desk — GitHub-backed JSON storage. No Spotify API. */
 (() => {
   "use strict";
 
   const $ = id => document.getElementById(id);
 
-  // Client ID public de l'application GitHub.
-  const CLIENT_ID = "Iv23liqABtr8bq6w625x";
+  const todayISO = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  };
 
-  const DEVICE_CODE_URL = "https://github.com/login/device/code";
-  const TOKEN_URL = "https://github.com/login/oauth/access_token";
-  const API_URL = "https://api.github.com";
+  const uid = prefix => `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,8)}`;
 
-  const TOKEN_KEY = "curatorDesk.githubRefreshToken";
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[c]));
+
+  const validSpotifyUrl = s =>
+    !s || /^https:\/\/open\.spotify\.com\/(track|playlist|album)\/[A-Za-z0-9]+/.test(s);
+
+  const TOKEN_KEY = "curatorDesk.githubToken";
   const CONFIG_KEY = "curatorDesk.githubRepoConfig";
 
+  const savedConfig = (() => {
+    try {
+      return JSON.parse(localStorage.getItem(CONFIG_KEY) || "{}");
+    } catch {
+      return {};
+    }
+  })();
+
   const state = {
-    owner: "",
-    repo: "",
-    branch: "main",
-    token: "",
-    refreshToken: localStorage.getItem(TOKEN_KEY) || "",
+    owner: savedConfig.owner || "",
+    repo: savedConfig.repo || "",
+    branch: savedConfig.branch || "main",
+    token: localStorage.getItem(TOKEN_KEY) || "",
     data: {
       playlists: [],
       tracks: [],
@@ -28,55 +46,23 @@
     sha: null,
     path: "data/curator.json",
     connected: false,
-    busy: false,
-    deviceAuthInProgress: false,
-    devicePollTimer: null
+    busy: false
   };
 
-  /* =========================================================
-     UTILITAIRES
-  ========================================================= */
-
-  const todayISO = () => {
-    const d = new Date();
-
-    return [
-      d.getFullYear(),
-      String(d.getMonth() + 1).padStart(2, "0"),
-      String(d.getDate()).padStart(2, "0")
-    ].join("-");
-  };
-
-  const uid = prefix =>
-    `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
-
-  const esc = value =>
-    String(value ?? "").replace(/[&<>"']/g, char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    }[char]));
-
-  const validSpotifyUrl = value =>
-    !value || /^https:\/\/open\.spotify\.com\/(track|playlist|album)\/[A-Za-z0-9]+/.test(value);
-
-  const dateLabel = value =>
-    value
-      ? new Date(`${value}T12:00:00`).toLocaleDateString("fr-FR", {
+  const dateLabel = s =>
+    s
+      ? new Date(`${s}T12:00:00`).toLocaleDateString("fr-FR", {
           day: "2-digit",
           month: "short",
           year: "numeric"
         })
       : "—";
 
-  function daysUntil(value) {
-    if (!value) return null;
+  const daysUntil = s => {
+    if (!s) return null;
 
-    const [year, month, day] = value.split("-").map(Number);
-
-    const target = Date.UTC(year, month - 1, day);
+    const [y, m, d] = s.split("-").map(Number);
+    const target = Date.UTC(y, m - 1, d);
     const now = new Date();
     const current = Date.UTC(
       now.getFullYear(),
@@ -85,103 +71,15 @@
     );
 
     return Math.round((target - current) / 86400000);
-  }
+  };
 
-  function showNotice(message, error = false) {
-    const notice = $("notice");
-
-    notice.textContent = message;
-    notice.classList.remove("hidden", "error");
-
-    if (error) notice.classList.add("error");
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  function setStatus(message, error = false) {
-    $("connectionStatus").textContent = message;
-    $("connectionStatus").classList.toggle("error", error);
-  }
-
-  function updateConnectionUi() {
-    $("connectionLabel").textContent = state.connected
-      ? `${state.owner}/${state.repo}`
-      : "Non connecté à GitHub";
-
-    const dot = document.querySelector(".status-dot");
-
-    if (dot) {
-      dot.style.background = state.connected
-        ? "var(--green)"
-        : "var(--yellow)";
+  function getStatus(t) {
+    if (t.status === "removed") {
+      return { key: "removed", label: "Retiré", tone: "gray" };
     }
 
-    $("disconnectBtn").disabled =
-      !state.connected &&
-      !state.refreshToken &&
-      !state.deviceAuthInProgress;
-
-    $("connectBtn").disabled = state.deviceAuthInProgress;
-  }
-
-  /* =========================================================
-     CONFIGURATION LOCALE
-  ========================================================= */
-
-  function saveRepoConfig() {
-    localStorage.setItem(CONFIG_KEY, JSON.stringify({
-      owner: state.owner,
-      repo: state.repo,
-      branch: state.branch
-    }));
-  }
-
-  function loadRepoConfig() {
-    try {
-      const config = JSON.parse(
-        localStorage.getItem(CONFIG_KEY) || "{}"
-      );
-
-      state.owner = config.owner || "";
-      state.repo = config.repo || "";
-      state.branch = config.branch || "main";
-
-      if (state.owner) $("repoOwner").value = state.owner;
-      if (state.repo) $("repoName").value = state.repo;
-
-      $("branchName").value = state.branch;
-    } catch {
-      state.owner = "";
-      state.repo = "";
-      state.branch = "main";
-    }
-  }
-
-  function storeRefreshToken(token) {
-    state.refreshToken = token || "";
-
-    if (state.refreshToken) {
-      localStorage.setItem(TOKEN_KEY, state.refreshToken);
-    } else {
-      localStorage.removeItem(TOKEN_KEY);
-    }
-  }
-
-  /* =========================================================
-     STATUT DES PLACEMENTS
-  ========================================================= */
-
-  function getStatus(track) {
-    if (track.status === "removed") {
-      return {
-        key: "removed",
-        label: "Retiré",
-        tone: "gray"
-      };
-    }
-
-    const start = daysUntil(track.placementStart);
-    const end = daysUntil(track.placementEnd);
+    const start = daysUntil(t.placementStart);
+    const end = daysUntil(t.placementEnd);
 
     if (start !== null && start > 0) {
       return {
@@ -199,7 +97,10 @@
       };
     }
 
-    if (end !== null && end <= (Number(state.data.settings?.soonDays) || 7)) {
+    if (
+      end !== null &&
+      end <= (Number(state.data.settings?.soonDays) || 7)
+    ) {
       return {
         key: "soon",
         label: end === 0 ? "Fin aujourd'hui" : `Fin dans ${end} j`,
@@ -207,72 +108,46 @@
       };
     }
 
-    return {
-      key: "active",
-      label: "En cours",
-      tone: "green"
-    };
+    return { key: "active", label: "En cours", tone: "green" };
   }
 
   const playlistById = id =>
-    state.data.playlists.find(playlist => playlist.id === id);
+    state.data.playlists.find(p => p.id === id);
 
-  function trackLink(track) {
-    if (!track.spotifyUrl || !validSpotifyUrl(track.spotifyUrl)) {
-      return "";
-    }
+  const trackLink = t =>
+    validSpotifyUrl(t.spotifyUrl) && t.spotifyUrl
+      ? `<a href="${esc(t.spotifyUrl)}" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a>`
+      : "";
 
-    return `<a href="${esc(track.spotifyUrl)}" target="_blank" rel="noopener noreferrer">Ouvrir ↗</a>`;
-  }
-
-  /* =========================================================
-     AFFICHAGE DES TABLEAUX
-  ========================================================= */
-
-  function trackRow(track, actions = true) {
-    const status = getStatus(track);
-    const playlist = playlistById(track.playlistId);
+  function trackRow(t, actions = true) {
+    const s = getStatus(t);
+    const p = playlistById(t.playlistId);
 
     return `
       <tr>
         <td>
-          <div class="track-name">${esc(track.title)}</div>
-          <div class="subline">${esc(track.artist)}</div>
+          <div class="track-name">${esc(t.title)}</div>
+          <div class="subline">${esc(t.artist)}</div>
         </td>
-
-        <td>${esc(playlist?.name || "Playlist supprimée")}</td>
-
-        <td>${dateLabel(track.placementEnd)}</td>
-
-        <td>
-          <span class="badge ${status.tone}">
-            ${esc(status.label)}
-          </span>
-        </td>
-
-        <td>${trackLink(track)}</td>
-
-        ${actions ? `
-          <td>
-            <div class="row-actions">
-              <button class="small-btn" data-edit-track="${esc(track.id)}">
-                Modifier
-              </button>
-
-              ${
-                track.status === "removed"
-                  ? `<button class="small-btn" data-restore-track="${esc(track.id)}">Réactiver</button>`
-                  : `<button class="small-btn" data-remove-track="${esc(track.id)}">Retiré</button>`
-              }
-
-              <button
-                class="small-btn"
-                data-delete-track="${esc(track.id)}"
-                aria-label="Supprimer"
-              >✕</button>
-            </div>
-          </td>
-        ` : ""}
+        <td>${esc(p?.name || "Playlist supprimée")}</td>
+        <td>${dateLabel(t.placementEnd)}</td>
+        <td><span class="badge ${s.tone}">${esc(s.label)}</span></td>
+        <td>${trackLink(t)}</td>
+        ${
+          actions
+            ? `<td>
+                <div class="row-actions">
+                  <button class="small-btn" data-edit-track="${esc(t.id)}">Modifier</button>
+                  ${
+                    t.status === "removed"
+                      ? `<button class="small-btn" data-restore-track="${esc(t.id)}">Réactiver</button>`
+                      : `<button class="small-btn" data-remove-track="${esc(t.id)}">Retiré</button>`
+                  }
+                  <button class="small-btn" data-delete-track="${esc(t.id)}" aria-label="Supprimer">✕</button>
+                </div>
+              </td>`
+            : ""
+        }
       </tr>
     `;
   }
@@ -300,33 +175,26 @@
               ${actions ? "<th>Actions</th>" : ""}
             </tr>
           </thead>
-
           <tbody>
-            ${items.map(track => trackRow(track, actions)).join("")}
+            ${items.map(t => trackRow(t, actions)).join("")}
           </tbody>
         </table>
       </div>
     `;
   }
 
-  /* =========================================================
-     TABLEAU DE BORD
-  ========================================================= */
-
   function renderDashboard() {
-    const tracks = state.data.tracks;
-
-    const active = tracks.filter(track =>
-      track.status !== "removed" &&
-      ["active", "soon", "overdue"].includes(getStatus(track).key)
+    const active = state.data.tracks.filter(t =>
+      t.status !== "removed" &&
+      ["active", "soon", "overdue"].includes(getStatus(t).key)
     );
 
-    const soon = tracks.filter(
-      track => getStatus(track).key === "soon"
+    const soon = state.data.tracks.filter(
+      t => getStatus(t).key === "soon"
     );
 
-    const overdue = tracks.filter(
-      track => getStatus(track).key === "overdue"
+    const overdue = state.data.tracks.filter(
+      t => getStatus(t).key === "overdue"
     );
 
     $("statPlaylists").textContent =
@@ -336,17 +204,18 @@
     $("statSoon").textContent = soon.length;
     $("statOverdue").textContent = overdue.length;
 
-    const priorities = tracks
-      .filter(track => ["overdue", "soon"].includes(getStatus(track).key))
-      .sort((a, b) =>
-        (daysUntil(a.placementEnd) ?? 9999) -
-        (daysUntil(b.placementEnd) ?? 9999)
+    const priorities = state.data.tracks
+      .filter(t => ["overdue", "soon"].includes(getStatus(t).key))
+      .sort(
+        (a, b) =>
+          (daysUntil(a.placementEnd) ?? 9999) -
+          (daysUntil(b.placementEnd) ?? 9999)
       );
 
     $("priorityList").innerHTML =
       tableHtml(priorities.slice(0, 8), true);
 
-    const recent = [...tracks]
+    const recent = [...state.data.tracks]
       .sort((a, b) =>
         (b.createdAt || "").localeCompare(a.createdAt || "")
       )
@@ -356,27 +225,27 @@
   }
 
   function renderPlacements() {
-    const query = $("placementSearch").value
+    const q = $("placementSearch").value
       .trim()
       .toLocaleLowerCase("fr");
 
     const filter = $("statusFilter").value;
 
     const rows = state.data.tracks
-      .filter(track => {
-        const playlist = playlistById(track.playlistId);
+      .filter(t => {
+        const p = playlistById(t.playlistId);
 
-        const searchable = [
-          track.title,
-          track.artist,
-          playlist?.name,
-          track.notes
+        const hay = [
+          t.title,
+          t.artist,
+          p?.name,
+          t.notes
         ].join(" ").toLocaleLowerCase("fr");
 
-        const status = getStatus(track).key;
+        const s = getStatus(t).key;
 
-        return (!query || searchable.includes(query)) &&
-          (filter === "all" || status === filter);
+        return (!q || hay.includes(q)) &&
+          (filter === "all" || s === filter);
       })
       .sort((a, b) =>
         (a.placementEnd || "9999").localeCompare(b.placementEnd || "9999")
@@ -387,43 +256,37 @@
 
   function renderPlaylists() {
     $("playlistsGrid").innerHTML = state.data.playlists.length
-      ? state.data.playlists.map(playlist => {
+      ? state.data.playlists.map(p => {
           const tracks = state.data.tracks.filter(
-            track => track.playlistId === playlist.id
+            t => t.playlistId === p.id
           );
 
           const active = tracks.filter(
-            track => track.status !== "removed"
+            t => t.status !== "removed"
           ).length;
-
-          const spotifyLink =
-            playlist.spotifyUrl && validSpotifyUrl(playlist.spotifyUrl)
-              ? `<a href="${esc(playlist.spotifyUrl)}" target="_blank" rel="noopener noreferrer">Spotify ↗</a>`
-              : "";
 
           return `
             <article class="playlist-card">
               <div class="playlist-symbol">♫</div>
-
-              <h3>${esc(playlist.name)}</h3>
-              <p>${esc(playlist.genre || "Genre non renseigné")}</p>
-              <p>${esc(playlist.description || "Aucune description.")}</p>
-
+              <h3>${esc(p.name)}</h3>
+              <p>${esc(p.genre || "Genre non renseigné")}</p>
+              <p>${esc(p.description || "Aucune description.")}</p>
               <div class="playlist-meta">
                 <span>
                   ${active} placement${active !== 1 ? "s" : ""}
                   actif${active !== 1 ? "s" : ""}
                 </span>
-                <span>${spotifyLink}</span>
+                <span>
+                  ${
+                    p.spotifyUrl && validSpotifyUrl(p.spotifyUrl)
+                      ? `<a href="${esc(p.spotifyUrl)}" target="_blank" rel="noopener">Spotify ↗</a>`
+                      : ""
+                  }
+                </span>
               </div>
-
               <div class="playlist-actions">
-                <button class="small-btn" data-edit-playlist="${esc(playlist.id)}">
-                  Modifier
-                </button>
-                <button class="small-btn" data-delete-playlist="${esc(playlist.id)}">
-                  Supprimer
-                </button>
+                <button class="small-btn" data-edit-playlist="${esc(p.id)}">Modifier</button>
+                <button class="small-btn" data-delete-playlist="${esc(p.id)}">Supprimer</button>
               </div>
             </article>
           `;
@@ -442,199 +305,44 @@
     updateConnectionUi();
   }
 
-  /* =========================================================
-     DEVICE FLOW GITHUB
-  ========================================================= */
+  function showNotice(msg, error = false) {
+    const n = $("notice");
+    n.textContent = msg;
+    n.classList.remove("hidden", "error");
 
-  async function oauthPost(url, fields) {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: new URLSearchParams(fields)
-    });
+    if (error) n.classList.add("error");
 
-    const raw = await response.text();
-
-    let body = {};
-    try {
-      body = raw ? JSON.parse(raw) : {};
-    } catch {}
-
-    if (!response.ok) {
-      throw new Error(
-        body.error_description ||
-        body.message ||
-        `GitHub a répondu ${response.status}`
-      );
-    }
-
-    if (body.error) {
-      const messages = {
-        authorization_pending:
-          "Autorisation en attente. Termine la validation dans GitHub.",
-        slow_down:
-          "GitHub demande d'attendre un peu plus longtemps.",
-        expired_token:
-          "Le code d'autorisation a expiré. Recommence la connexion.",
-        access_denied:
-          "Autorisation refusée sur GitHub."
-      };
-
-      throw new Error(
-        messages[body.error] ||
-        body.error_description ||
-        body.error
-      );
-    }
-
-    return body;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  async function requestDeviceCode() {
-    const body = await oauthPost(DEVICE_CODE_URL, {
-      client_id: CLIENT_ID
-    });
-
-    if (!body.device_code || !body.user_code) {
-      throw new Error("GitHub n'a pas fourni de code d'autorisation.");
-    }
-
-    return body;
+  function setStatus(msg, error = false) {
+    $("connectionStatus").textContent = msg;
+    $("connectionStatus").classList.toggle("error", error);
   }
 
-  function showDeviceAuth(code, verificationUri) {
-    $("deviceAuth").classList.remove("hidden");
-    $("deviceCode").value = code;
+  function updateConnectionUi() {
+    $("connectionLabel").textContent = state.connected
+      ? `${state.owner}/${state.repo}`
+      : "Non connecté à GitHub";
 
-    $("verificationLink").href =
-      verificationUri || "https://github.com/login/device";
+    const dot = document.querySelector(".status-dot");
 
-    $("deviceAuthMessage").textContent =
-      "Ouvre GitHub, saisis ce code et autorise l'application. Garde cette page ouverte.";
+    if (dot) {
+      dot.style.background = state.connected
+        ? "var(--green)"
+        : "var(--yellow)";
+    }
+
+    $("disconnectBtn").disabled = !state.connected;
   }
 
-  function hideDeviceAuth() {
-    $("deviceAuth").classList.add("hidden");
-    $("deviceCode").value = "";
-    $("deviceAuthMessage").textContent = "";
-  }
-
-  function stopDevicePolling() {
-    if (state.devicePollTimer) {
-      clearTimeout(state.devicePollTimer);
-    }
-
-    state.devicePollTimer = null;
-    state.deviceAuthInProgress = false;
-    updateConnectionUi();
-  }
-
-  async function pollForDeviceToken(device) {
-    const deadline = Date.now() +
-      Number(device.expires_in || 900) * 1000;
-
-    let interval = Math.max(5, Number(device.interval) || 5);
-
-    while (Date.now() < deadline && state.deviceAuthInProgress) {
-      await new Promise(resolve => {
-        state.devicePollTimer = setTimeout(resolve, interval * 1000);
-      });
-
-      state.devicePollTimer = null;
-
-      if (!state.deviceAuthInProgress) return false;
-
-      let body;
-
-      try {
-        body = await oauthPost(TOKEN_URL, {
-          client_id: CLIENT_ID,
-          device_code: device.device_code,
-          grant_type: "urn:ietf:params:oauth:grant-type:device_code"
-        });
-      } catch (error) {
-        const message = String(error.message);
-
-        if (message.includes("Autorisation en attente")) {
-          continue;
-        }
-
-        if (message.includes("demande d'attendre")) {
-          interval += 5;
-          continue;
-        }
-
-        throw error;
-      }
-
-      if (!body.access_token) {
-        throw new Error("GitHub n'a pas fourni de jeton d'accès.");
-      }
-
-      state.token = body.access_token;
-
-      if (body.refresh_token) {
-        storeRefreshToken(body.refresh_token);
-      } else {
-        throw new Error(
-          "GitHub n'a pas fourni de jeton de renouvellement. Vérifie les réglages de ton application."
-        );
-      }
-
-      return true;
-    }
-
-    if (state.deviceAuthInProgress) {
-      throw new Error(
-        "Le code d'autorisation a expiré. Recommence la connexion."
-      );
-    }
-
-    return false;
-  }
-
-  async function refreshAccessToken() {
-    if (!state.refreshToken) {
-      throw new Error("Reconnecte-toi à GitHub pour autoriser l'accès.");
-    }
-
-    const body = await oauthPost(TOKEN_URL, {
-      client_id: CLIENT_ID,
-      grant_type: "refresh_token",
-      refresh_token: state.refreshToken
-    });
-
-    if (!body.access_token) {
-      throw new Error("GitHub n'a pas fourni de nouveau jeton d'accès.");
-    }
-
-    state.token = body.access_token;
-
-    // GitHub peut faire tourner le jeton de renouvellement.
-    if (body.refresh_token) {
-      storeRefreshToken(body.refresh_token);
-    }
-
-    return state.token;
-  }
-
-  async function ensureAccessToken() {
-    if (!state.token) {
-      await refreshAccessToken();
-    }
-  }
-
-  /* =========================================================
-     API GITHUB
-  ========================================================= */
-
+  /* Connexion à l'API GitHub avec un token classique. */
   async function gh(path, options = {}) {
-    await ensureAccessToken();
+    if (!state.token) {
+      throw new Error("Aucun jeton GitHub n'est enregistré.");
+    }
 
-    const makeRequest = () => fetch(`${API_URL}${path}`, {
+    const response = await fetch(`https://api.github.com${path}`, {
       ...options,
       headers: {
         "Accept": "application/vnd.github+json",
@@ -645,36 +353,46 @@
       }
     });
 
-    let response = await makeRequest();
-
-    // Si le jeton d'accès a expiré, on tente un renouvellement.
-    if (response.status === 401 && state.refreshToken) {
-      state.token = "";
-      await refreshAccessToken();
-      response = await makeRequest();
-    }
-
-    const raw = await response.text();
-
+    const text = await response.text();
     let body = {};
+
     try {
-      body = raw ? JSON.parse(raw) : {};
+      body = text ? JSON.parse(text) : {};
     } catch {}
 
     if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error("Jeton invalide ou expiré");
+      }
+
+      if (response.status === 403) {
+        throw new Error("Accès refusé. Vérifie les permissions du jeton.");
+      }
+
+      if (response.status === 404) {
+        throw new Error("Dépôt ou fichier introuvable");
+      }
+
       throw new Error(body.message || `GitHub a répondu ${response.status}`);
     }
 
     return body;
   }
 
-  async function connect() {
-    const owner = $("repoOwner").value.trim();
-    const repo = $("repoName").value.trim();
-    const branch = $("branchName").value.trim() || "main";
+  /* Connexion manuelle, puis mémorisation dans Edge. */
+  async function connect(automatic = false) {
+    const owner = $("repoOwner").value.trim() || state.owner;
+    const repo = $("repoName").value.trim() || state.repo;
+    const branch = $("branchName").value.trim() || state.branch || "main";
 
-    if (!owner || !repo) {
-      setStatus("Renseigne le compte GitHub et le dépôt.", true);
+    const token =
+      $("tokenInput").value.trim() ||
+      state.token ||
+      localStorage.getItem(TOKEN_KEY) ||
+      "";
+
+    if (!owner || !repo || !token) {
+      setStatus("Renseigne le compte, le dépôt et le jeton.", true);
       return;
     }
 
@@ -689,86 +407,73 @@
     state.owner = owner;
     state.repo = repo;
     state.branch = branch;
+    state.token = token;
 
-    saveRepoConfig();
+    $("connectBtn").disabled = true;
 
-    state.deviceAuthInProgress = true;
-    updateConnectionUi();
-
-    setStatus("Demande d'un code d'autorisation à GitHub…");
+    setStatus(
+      automatic
+        ? "Restauration de la connexion GitHub…"
+        : "Connexion et chargement…"
+    );
 
     try {
-      const device = await requestDeviceCode();
-
-      showDeviceAuth(
-        device.user_code,
-        device.verification_uri
-      );
-
-      setStatus("En attente de ton autorisation sur GitHub…");
-
-      const authorized = await pollForDeviceToken(device);
-
-      if (!authorized || !state.token) {
-        throw new Error("La connexion GitHub a été interrompue.");
-      }
-
-      stopDevicePolling();
-
-      // Vérifie l'accès au dépôt avant de charger les données.
       await gh(
         `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`
       );
+
+      localStorage.setItem(TOKEN_KEY, token);
+
+      localStorage.setItem(
+        CONFIG_KEY,
+        JSON.stringify({ owner, repo, branch })
+      );
+
+      $("tokenInput").value = token;
 
       await loadData();
 
       state.connected = true;
 
-      hideDeviceAuth();
-
-      setStatus("Connecté. Les données sont chargées depuis GitHub.");
-
-      showNotice(
-        "Données chargées depuis GitHub. Les modifications seront enregistrées dans le dépôt privé."
+      setStatus(
+        "Connecté. La connexion sera mémorisée dans ce navigateur."
       );
 
-      renderAll();
-    } catch (error) {
-      stopDevicePolling();
+      if (!automatic) {
+        showNotice(
+          "Données chargées depuis GitHub. La connexion est mémorisée dans ce navigateur et les modifications seront enregistrées dans le dépôt privé."
+        );
+      }
 
+      renderAll();
+    } catch (e) {
       state.connected = false;
 
       setStatus(
-        `${error.message} Vérifie que l'application est installée sur ce dépôt et possède les permissions nécessaires.`,
+        `${e.message}. Vérifie le dépôt, le jeton et ses permissions.`,
         true
       );
     } finally {
+      $("connectBtn").disabled = false;
       updateConnectionUi();
     }
   }
 
-  /* =========================================================
-     CHARGEMENT ET SAUVEGARDE DES DONNÉES
-  ========================================================= */
-
+  /* Chargement des données du dépôt privé. */
   async function loadData() {
-    const path = state.path
-      .split("/")
-      .map(encodeURIComponent)
-      .join("/");
-
     const url =
       `/repos/${encodeURIComponent(state.owner)}` +
       `/${encodeURIComponent(state.repo)}` +
-      `/contents/${path}?ref=${encodeURIComponent(state.branch)}`;
+      `/contents/${state.path.split("/").map(encodeURIComponent).join("/")}` +
+      `?ref=${encodeURIComponent(state.branch)}`;
 
     try {
-      const file = await gh(url);
+      const f = await gh(url);
 
-      state.sha = file.sha;
+      state.sha = f.sha;
 
       const decoded = decodeURIComponent(
-        escape(atob((file.content || "").replace(/\n/g, "")))
+        escape(atob((f.content || "").replace(/\n/g, "")))
       );
 
       const data = JSON.parse(decoded);
@@ -778,8 +483,11 @@
         tracks: Array.isArray(data.tracks) ? data.tracks : [],
         settings: data.settings || { soonDays: 7 }
       };
-    } catch (error) {
-      if (String(error.message).includes("Not Found")) {
+    } catch (e) {
+      if (
+        String(e.message).includes("Not Found") ||
+        String(e.message).includes("introuvable")
+      ) {
         state.sha = null;
 
         state.data = {
@@ -790,11 +498,12 @@
 
         await saveData("Initialiser les données Curator Desk");
       } else {
-        throw error;
+        throw e;
       }
     }
   }
 
+  /* Enregistrement des données sur GitHub. */
   async function saveData(
     message = "Mettre à jour les données Curator Desk"
   ) {
@@ -812,30 +521,23 @@
     setStatus("Enregistrement sur GitHub…");
 
     try {
-      const path = state.path
-        .split("/")
-        .map(encodeURIComponent)
-        .join("/");
-
-      const url =
+      const path =
         `/repos/${encodeURIComponent(state.owner)}` +
         `/${encodeURIComponent(state.repo)}` +
-        `/contents/${path}`;
-
-      const content = btoa(
-        unescape(
-          encodeURIComponent(
-            JSON.stringify({
-              ...state.data,
-              updatedAt: new Date().toISOString()
-            }, null, 2)
-          )
-        )
-      );
+        `/contents/${state.path.split("/").map(encodeURIComponent).join("/")}`;
 
       const payload = {
         message,
-        content,
+        content: btoa(
+          unescape(
+            encodeURIComponent(
+              JSON.stringify({
+                ...state.data,
+                updatedAt: new Date().toISOString()
+              }, null, 2)
+            )
+          )
+        ),
         branch: state.branch
       };
 
@@ -843,7 +545,7 @@
         payload.sha = state.sha;
       }
 
-      const result = await gh(url, {
+      const result = await gh(path, {
         method: "PUT",
         body: JSON.stringify(payload)
       });
@@ -858,7 +560,7 @@
     }
   }
 
-  async function mutate(callback, message) {
+  async function mutate(fn, message) {
     if (!state.connected) {
       showNotice(
         "Connecte-toi à GitHub dans « Connexion & données » avant de modifier les données.",
@@ -867,31 +569,22 @@
       return;
     }
 
-    const previousData = JSON.stringify(state.data);
+    const before = JSON.stringify(state.data);
 
-    callback();
+    fn();
 
     try {
       await saveData(message);
-
       renderAll();
       showNotice("Modifications enregistrées sur GitHub.");
-    } catch (error) {
-      state.data = JSON.parse(previousData);
-
+    } catch (e) {
+      state.data = JSON.parse(before);
       renderAll();
-
-      showNotice(
-        `Enregistrement impossible : ${error.message}`,
-        true
-      );
+      showNotice(`Enregistrement impossible : ${e.message}`, true);
     }
   }
 
-  /* =========================================================
-     FORMULAIRES
-  ========================================================= */
-
+  /* Formulaire de placement. */
   function openPlacement(id = null) {
     if (!state.data.playlists.length) {
       showNotice(
@@ -903,61 +596,60 @@
       return;
     }
 
-    const track = id
-      ? state.data.tracks.find(item => item.id === id)
+    const t = id
+      ? state.data.tracks.find(x => x.id === id)
       : null;
 
     $("placementForm").reset();
+    $("placementId").value = t?.id || "";
 
-    $("placementId").value = track?.id || "";
-
-    $("placementModalTitle").textContent = track
+    $("placementModalTitle").textContent = t
       ? "Modifier le placement"
       : "Nouveau placement";
 
-    $("trackTitle").value = track?.title || "";
-    $("trackArtist").value = track?.artist || "";
+    $("trackTitle").value = t?.title || "";
+    $("trackArtist").value = t?.artist || "";
 
     $("trackPlaylist").innerHTML = state.data.playlists
-      .map(playlist =>
-        `<option value="${esc(playlist.id)}">${esc(playlist.name)}</option>`
+      .map(p =>
+        `<option value="${esc(p.id)}">${esc(p.name)}</option>`
       )
       .join("");
 
     $("trackPlaylist").value =
-      track?.playlistId || state.data.playlists[0].id;
+      t?.playlistId || state.data.playlists[0].id;
 
-    $("trackUrl").value = track?.spotifyUrl || "";
-    $("trackStart").value = track?.placementStart || todayISO();
-    $("trackEnd").value = track?.placementEnd || "";
-    $("trackNotes").value = track?.notes || "";
+    $("trackUrl").value = t?.spotifyUrl || "";
+    $("trackStart").value = t?.placementStart || todayISO();
+    $("trackEnd").value = t?.placementEnd || "";
+    $("trackNotes").value = t?.notes || "";
 
     $("placementDialog").showModal();
   }
 
+  /* Formulaire de playlist. */
   function openPlaylist(id = null) {
-    const playlist = id
-      ? state.data.playlists.find(item => item.id === id)
+    const p = id
+      ? state.data.playlists.find(x => x.id === id)
       : null;
 
     $("playlistForm").reset();
+    $("playlistId").value = p?.id || "";
 
-    $("playlistId").value = playlist?.id || "";
-
-    $("playlistModalTitle").textContent = playlist
+    $("playlistModalTitle").textContent = p
       ? "Modifier la playlist"
       : "Nouvelle playlist";
 
-    $("playlistTitle").value = playlist?.name || "";
-    $("playlistUrl").value = playlist?.spotifyUrl || "";
-    $("playlistGenre").value = playlist?.genre || "";
-    $("playlistDescription").value = playlist?.description || "";
+    $("playlistTitle").value = p?.name || "";
+    $("playlistUrl").value = p?.spotifyUrl || "";
+    $("playlistGenre").value = p?.genre || "";
+    $("playlistDescription").value = p?.description || "";
 
     $("playlistDialog").showModal();
   }
 
-  async function submitPlacement(event) {
-    event.preventDefault();
+  async function submitPlacement(e) {
+    e.preventDefault();
 
     const id = $("placementId").value;
     const title = $("trackTitle").value.trim();
@@ -983,7 +675,7 @@
     }
 
     const old = id
-      ? state.data.tracks.find(track => track.id === id)
+      ? state.data.tracks.find(t => t.id === id)
       : null;
 
     const record = {
@@ -1003,20 +695,20 @@
     $("placementDialog").close();
 
     await mutate(() => {
-      const index = state.data.tracks.findIndex(
-        track => track.id === record.id
+      const i = state.data.tracks.findIndex(
+        t => t.id === record.id
       );
 
-      if (index >= 0) {
-        state.data.tracks[index] = record;
+      if (i >= 0) {
+        state.data.tracks[i] = record;
       } else {
         state.data.tracks.push(record);
       }
     }, id ? "Modifier un placement" : "Ajouter un placement");
   }
 
-  async function submitPlaylist(event) {
-    event.preventDefault();
+  async function submitPlaylist(e) {
+    e.preventDefault();
 
     const id = $("playlistId").value;
     const spotifyUrl = $("playlistUrl").value.trim();
@@ -1026,49 +718,45 @@
       return;
     }
 
-    const old = id
-      ? state.data.playlists.find(playlist => playlist.id === id)
-      : null;
-
-    const playlist = {
+    const p = {
       id: id || uid("playlist"),
       name: $("playlistTitle").value.trim(),
       spotifyUrl,
       genre: $("playlistGenre").value.trim(),
       description: $("playlistDescription").value.trim(),
       active: true,
-      createdAt: old?.createdAt || new Date().toISOString()
+      createdAt: id
+        ? (
+            state.data.playlists.find(x => x.id === id)?.createdAt ||
+            new Date().toISOString()
+          )
+        : new Date().toISOString()
     };
 
     $("playlistDialog").close();
 
     await mutate(() => {
-      const index = state.data.playlists.findIndex(
-        item => item.id === playlist.id
-      );
+      const i = state.data.playlists.findIndex(x => x.id === p.id);
 
-      if (index >= 0) {
-        state.data.playlists[index] = playlist;
+      if (i >= 0) {
+        state.data.playlists[i] = p;
       } else {
-        state.data.playlists.push(playlist);
+        state.data.playlists.push(p);
       }
     }, id ? "Modifier une playlist" : "Ajouter une playlist");
   }
 
-  /* =========================================================
-     NAVIGATION
-  ========================================================= */
-
+  /* Navigation. */
   function go(view) {
-    document.querySelectorAll(".view").forEach(element => {
-      element.classList.add("hidden");
-    });
+    document.querySelectorAll(".view").forEach(el =>
+      el.classList.add("hidden")
+    );
 
     $(`view-${view}`).classList.remove("hidden");
 
-    document.querySelectorAll(".nav-item").forEach(button => {
-      button.classList.toggle("active", button.dataset.view === view);
-    });
+    document.querySelectorAll(".nav-item").forEach(b =>
+      b.classList.toggle("active", b.dataset.view === view)
+    );
 
     const titles = {
       dashboard: "Vue d'ensemble",
@@ -1084,17 +772,14 @@
     }
   }
 
-  /* =========================================================
-     ÉVÉNEMENTS
-  ========================================================= */
+  /* Événements. */
+  document.querySelectorAll(".nav-item").forEach(b =>
+    b.addEventListener("click", () => go(b.dataset.view))
+  );
 
-  document.querySelectorAll(".nav-item").forEach(button => {
-    button.addEventListener("click", () => go(button.dataset.view));
-  });
-
-  document.querySelectorAll("[data-goto]").forEach(button => {
-    button.addEventListener("click", () => go(button.dataset.goto));
-  });
+  document.querySelectorAll("[data-goto]").forEach(b =>
+    b.addEventListener("click", () => go(b.dataset.goto))
+  );
 
   $("todayLabel").textContent = new Date().toLocaleDateString("fr-FR", {
     weekday: "short",
@@ -1112,100 +797,79 @@
   $("placementSearch").addEventListener("input", renderPlacements);
   $("statusFilter").addEventListener("change", renderPlacements);
 
-  $("connectBtn").addEventListener("click", connect);
+  $("connectBtn").addEventListener("click", () => connect());
 
+  /* Déconnexion et suppression du token mémorisé. */
   $("disconnectBtn").addEventListener("click", () => {
-    if (state.devicePollTimer) {
-      clearTimeout(state.devicePollTimer);
-    }
-
-    state.devicePollTimer = null;
-    state.deviceAuthInProgress = false;
-
     state.token = "";
-    state.refreshToken = "";
     state.connected = false;
     state.sha = null;
 
     localStorage.removeItem(TOKEN_KEY);
-
-    hideDeviceAuth();
+    $("tokenInput").value = "";
 
     setStatus(
-      "Déconnecté. Le jeton de renouvellement a été effacé de ce navigateur."
+      "Déconnecté. Le jeton mémorisé a été effacé de ce navigateur."
     );
 
     updateConnectionUi();
   });
 
-  $("copyDeviceCodeBtn").addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText($("deviceCode").value);
-      setStatus("Code copié.");
-    } catch {
-      $("deviceCode").focus();
-      $("deviceCode").select();
-      setStatus("Sélectionne le code puis copie-le manuellement.");
-    }
-  });
+  document.querySelectorAll("[data-close]").forEach(b =>
+    b.addEventListener("click", () => $(b.dataset.close).close())
+  );
 
-  document.querySelectorAll("[data-close]").forEach(button => {
-    button.addEventListener("click", () => {
-      $(button.dataset.close).close();
-    });
-  });
+  document.body.addEventListener("click", async e => {
+    const b = e.target.closest("button");
+    if (!b) return;
 
-  document.body.addEventListener("click", async event => {
-    const button = event.target.closest("button");
-    if (!button) return;
-
-    if (button.dataset.editTrack) {
-      openPlacement(button.dataset.editTrack);
+    if (b.dataset.editTrack) {
+      openPlacement(b.dataset.editTrack);
     }
 
-    if (button.dataset.removeTrack) {
+    if (b.dataset.removeTrack) {
       await mutate(() => {
-        const track = state.data.tracks.find(
-          item => item.id === button.dataset.removeTrack
+        const t = state.data.tracks.find(
+          x => x.id === b.dataset.removeTrack
         );
 
-        if (track) track.status = "removed";
+        if (t) t.status = "removed";
       }, "Marquer un placement comme retiré");
     }
 
-    if (button.dataset.restoreTrack) {
+    if (b.dataset.restoreTrack) {
       await mutate(() => {
-        const track = state.data.tracks.find(
-          item => item.id === button.dataset.restoreTrack
+        const t = state.data.tracks.find(
+          x => x.id === b.dataset.restoreTrack
         );
 
-        if (track) track.status = "active";
+        if (t) t.status = "active";
       }, "Réactiver un placement");
     }
 
     if (
-      button.dataset.deleteTrack &&
+      b.dataset.deleteTrack &&
       confirm("Supprimer définitivement ce placement ?")
     ) {
       await mutate(() => {
         state.data.tracks = state.data.tracks.filter(
-          track => track.id !== button.dataset.deleteTrack
+          t => t.id !== b.dataset.deleteTrack
         );
       }, "Supprimer un placement");
     }
 
-    if (button.dataset.editPlaylist) {
-      openPlaylist(button.dataset.editPlaylist);
+    if (b.dataset.editPlaylist) {
+      openPlaylist(b.dataset.editPlaylist);
     }
 
-    if (button.dataset.deletePlaylist) {
-      const playlist = state.data.playlists.find(
-        item => item.id === button.dataset.deletePlaylist
+    if (b.dataset.deletePlaylist) {
+      const p = state.data.playlists.find(
+        x => x.id === b.dataset.deletePlaylist
       );
 
-      if (!playlist) return;
+      if (!p) return;
 
-      if (state.data.tracks.some(track => track.playlistId === playlist.id)) {
+      if (state.data.tracks.some(t => t.playlistId === p.id)) {
         showNotice(
           "Cette playlist contient des placements. Réaffecte ou supprime-les avant de supprimer la playlist.",
           true
@@ -1213,44 +877,40 @@
         return;
       }
 
-      if (confirm(`Supprimer la playlist « ${playlist.name} » ?`)) {
+      if (confirm(`Supprimer la playlist « ${p.name} » ?`)) {
         await mutate(() => {
           state.data.playlists = state.data.playlists.filter(
-            item => item.id !== playlist.id
+            x => x.id !== b.dataset.deletePlaylist
           );
         }, "Supprimer une playlist");
       }
     }
   });
 
-  /* =========================================================
-     EXPORT ET IMPORT JSON
-  ========================================================= */
-
+  /* Export JSON. */
   $("exportBtn").addEventListener("click", () => {
     const blob = new Blob(
       [JSON.stringify(state.data, null, 2)],
       { type: "application/json" }
     );
 
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `curator-backup-${todayISO()}.json`;
+    a.click();
 
-    anchor.href = url;
-    anchor.download = `curator-backup-${todayISO()}.json`;
-    anchor.click();
-
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    URL.revokeObjectURL(a.href);
   });
 
-  $("importFile").addEventListener("change", async event => {
-    const file = event.target.files?.[0];
+  /* Import JSON. */
+  $("importFile").addEventListener("change", async e => {
+    const file = e.target.files?.[0];
     if (!file) return;
 
     try {
-      const data = JSON.parse(await file.text());
+      const d = JSON.parse(await file.text());
 
-      if (!Array.isArray(data.playlists) || !Array.isArray(data.tracks)) {
+      if (!Array.isArray(d.playlists) || !Array.isArray(d.tracks)) {
         throw new Error("Format de sauvegarde invalide.");
       }
 
@@ -1260,57 +920,32 @@
 
       await mutate(() => {
         state.data = {
-          playlists: data.playlists,
-          tracks: data.tracks,
-          settings: data.settings || { soonDays: 7 }
+          playlists: d.playlists,
+          tracks: d.tracks,
+          settings: d.settings || { soonDays: 7 }
         };
       }, "Restaurer une sauvegarde JSON");
-    } catch (error) {
-      showNotice(`Import impossible : ${error.message}`, true);
+    } catch (err) {
+      showNotice(`Import impossible : ${err.message}`, true);
     } finally {
-      event.target.value = "";
+      e.target.value = "";
     }
   });
 
-  /* =========================================================
-     INITIALISATION ET RECONNEXION
-  ========================================================= */
-
-  loadRepoConfig();
+  /* Initialisation et restauration de la connexion. */
+  if (state.owner) $("repoOwner").value = state.owner;
+  if (state.repo) $("repoName").value = state.repo;
 
   $("branchName").value = state.branch;
 
+  if (state.token) {
+    $("tokenInput").value = state.token;
+  }
+
   renderAll();
 
-  // Essaie de restaurer la session sur ce navigateur.
-  if (state.refreshToken && state.owner && state.repo) {
-    (async () => {
-      try {
-        setStatus("Restauration de la connexion GitHub…");
-
-        await refreshAccessToken();
-
-        await gh(
-          `/repos/${encodeURIComponent(state.owner)}/${encodeURIComponent(state.repo)}`
-        );
-
-        await loadData();
-
-        state.connected = true;
-
-        setStatus("Connexion GitHub restaurée.");
-
-        renderAll();
-      } catch (error) {
-        state.connected = false;
-
-        setStatus(
-          `Reconnexion automatique impossible : ${error.message}. Clique sur « Connecter avec GitHub ».`,
-          true
-        );
-
-        updateConnectionUi();
-      }
-    })();
+  /* Si le token et la configuration sont enregistrés, reconnecte-toi. */
+  if (state.token && state.owner && state.repo) {
+    connect(true);
   }
 })();
