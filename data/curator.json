@@ -160,10 +160,25 @@
       "status": "active",
       "createdAt": "2026-10-28T18:20:15.476Z",
       "updatedAt": "2026-10-28T18:20:15.477Z"
+    },
+    {
+      "id": "track_mvsg6ht7_h81ryk",
+      "title": "C'est la merde",
+      "artist": "Failtoglow",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/6mW0EvH0ltWXJwjKVxsG77",
+      "instagramUrl": "https://www.instagram.com/failtoglow/reels/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T18:28:12.331Z",
+      "updatedAt": "2026-10-28T18:28:12.331Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T18:20:15.477Z"
+  "updatedAt": "2026-10-28T18:28:12.331Z"
 }
