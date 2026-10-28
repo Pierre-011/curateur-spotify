@@ -25,10 +25,25 @@
       "status": "active",
       "createdAt": "2026-10-28T10:31:13.331Z",
       "updatedAt": "2026-10-28T10:31:13.331Z"
+    },
+    {
+      "id": "track_mvrz9o53_ywjpat",
+      "title": "Hors la loi",
+      "artist": "Big D 600",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/7Eg5Rd3RSBR75cD2ARIVoO",
+      "instagramUrl": "https://www.instagram.com/bigd.600/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T10:34:47.031Z",
+      "updatedAt": "2026-10-28T10:34:47.032Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T10:31:13.332Z"
+  "updatedAt": "2026-10-28T10:34:47.032Z"
 }
