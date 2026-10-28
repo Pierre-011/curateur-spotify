@@ -115,10 +115,25 @@
       "status": "active",
       "createdAt": "2026-10-28T10:48:10.997Z",
       "updatedAt": "2026-10-28T10:48:30.910Z"
+    },
+    {
+      "id": "track_mvrzsyyv_74xr2b",
+      "title": "La Meuf de Mes Rêves",
+      "artist": "FU2LM2ON",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/2X9uH4jPrjpwT0yVSyShyG",
+      "instagramUrl": "https://www.instagram.com/fu2lm2on/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T10:49:47.527Z",
+      "updatedAt": "2026-10-28T10:49:47.527Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T10:48:30.910Z"
+  "updatedAt": "2026-10-28T10:49:47.527Z"
 }
