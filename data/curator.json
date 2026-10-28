@@ -190,10 +190,25 @@
       "status": "active",
       "createdAt": "2026-10-28T18:30:41.352Z",
       "updatedAt": "2026-10-28T18:30:41.352Z"
+    },
+    {
+      "id": "track_mvsgg8k8_jomrx6",
+      "title": "Ds le bon",
+      "artist": "Maël",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/6bAfGuMjNB6M41Z0YagaTm",
+      "instagramUrl": "https://www.instagram.com/maelcestlui/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T18:35:46.904Z",
+      "updatedAt": "2026-10-28T18:35:46.904Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T18:30:41.353Z"
+  "updatedAt": "2026-10-28T18:35:46.904Z"
 }
