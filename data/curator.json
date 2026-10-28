@@ -130,10 +130,25 @@
       "status": "active",
       "createdAt": "2026-10-28T10:49:47.527Z",
       "updatedAt": "2026-10-28T10:49:47.527Z"
+    },
+    {
+      "id": "track_mvrztydy_h91pcb",
+      "title": "Pour nous deux",
+      "artist": "Oso",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/3KGqnjptNy93AQ2MDabdy8",
+      "instagramUrl": "https://www.instagram.com/oso.off/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T10:50:33.430Z",
+      "updatedAt": "2026-10-28T10:50:33.430Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T10:49:47.527Z"
+  "updatedAt": "2026-10-28T10:50:33.430Z"
 }
