@@ -1,7 +1,6 @@
 /* =========================================================
    CURATOR DESK
-   Connexion GitHub, morceaux, playlists, placements,
-   suivi des artistes et liens Instagram.
+   Connexion GitHub + Suivi artistes + Placements + Instagram
 ========================================================= */
 
 (() => {
@@ -18,8 +17,6 @@
   const TOKEN_KEY = "curatorDesk.githubToken";
   const CONFIG_KEY = "curatorDesk.githubRepoConfig";
 
-  const DATA_PATH = "data/curator.json";
-
   const PIPELINE_STAGES = [
     { value: "to_contact", label: "À contacter", tone: "gray" },
     { value: "contacted", label: "Contacté", tone: "blue" },
@@ -35,12 +32,12 @@
   );
 
   const todayISO = () => {
-    const date = new Date();
+    const d = new Date();
 
     return [
-      date.getFullYear(),
-      String(date.getMonth() + 1).padStart(2, "0"),
-      String(date.getDate()).padStart(2, "0")
+      d.getFullYear(),
+      String(d.getMonth() + 1).padStart(2, "0"),
+      String(d.getDate()).padStart(2, "0")
     ].join("-");
   };
 
@@ -50,13 +47,13 @@
       .slice(2, 8)}`;
 
   const esc = value =>
-    String(value ?? "").replace(/[&<>"']/g, character => ({
+    String(value ?? "").replace(/[&<>"']/g, char => ({
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#39;"
-    })[character]);
+    })[char]);
 
   function setText(id, value) {
     const element = $(id);
@@ -94,165 +91,33 @@
     }
   }
 
-  function loadSavedConfig() {
+  function validInstagramUrl(value) {
+    const input = String(value ?? "").trim();
+
+    // Le lien Instagram est facultatif.
+    if (!input) {
+      return true;
+    }
+
     try {
-      return JSON.parse(
-        localStorage.getItem(CONFIG_KEY) || "{}"
+      const url = new URL(input);
+
+      return (
+        url.protocol === "https:" &&
+        [
+          "instagram.com",
+          "www.instagram.com",
+          "m.instagram.com"
+        ].includes(url.hostname.toLowerCase())
       );
     } catch {
-      return {};
+      return false;
     }
   }
 
   function validRepoPart(value) {
     return /^[A-Za-z0-9_.-]+$/.test(value);
   }
-
-  /* =========================================================
-     2. LIENS SPOTIFY
-
-     Accepte les URL Spotify classiques et localisées,
-     les liens courts et les URI Spotify.
-
-     Exemples :
-     https://open.spotify.com/track/IDENTIFIANT
-     https://open.spotify.com/intl-fr/track/IDENTIFIANT
-     https://open.spotify.com/playlist/IDENTIFIANT
-     https://spotify.link/...
-     spotify:track:IDENTIFIANT
-  ========================================================= */
-
-  function normalizeSpotifyUrl(value) {
-    let input = String(value ?? "").trim();
-
-    // Le lien Spotify n'est pas obligatoire.
-    if (!input) {
-      return "";
-    }
-
-    // Retirer les chevrons parfois présents au copier-coller.
-    input = input.replace(/^<(.+)>$/, "$1").trim();
-
-    // Accepter les URI Spotify de type spotify:track:IDENTIFIANT.
-    const spotifyUri = input.match(
-      /^spotify:(track|playlist|album):([A-Za-z0-9]+)$/i
-    );
-
-    if (spotifyUri) {
-      input =
-        `https://open.spotify.com/` +
-        `${spotifyUri[1].toLowerCase()}/` +
-        `${spotifyUri[2]}`;
-    }
-
-    // Remplacer HTTP par HTTPS.
-    if (/^http:\/\//i.test(input)) {
-      input = input.replace(/^http:/i, "https:");
-    }
-
-    // Ajouter HTTPS lorsque le protocole est absent.
-    else if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(input)) {
-      input = "https://" + input;
-    }
-
-    try {
-      const url = new URL(input);
-
-      const hostname = url.hostname
-        .toLowerCase()
-        .replace(/\.$/, "");
-
-      // N'accepter que HTTPS.
-      if (url.protocol !== "https:") {
-        return null;
-      }
-
-      // Vérifier le domaine sans accepter les faux domaines.
-      const isSpotifyDomain =
-        hostname === "spotify.com" ||
-        hostname.endsWith(".spotify.com") ||
-        hostname === "spotify.link" ||
-        hostname.endsWith(".spotify.link") ||
-        hostname === "spoti.fi" ||
-        hostname.endsWith(".spoti.fi");
-
-      if (!isSpotifyDomain) {
-        return null;
-      }
-
-      // Refuser les identifiants intégrés et les ports inhabituels.
-      if (url.username || url.password || url.port) {
-        return null;
-      }
-
-      // Conserver les paramètres de partage du lien.
-      url.protocol = "https:";
-
-      return url.href;
-
-    } catch {
-      return null;
-    }
-  }
-
-  function validSpotifyUrl(value) {
-    return normalizeSpotifyUrl(value) !== null;
-  }
-
-  /* =========================================================
-     3. LIENS INSTAGRAM
-  ========================================================= */
-
-  function normalizeInstagramUrl(value) {
-    let input = String(value ?? "").trim();
-
-    // Le lien Instagram est facultatif.
-    if (!input) {
-      return "";
-    }
-
-    // Ajouter HTTPS si nécessaire.
-    if (/^http:\/\//i.test(input)) {
-      input = input.replace(/^http:/i, "https:");
-    } else if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(input)) {
-      input = "https://" + input;
-    }
-
-    try {
-      const url = new URL(input);
-
-      const hostname = url.hostname.toLowerCase();
-
-      const allowedHosts = [
-        "instagram.com",
-        "www.instagram.com",
-        "m.instagram.com"
-      ];
-
-      if (
-        url.protocol !== "https:" ||
-        !allowedHosts.includes(hostname) ||
-        url.username ||
-        url.password ||
-        url.port
-      ) {
-        return null;
-      }
-
-      return url.href;
-
-    } catch {
-      return null;
-    }
-  }
-
-  function validInstagramUrl(value) {
-    return normalizeInstagramUrl(value) !== null;
-  }
-
-  /* =========================================================
-     4. DATES
-  ========================================================= */
 
   function dateLabel(value) {
     if (!value) {
@@ -299,8 +164,18 @@
     return Math.round((target - current) / 86400000);
   }
 
+  function loadSavedConfig() {
+    try {
+      return JSON.parse(
+        localStorage.getItem(CONFIG_KEY) || "{}"
+      );
+    } catch {
+      return {};
+    }
+  }
+
   /* =========================================================
-     5. ÉTAT DE L'APPLICATION
+     2. ÉTAT DE L'APPLICATION
   ========================================================= */
 
   const savedConfig = loadSavedConfig();
@@ -321,14 +196,15 @@
     },
 
     sha: null,
-    path: DATA_PATH,
+
+    path: "data/curator.json",
 
     connected: false,
     busy: false
   };
 
   /* =========================================================
-     6. STATUT DES ÉCHANGES
+     3. STATUT DES ÉCHANGES
   ========================================================= */
 
   function pipelineStageOf(track) {
@@ -360,7 +236,7 @@
   }
 
   /* =========================================================
-     7. STATUT DES PLACEMENTS
+     4. STATUT DES PLACEMENTS
   ========================================================= */
 
   function getStatus(track) {
@@ -418,17 +294,18 @@
   }
 
   /* =========================================================
-     8. LIENS AFFICHÉS DANS LES TABLEAUX
+     5. LIENS DES MORCEAUX
+
+     AUCUNE VALIDATION SPOTIFY :
+     le lien est utilisé tel qu'il a été saisi.
   ========================================================= */
 
   function trackLink(track) {
-    const spotifyUrl = normalizeSpotifyUrl(track.spotifyUrl);
+    const spotifyUrl = String(
+      track.spotifyUrl ?? ""
+    ).trim();
 
     if (!spotifyUrl) {
-      return "";
-    }
-
-    if (spotifyUrl === null) {
       return "";
     }
 
@@ -442,11 +319,14 @@
   }
 
   function instagramButton(track) {
-    const instagramUrl = normalizeInstagramUrl(
-      track.instagramUrl
-    );
+    const instagramUrl = String(
+      track.instagramUrl ?? ""
+    ).trim();
 
-    if (!instagramUrl || instagramUrl === null) {
+    if (
+      !instagramUrl ||
+      !validInstagramUrl(instagramUrl)
+    ) {
       return `
         <span class="muted-inline">Non renseigné</span>
       `;
@@ -464,7 +344,7 @@
   }
 
   /* =========================================================
-     9. TABLEAU DES PLACEMENTS
+     6. TABLEAU DES PLACEMENTS
   ========================================================= */
 
   function trackRow(track, actions = true) {
@@ -576,7 +456,7 @@
   }
 
   /* =========================================================
-     10. TABLEAU DE SUIVI DES ARTISTES
+     7. TABLEAU DE SUIVI DES ARTISTES
   ========================================================= */
 
   function pipelineTableHtml(items) {
@@ -694,6 +574,7 @@
     return `
       <div class="table-wrap">
         <table class="pipeline-table">
+
           <thead>
             <tr>
               <th>Morceau / artiste</th>
@@ -708,13 +589,14 @@
           <tbody>
             ${rows}
           </tbody>
+
         </table>
       </div>
     `;
   }
 
   /* =========================================================
-     11. TABLEAU DE BORD
+     8. TABLEAU DE BORD
   ========================================================= */
 
   function renderDashboard() {
@@ -795,7 +677,7 @@
   }
 
   /* =========================================================
-     12. RECHERCHE ET AFFICHAGE DES PLACEMENTS
+     9. RECHERCHE ET AFFICHAGE DES PLACEMENTS
   ========================================================= */
 
   function renderPlacements() {
@@ -846,7 +728,7 @@
   }
 
   /* =========================================================
-     13. RECHERCHE ET AFFICHAGE DU SUIVI ARTISTES
+     10. RECHERCHE ET AFFICHAGE DU SUIVI ARTISTES
   ========================================================= */
 
   function renderPipeline() {
@@ -899,7 +781,9 @@
   }
 
   /* =========================================================
-     14. AFFICHAGE DES PLAYLISTS
+     11. AFFICHAGE DES PLAYLISTS
+
+     AUCUNE VALIDATION SPOTIFY.
   ========================================================= */
 
   function renderPlaylists() {
@@ -920,20 +804,20 @@
             track => track.status !== "removed"
           ).length;
 
-          const playlistUrl = normalizeSpotifyUrl(
-            playlist.spotifyUrl
-          );
+          // Le lien est affiché tel qu'il a été enregistré.
+          const playlistUrl = String(
+            playlist.spotifyUrl ?? ""
+          ).trim();
 
-          const spotifyLink =
-            playlistUrl && playlistUrl !== null
-              ? `
-                  <a
-                    href="${esc(playlistUrl)}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >Spotify ↗</a>
-                `
-              : "";
+          const spotifyLink = playlistUrl
+            ? `
+                <a
+                  href="${esc(playlistUrl)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Spotify ↗</a>
+              `
+            : "";
 
           return `
             <article class="playlist-card">
@@ -984,7 +868,7 @@
   }
 
   /* =========================================================
-     15. NOTIFICATIONS
+     12. NOTIFICATIONS
   ========================================================= */
 
   function showNotice(message, error = false) {
@@ -1049,7 +933,7 @@
   }
 
   /* =========================================================
-     16. API GITHUB
+     13. API GITHUB
   ========================================================= */
 
   async function gh(path, options = {}) {
@@ -1087,12 +971,18 @@
 
       if (response.status === 401) {
         message = "Jeton invalide ou expiré";
-      } else if (response.status === 403) {
+      }
+
+      if (response.status === 403) {
         message =
           "Accès refusé. Vérifie les permissions du jeton.";
-      } else if (response.status === 404) {
+      }
+
+      if (response.status === 404) {
         message = "Dépôt ou fichier introuvable";
-      } else if (response.status === 409) {
+      }
+
+      if (response.status === 409) {
         message =
           "Conflit GitHub. Recharge les données et réessaie.";
       }
@@ -1108,7 +998,7 @@
   }
 
   /* =========================================================
-     17. CONNEXION ET RESTAURATION
+     14. CONNEXION ET RESTAURATION
   ========================================================= */
 
   async function connect(automatic = false) {
@@ -1157,14 +1047,13 @@
     state.repo = repo;
     state.branch = branch;
     state.token = token;
+    state.connected = false;
 
     const connectButton = $("connectBtn");
 
     if (connectButton) {
       connectButton.disabled = true;
     }
-
-    state.connected = false;
 
     setStatus(
       automatic
@@ -1173,7 +1062,7 @@
     );
 
     try {
-      // Vérifier les droits d'accès au dépôt.
+      // Vérifier l'accès au dépôt.
       await gh(
         `/repos/${encodeURIComponent(owner)}/` +
         `${encodeURIComponent(repo)}`
@@ -1229,7 +1118,7 @@
   }
 
   /* =========================================================
-     18. ENCODAGE UTF-8 / BASE64
+     15. ENCODAGE UTF-8 / BASE64
   ========================================================= */
 
   function decodeBase64Utf8(value) {
@@ -1256,7 +1145,7 @@
   }
 
   /* =========================================================
-     19. CHARGEMENT DES DONNÉES GITHUB
+     16. CHARGEMENT DES DONNÉES GITHUB
   ========================================================= */
 
   async function loadData() {
@@ -1297,7 +1186,7 @@
       };
 
     } catch (error) {
-      // Initialiser le fichier uniquement s'il est absent.
+      // Initialiser les données uniquement si le fichier est absent.
       if (error.status === 404) {
         state.sha = null;
 
@@ -1313,15 +1202,14 @@
           "Initialiser les données Curator Desk"
         );
 
-        return;
+      } else {
+        throw error;
       }
-
-      throw error;
     }
   }
 
   /* =========================================================
-     20. SAUVEGARDE SUR GITHUB
+     17. SAUVEGARDE SUR GITHUB
   ========================================================= */
 
   async function saveData(
@@ -1387,7 +1275,7 @@
   }
 
   /* =========================================================
-     21. MODIFICATIONS AVEC ANNULATION SI ÉCHEC
+     18. MODIFICATIONS AVEC ANNULATION SI ÉCHEC
   ========================================================= */
 
   async function mutate(callback, message) {
@@ -1416,7 +1304,7 @@
       return true;
 
     } catch (error) {
-      // Restaurer les données en mémoire si l'enregistrement échoue.
+      // Restaurer les données en mémoire si la sauvegarde échoue.
       state.data = JSON.parse(previousData);
 
       renderAll();
@@ -1436,7 +1324,7 @@
   }
 
   /* =========================================================
-     22. CHAMPS OBLIGATOIRES SI LE MORCEAU EST PLACÉ
+     19. CHAMPS OBLIGATOIRES SI LE MORCEAU EST PLACÉ
   ========================================================= */
 
   function syncPlacementFields() {
@@ -1474,7 +1362,7 @@
   }
 
   /* =========================================================
-     23. OUVERTURE DU FORMULAIRE D'UN MORCEAU
+     20. OUVERTURE DU FORMULAIRE D'UN MORCEAU
   ========================================================= */
 
   function openTrack(id = null, defaultStage = "to_contact") {
@@ -1486,7 +1374,7 @@
       ? pipelineStageOf(track)
       : defaultStage;
 
-    // Sans playlist, commencer par le suivi plutôt que par le placement.
+    // Sans playlist, proposer le suivi plutôt que le placement.
     if (
       !track &&
       initialStage === "placed" &&
@@ -1512,6 +1400,8 @@
 
     setValue("trackTitle", track?.title || "");
     setValue("trackArtist", track?.artist || "");
+
+    // Charger le lien Spotify sans aucune vérification.
     setValue("trackUrl", track?.spotifyUrl || "");
 
     setValue(
@@ -1565,7 +1455,7 @@
   }
 
   /* =========================================================
-     24. OUVERTURE DU FORMULAIRE PLAYLIST
+     21. OUVERTURE DU FORMULAIRE PLAYLIST
   ========================================================= */
 
   function openPlaylist(id = null) {
@@ -1589,7 +1479,10 @@
     );
 
     setValue("playlistTitle", playlist?.name || "");
+
+    // Charger le lien Spotify sans aucune vérification.
     setValue("playlistUrl", playlist?.spotifyUrl || "");
+
     setValue("playlistGenre", playlist?.genre || "");
 
     setValue(
@@ -1610,7 +1503,11 @@
   }
 
   /* =========================================================
-     25. ENREGISTREMENT D'UN MORCEAU
+     22. ENREGISTREMENT D'UN MORCEAU
+
+     IMPORTANT :
+     spotifyUrl est simplement du texte.
+     Aucune validation Spotify n'est effectuée.
   ========================================================= */
 
   async function submitTrack(event) {
@@ -1621,15 +1518,14 @@
     const title = ($("trackTitle")?.value || "").trim();
     const artist = ($("trackArtist")?.value || "").trim();
 
-    // CORRECTION : normalisation du lien Spotify.
-    const spotifyUrl = normalizeSpotifyUrl(
+    // Le lien Spotify est récupéré directement.
+    const spotifyUrl = (
       $("trackUrl")?.value || ""
-    );
+    ).trim();
 
-    // Normalisation du lien Instagram.
-    const instagramUrl = normalizeInstagramUrl(
+    const instagramUrl = (
       $("trackInstagram")?.value || ""
-    );
+    ).trim();
 
     const playlistId = $("trackPlaylist")?.value || "";
 
@@ -1639,9 +1535,11 @@
     const workflowStatus =
       $("trackWorkflowStatus")?.value || "to_contact";
 
-    const notes = ($("trackNotes")?.value || "").trim();
+    const notes = (
+      $("trackNotes")?.value || ""
+    ).trim();
 
-    // Le titre et l'artiste sont obligatoires.
+    // Vérifier le titre et l'artiste.
     if (!title || !artist) {
       showNotice(
         "Renseigne au minimum le titre du morceau et le nom de l'artiste.",
@@ -1651,18 +1549,10 @@
       return;
     }
 
-    // Ne rejeter le lien que si sa normalisation a échoué.
-    if (spotifyUrl === null) {
-      showNotice(
-        "Colle un lien Spotify valide provenant de spotify.com, spotify.link ou spoti.fi.",
-        true
-      );
+    // Aucune vérification de l'URL Spotify ici.
 
-      return;
-    }
-
-    // Vérifier Instagram.
-    if (instagramUrl === null) {
+    // Vérifier le lien Instagram uniquement s'il est renseigné.
+    if (!validInstagramUrl(instagramUrl)) {
       showNotice(
         "Colle un lien Instagram valide, par exemple https://www.instagram.com/nomdelartiste/.",
         true
@@ -1681,7 +1571,7 @@
       return;
     }
 
-    // Un morceau placé doit avoir une playlist et deux dates.
+    // Un morceau placé doit posséder une playlist et deux dates.
     if (
       workflowStatus === "placed" &&
       (!playlistId || !start || !end)
@@ -1694,7 +1584,7 @@
       return;
     }
 
-    // Récupérer la fiche existante si elle est modifiée.
+    // Retrouver l'ancienne fiche en cas de modification.
     const old = id
       ? state.data.tracks.find(item => item.id === id)
       : null;
@@ -1707,7 +1597,9 @@
       title,
       artist,
 
+      // Sauvegarder exactement le lien fourni.
       spotifyUrl,
+
       instagramUrl,
 
       playlistId,
@@ -1729,7 +1621,7 @@
       updatedAt: new Date().toISOString()
     };
 
-    // Conserver le formulaire ouvert tant que GitHub n'a pas confirmé.
+    // Fermer la fenêtre uniquement si la sauvegarde réussit.
     const saved = await mutate(() => {
       const index = state.data.tracks.findIndex(
         item => item.id === record.id
@@ -1746,7 +1638,7 @@
       : "Ajouter un morceau au suivi"
     );
 
-    if (saved === true) {
+    if (saved) {
       const dialog = $("placementDialog");
 
       if (dialog?.open) {
@@ -1766,7 +1658,9 @@
   }
 
   /* =========================================================
-     26. ENREGISTREMENT D'UNE PLAYLIST
+     23. ENREGISTREMENT D'UNE PLAYLIST
+
+     Aucune validation de l'URL Spotify.
   ========================================================= */
 
   async function submitPlaylist(event) {
@@ -1774,20 +1668,14 @@
 
     const id = $("playlistId")?.value || "";
 
-    const spotifyUrl = normalizeSpotifyUrl(
+    // Le lien Spotify est récupéré directement.
+    const spotifyUrl = (
       $("playlistUrl")?.value || ""
-    );
+    ).trim();
 
-    if (spotifyUrl === null) {
-      showNotice(
-        "Colle un lien Spotify valide pour la playlist.",
-        true
-      );
-
-      return;
-    }
-
-    const title = ($("playlistTitle")?.value || "").trim();
+    const title = (
+      $("playlistTitle")?.value || ""
+    ).trim();
 
     if (!title) {
       showNotice(
@@ -1809,12 +1697,16 @@
 
       name: title,
 
+      // Sauvegarder exactement le lien fourni.
       spotifyUrl,
 
-      genre: ($("playlistGenre")?.value || "").trim(),
+      genre: (
+        $("playlistGenre")?.value || ""
+      ).trim(),
 
-      description:
-        ($("playlistDescription")?.value || "").trim(),
+      description: (
+        $("playlistDescription")?.value || ""
+      ).trim(),
 
       active: true,
 
@@ -1848,7 +1740,7 @@
   }
 
   /* =========================================================
-     27. NAVIGATION ENTRE LES PAGES
+     24. NAVIGATION ENTRE LES PAGES
   ========================================================= */
 
   function go(view) {
@@ -1899,7 +1791,7 @@
   }
 
   /* =========================================================
-     28. OUVERTURE DU FORMULAIRE D'AJOUT
+     25. OUVERTURE DU FORMULAIRE D'AJOUT
   ========================================================= */
 
   function openTrackSafely(stage = "to_contact") {
@@ -1927,7 +1819,7 @@
   }
 
   /* =========================================================
-     29. MODIFICATION RAPIDE DU STATUT
+     26. MODIFICATION RAPIDE DU STATUT
   ========================================================= */
 
   async function handlePipelineStageChange(event) {
@@ -1949,7 +1841,7 @@
 
     const nextStage = select.value;
 
-    // Le passage à « Placé » demande les informations du placement.
+    // Vérifier les informations nécessaires pour un placement.
     if (
       nextStage === "placed" &&
       (
@@ -1982,7 +1874,7 @@
   }
 
   /* =========================================================
-     30. ACTIONS SUR LES MORCEAUX ET LES PLAYLISTS
+     27. ACTIONS SUR LES MORCEAUX ET LES PLAYLISTS
   ========================================================= */
 
   function bindDelegatedActions() {
@@ -2093,7 +1985,7 @@
   }
 
   /* =========================================================
-     31. EXPORT JSON
+     28. EXPORT JSON
   ========================================================= */
 
   function exportData() {
@@ -2120,7 +2012,7 @@
   }
 
   /* =========================================================
-     32. IMPORT JSON
+     29. IMPORT JSON
   ========================================================= */
 
   async function importData(event) {
@@ -2175,10 +2067,33 @@
   }
 
   /* =========================================================
-     33. INITIALISATION DES ÉVÉNEMENTS
+     30. INITIALISATION DES ÉVÉNEMENTS
   ========================================================= */
 
   function initializeEvents() {
+    /*
+      IMPORTANT :
+      désactiver la validation native des formulaires.
+
+      Certains champs HTML sont encore de type "url".
+      Avec noValidate, le navigateur ne bloque pas la
+      soumission avant que notre JavaScript s'exécute.
+
+      Le JavaScript vérifie séparément les champs réellement
+      nécessaires, sans contrôler le lien Spotify.
+    */
+
+    const placementForm = $("placementForm");
+    const playlistForm = $("playlistForm");
+
+    if (placementForm) {
+      placementForm.noValidate = true;
+    }
+
+    if (playlistForm) {
+      playlistForm.noValidate = true;
+    }
+
     // Navigation principale.
     document.querySelectorAll(".nav-item").forEach(button => {
       button.addEventListener("click", () => {
@@ -2186,7 +2101,7 @@
       });
     });
 
-    // Boutons de navigation secondaire.
+    // Navigation secondaire.
     document.querySelectorAll("[data-goto]").forEach(button => {
       button.addEventListener("click", () => {
         go(button.dataset.goto);
@@ -2203,7 +2118,7 @@
       })
     );
 
-    // Ajouter un morceau depuis les différents boutons.
+    // Ajouter un morceau.
     listen("quickAdd", "click", () => {
       openTrackSafely("to_contact");
     });
@@ -2225,7 +2140,7 @@
     listen("placementForm", "submit", submitTrack);
     listen("playlistForm", "submit", submitPlaylist);
 
-    // Mise à jour des champs obligatoires.
+    // Mise à jour des champs obligatoires du placement.
     listen(
       "trackWorkflowStatus",
       "change",
@@ -2245,7 +2160,7 @@
       renderPlacements
     );
 
-    // Recherche et filtres du suivi.
+    // Recherche et filtres du suivi des artistes.
     listen(
       "pipelineSearch",
       "input",
@@ -2291,7 +2206,7 @@
       });
     });
 
-    // Changement rapide du statut depuis les tableaux.
+    // Changement de statut depuis les tableaux.
     listen(
       "pipelineList",
       "change",
@@ -2304,16 +2219,16 @@
       handlePipelineStageChange
     );
 
-    // Import et export des données.
+    // Import et export.
     listen("exportBtn", "click", exportData);
     listen("importFile", "change", importData);
 
-    // Boutons Modifier, Supprimer, Retirer et Réactiver.
+    // Actions sur les morceaux et playlists.
     bindDelegatedActions();
   }
 
   /* =========================================================
-     34. INITIALISATION ET RECONNEXION
+     31. INITIALISATION ET RECONNEXION
   ========================================================= */
 
   function initialize() {
