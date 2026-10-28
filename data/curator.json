@@ -310,10 +310,25 @@
       "status": "active",
       "createdAt": "2026-10-28T19:07:04.347Z",
       "updatedAt": "2026-10-28T19:07:04.347Z"
+    },
+    {
+      "id": "track_mvshotcd_xn91ne",
+      "title": "Mais moi je bougeais a peine",
+      "artist": "Otxpsie",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/1BXVUHCzJsFzsFuv1w7CPb",
+      "instagramUrl": "https://www.instagram.com/otxpsietransparent/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T19:10:26.701Z",
+      "updatedAt": "2026-10-28T19:10:26.701Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T19:07:04.347Z"
+  "updatedAt": "2026-10-28T19:10:26.701Z"
 }
