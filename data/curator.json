@@ -265,10 +265,25 @@
       "status": "active",
       "createdAt": "2026-10-28T18:41:45.385Z",
       "updatedAt": "2026-10-28T18:41:45.385Z"
+    },
+    {
+      "id": "track_mvsgx8iu_81v2aq",
+      "title": "Longuest Percent",
+      "artist": "Zosteal",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/1EVdHHGG05ZKiCRWp2P4rr",
+      "instagramUrl": "https://www.instagram.com/zosteal_/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T18:49:00.006Z",
+      "updatedAt": "2026-10-28T18:49:00.006Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T18:41:45.385Z"
+  "updatedAt": "2026-10-28T18:49:00.006Z"
 }
