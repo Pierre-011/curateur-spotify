@@ -1,8 +1,3 @@
-/* =========================================================
-   CURATOR DESK — STYLE COMPLET
-   Placements Spotify + Suivi artistes + GitHub
-========================================================= */
-
 :root {
   --bg: #0d100e;
   --panel: #151a16;
@@ -14,45 +9,19 @@
   --green2: #243a1c;
   --yellow: #f4c66b;
   --red: #ff7777;
-  --blue: #8fcaff;
-  --purple: #d5b4ff;
   --radius: 18px;
-
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text);
   background: var(--bg);
 }
-
-/* =========================================================
-   BASE
-========================================================= */
 
 * {
   box-sizing: border-box;
 }
 
-html {
-  min-width: 320px;
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
-  background:
-    radial-gradient(
-      ellipse at 78% 0%,
-      #18261a 0,
-      transparent 34%
-    ),
-    var(--bg);
+  background: radial-gradient(ellipse at 78% 0%, #18261a 0, transparent 34%), var(--bg);
   min-height: 100vh;
 }
 
@@ -72,63 +41,21 @@ button:disabled {
   opacity: 0.5;
 }
 
-input,
-select,
-textarea {
-  max-width: 100%;
-}
-
-a {
-  color: var(--green);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.danger-text {
-  color: var(--red);
-}
-
-/* =========================================================
-   STRUCTURE PRINCIPALE
-========================================================= */
-
 .app-shell {
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr);
   min-height: 100vh;
 }
 
-.main {
-  padding: 30px clamp(18px, 4vw, 54px) 20px;
-  min-width: 0;
-  max-width: 1600px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-/* =========================================================
-   BARRE LATÉRALE
-========================================================= */
-
 .sidebar {
   border-right: 1px solid var(--line);
   padding: 28px 18px;
-
   display: flex;
   flex-direction: column;
-
   min-height: 100vh;
   position: sticky;
   top: 0;
   height: 100vh;
-
   background: #0d100eea;
 }
 
@@ -142,15 +69,11 @@ a:hover {
 .brand-mark {
   display: grid;
   place-items: center;
-
   width: 42px;
   height: 42px;
-  flex-shrink: 0;
-
   border-radius: 13px;
   background: var(--green);
   color: #15200f;
-
   font-size: 27px;
   font-weight: 900;
 }
@@ -178,20 +101,13 @@ a:hover {
   border: 0;
   background: transparent;
   color: var(--muted);
-
   padding: 13px 14px;
   text-align: left;
   border-radius: 12px;
-
   display: flex;
   gap: 13px;
   align-items: center;
-
   font-weight: 600;
-}
-
-.nav-item span {
-  min-width: 0;
 }
 
 .nav-item.active,
@@ -204,29 +120,29 @@ a:hover {
   margin-top: auto;
   padding: 16px 10px 0;
   border-top: 1px solid var(--line);
-
   font-size: 11px;
   color: var(--muted);
-
   display: flex;
   gap: 9px;
   align-items: center;
-
-  overflow-wrap: anywhere;
 }
 
 .status-dot {
   width: 7px;
   height: 7px;
-  flex-shrink: 0;
   border-radius: 50%;
   background: var(--yellow);
   display: inline-block;
+  flex-shrink: 0;
 }
 
-/* =========================================================
-   EN-TÊTE
-========================================================= */
+.main {
+  padding: 30px clamp(18px, 4vw, 54px) 20px;
+  min-width: 0;
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+}
 
 .topbar {
   display: flex;
@@ -248,7 +164,6 @@ a:hover {
   font-size: clamp(26px, 3vw, 36px);
   letter-spacing: -1.2px;
   margin: 0;
-  overflow-wrap: anywhere;
 }
 
 .top-actions {
@@ -259,30 +174,17 @@ a:hover {
   font-size: 12px;
 }
 
-/* =========================================================
-   BOUTONS
-========================================================= */
-
 .btn {
   border: 1px solid transparent;
   border-radius: 11px;
-
   padding: 11px 15px;
-
   font-weight: 750;
   font-size: 12px;
-
-  transition:
-    background 0.15s,
-    border-color 0.15s,
-    color 0.15s,
-    transform 0.15s;
-
+  transition: 0.15s;
   display: inline-flex;
   justify-content: center;
   align-items: center;
   gap: 7px;
-
   white-space: normal;
   text-align: center;
 }
@@ -315,77 +217,14 @@ a:hover {
   color: var(--text);
 }
 
-.small-btn {
-  border: 1px solid var(--line);
-  background: #202720;
-  color: var(--muted);
-
-  padding: 7px 9px;
-  border-radius: 8px;
-
-  font-size: 11px;
-  white-space: nowrap;
-}
-
-.small-btn:hover:not(:disabled) {
-  color: var(--text);
-  border-color: #566356;
-}
-
-.icon-btn {
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--muted);
-
-  border-radius: 9px;
-  width: 38px;
-  height: 38px;
-  flex-shrink: 0;
-
-  display: grid;
-  place-items: center;
-}
-
-.icon-btn:hover {
-  color: var(--text);
-  border-color: #566356;
-}
-
-.button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 16px;
-}
-
-.row-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-}
-
-/* =========================================================
-   MESSAGE DE BIENVENUE
-========================================================= */
-
 .welcome {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-
-  background:
-    linear-gradient(
-      115deg,
-      #233b20,
-      #17251a 60%,
-      #172019
-    );
-
+  background: linear-gradient(115deg, #233b20, #17251a 60%, #172019);
   border: 1px solid #344a2e;
   border-radius: var(--radius);
-
   padding: 28px 32px;
   margin-bottom: 18px;
   overflow: hidden;
@@ -400,21 +239,16 @@ a:hover {
 .welcome p:not(.eyebrow) {
   color: #bdc9b9;
   font-size: 13px;
-  line-height: 1.6;
   margin: 0;
+  line-height: 1.6;
 }
 
 .welcome-icon {
-  flex-shrink: 0;
   font-size: 66px;
   color: var(--green);
   opacity: 0.75;
   padding: 0 20px;
 }
-
-/* =========================================================
-   CARTES STATISTIQUES
-========================================================= */
 
 .stats-grid {
   display: grid;
@@ -443,7 +277,6 @@ a:hover {
   font-size: 34px;
   letter-spacing: -1px;
   margin: 12px 0 6px;
-  overflow-wrap: anywhere;
 }
 
 .stat-foot {
@@ -458,10 +291,6 @@ a:hover {
 .stat-card.danger strong {
   color: var(--red);
 }
-
-/* =========================================================
-   TITRES DE SECTION
-========================================================= */
 
 .section-heading {
   display: flex;
@@ -479,14 +308,10 @@ a:hover {
 
 .section-heading p {
   font-size: 12px;
-  line-height: 1.6;
   color: var(--muted);
   margin: 0;
+  line-height: 1.6;
 }
-
-/* =========================================================
-   TABLEAUX
-========================================================= */
 
 .table-card {
   background: var(--panel);
@@ -494,13 +319,10 @@ a:hover {
   border-radius: 15px;
   overflow: hidden;
   margin-bottom: 20px;
-  min-width: 0;
 }
 
 .table-wrap {
-  width: 100%;
   overflow-x: auto;
-  overscroll-behavior-x: contain;
 }
 
 table {
@@ -512,14 +334,11 @@ table {
 th {
   text-align: left;
   color: #849087;
-
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
-
   padding: 14px 17px;
   border-bottom: 1px solid var(--line);
-
   font-weight: 750;
   white-space: nowrap;
 }
@@ -527,11 +346,8 @@ th {
 td {
   padding: 15px 17px;
   border-bottom: 1px solid #252d26;
-
   font-size: 12px;
   color: #dbe2da;
-
-  vertical-align: middle;
 }
 
 tr:last-child td {
@@ -542,7 +358,6 @@ tr:last-child td {
   font-weight: 750;
   color: var(--text);
   font-size: 13px;
-  overflow-wrap: anywhere;
 }
 
 .subline {
@@ -552,26 +367,12 @@ tr:last-child td {
   overflow-wrap: anywhere;
 }
 
-.empty {
-  padding: 35px 20px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-/* =========================================================
-   STATUTS DES PLACEMENTS
-========================================================= */
-
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-
   padding: 6px 9px;
   border-radius: 8px;
-
   font-size: 10px;
   font-weight: 800;
   white-space: nowrap;
@@ -598,24 +399,48 @@ tr:last-child td {
 }
 
 .badge.blue {
-  color: var(--blue);
+  color: #8fcaff;
   background: #1d3042;
 }
 
 .badge.purple {
-  color: var(--purple);
+  color: #d5b4ff;
   background: #302342;
 }
 
-/* =========================================================
-   BARRES DE RECHERCHE ET FILTRES
-========================================================= */
+.row-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.small-btn {
+  border: 1px solid var(--line);
+  background: #202720;
+  color: var(--muted);
+  padding: 7px 9px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.small-btn:hover {
+  color: var(--text);
+  border-color: #566356;
+}
+
+.empty {
+  padding: 35px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
 
 .toolbar {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
   align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 16px;
 }
 
@@ -623,10 +448,8 @@ tr:last-child td {
   background: #101410;
   border: 1px solid #303a31;
   border-radius: 10px;
-
   color: var(--text);
   padding: 11px 12px;
-
   outline: none;
   min-width: 0;
   font-size: 12px;
@@ -651,156 +474,6 @@ tr:last-child td {
   min-width: 180px;
 }
 
-select.input {
-  cursor: pointer;
-}
-
-textarea.input {
-  resize: vertical;
-  min-height: 85px;
-  line-height: 1.6;
-}
-
-.input.full,
-.full {
-  width: 100%;
-  display: block;
-  margin-top: 7px;
-}
-
-/* =========================================================
-   SUIVI ARTISTES
-========================================================= */
-
-#view-pipeline {
-  min-width: 0;
-}
-
-#view-pipeline .toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-#view-pipeline .toolbar .search {
-  flex: 1;
-  min-width: 200px;
-}
-
-#view-pipeline .toolbar select {
-  min-width: 190px;
-}
-
-/* Tableau large, défilable horizontalement si nécessaire */
-.pipeline-table {
-  min-width: 1000px;
-}
-
-.pipeline-table th {
-  white-space: nowrap;
-}
-
-.pipeline-table td {
-  vertical-align: top;
-}
-
-.pipeline-table td:first-child {
-  min-width: 210px;
-  max-width: 320px;
-}
-
-.pipeline-table td:nth-child(2) {
-  min-width: 130px;
-}
-
-.pipeline-table td:nth-child(3) {
-  min-width: 190px;
-}
-
-.pipeline-table td:nth-child(4) {
-  min-width: 170px;
-}
-
-/* Sélecteur de statut dans chaque ligne */
-.pipeline-select {
-  width: 100%;
-  min-width: 170px;
-  max-width: 230px;
-
-  padding: 9px 10px;
-  border-radius: 9px;
-
-  background: var(--panel2);
-  border: 1px solid var(--line);
-
-  color: var(--text);
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.pipeline-select:focus {
-  outline: none;
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px #a6ed5a12;
-}
-
-.pipeline-select option {
-  background: var(--panel);
-  color: var(--text);
-}
-
-/* Mention d'un morceau qui n'est pas placé */
-.muted-inline {
-  color: var(--muted);
-  font-size: 11px;
-  font-style: italic;
-}
-
-/* Aperçu des notes dans le tableau */
-.note-preview {
-  margin-top: 8px;
-  max-width: 300px;
-
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-}
-
-/* Boutons du tableau de suivi */
-.pipeline-table .row-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.pipeline-table td a {
-  display: inline-block;
-  margin-top: 5px;
-  overflow-wrap: anywhere;
-}
-
-/* Indication sur les champs requis lors du placement */
-#placementFieldsHint {
-  display: block;
-
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.7;
-
-  padding: 11px 13px;
-  margin-top: 12px;
-
-  background: var(--panel2);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-}
-
-/* =========================================================
-   CARTES PLAYLISTS
-========================================================= */
-
 .playlist-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -819,13 +492,10 @@ textarea.input {
   width: 43px;
   height: 43px;
   border-radius: 12px;
-
   background: #273a25;
   color: var(--green);
-
   display: grid;
   place-items: center;
-
   font-size: 21px;
   margin-bottom: 18px;
 }
@@ -833,27 +503,23 @@ textarea.input {
 .playlist-card h3 {
   margin: 0 0 6px;
   font-size: 16px;
-  overflow-wrap: anywhere;
 }
 
 .playlist-card p {
   font-size: 12px;
-  line-height: 1.6;
   color: var(--muted);
   margin: 0 0 15px;
-  overflow-wrap: anywhere;
+  line-height: 1.6;
 }
 
 .playlist-meta {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
-
   color: var(--muted);
   font-size: 11px;
-
   border-top: 1px solid var(--line);
   padding-top: 14px;
   margin-top: 14px;
@@ -861,14 +527,10 @@ textarea.input {
 
 .playlist-actions {
   display: flex;
-  flex-wrap: wrap;
   gap: 7px;
+  flex-wrap: wrap;
   margin-top: 14px;
 }
-
-/* =========================================================
-   PARAMÈTRES ET CONNEXION GITHUB
-========================================================= */
 
 .settings-grid {
   display: grid;
@@ -913,35 +575,42 @@ textarea.input {
   border-radius: 8px;
   background: #233720;
   color: var(--green);
-
   padding: 6px 8px;
-
   font-size: 10px;
   font-weight: 800;
 }
 
 .field-label {
   display: block;
-
   font-size: 11px;
   font-weight: 750;
   color: #c6d0c6;
-
   margin: 16px 0 7px;
+}
+
+.full {
+  width: 100%;
+  display: block;
+  margin-top: 7px;
 }
 
 .hint {
   color: #879287;
   font-size: 11px;
-  line-height: 1.7;
+  line-height: 1.6;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 16px;
 }
 
 .inline-status {
   font-size: 12px;
-  line-height: 1.6;
   margin-top: 12px;
   color: var(--green);
-  overflow-wrap: anywhere;
 }
 
 .inline-status.error {
@@ -953,7 +622,6 @@ textarea.input {
   color: #b4beb4;
   line-height: 2;
   padding-left: 20px;
-  overflow-wrap: anywhere;
 }
 
 hr {
@@ -962,28 +630,15 @@ hr {
   margin: 22px 0;
 }
 
-.file-label {
-  cursor: pointer;
-}
-
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
-
 .notice {
   padding: 13px 16px;
-
   border: 1px solid #4c6937;
   background: #1d2b19;
   border-radius: 12px;
-
   margin: 0 0 18px;
-
   color: #d5e9c7;
   font-size: 12px;
-  line-height: 1.7;
-
-  overflow-wrap: anywhere;
+  line-height: 1.6;
 }
 
 .notice.error {
@@ -992,23 +647,34 @@ hr {
   color: #ffb4b4;
 }
 
-/* =========================================================
-   FORMULAIRES ET FENÊTRES MODALES
-========================================================= */
+.hidden {
+  display: none !important;
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  margin-top: 34px;
+  color: #6f7b70;
+  font-size: 9px;
+  letter-spacing: 1.6px;
+  line-height: 1.8;
+}
+
+footer span {
+  color: var(--green);
+  padding: 0 5px;
+}
 
 .modal {
   background: #151a16;
   color: var(--text);
-
   border: 1px solid #3a463b;
   border-radius: 18px;
-
   width: min(620px, calc(100vw - 24px));
   max-height: 90vh;
   overflow-y: auto;
-
   padding: 26px;
-
   box-shadow: 0 25px 90px #000b;
 }
 
@@ -1028,16 +694,20 @@ hr {
 .modal-head h2 {
   margin: 0;
   font-size: 23px;
-  overflow-wrap: anywhere;
 }
 
-.modal form {
-  min-width: 0;
+.icon-btn {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 9px;
+  width: 36px;
+  height: 36px;
 }
 
 .form-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 0 14px;
 }
 
@@ -1047,71 +717,97 @@ hr {
 
 .modal-actions {
   display: flex;
-  flex-wrap: wrap;
   justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 9px;
   margin-top: 24px;
 }
 
-.modal-actions button {
-  min-width: 90px;
+.file-label {
+  cursor: pointer;
 }
 
-/* =========================================================
-   PIED DE PAGE
-========================================================= */
-
-footer {
-  border-top: 1px solid var(--line);
-  padding-top: 20px;
-  margin-top: 34px;
-
-  color: #6f7b70;
-  font-size: 9px;
-  letter-spacing: 1.6px;
-  line-height: 1.8;
-
-  overflow-wrap: anywhere;
+.danger-text {
+  color: var(--red);
 }
 
-footer span {
+a {
   color: var(--green);
-  padding: 0 5px;
 }
 
 /* =========================================================
-   ACCESSIBILITÉ
+   SUIVI ARTISTES
 ========================================================= */
 
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--green);
-  outline-offset: 3px;
+.pipeline-table {
+  min-width: 980px;
+}
+
+.pipeline-select {
+  width: 100%;
+  min-width: 160px;
+  max-width: 220px;
+  padding: 8px 9px;
+}
+
+.pipeline-select option {
+  background: var(--panel);
+  color: var(--text);
+}
+
+.note-preview {
+  max-width: 300px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+.muted-inline {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* Champ d'aide du formulaire de morceau */
+#placementFieldsHint {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #101410;
+}
+
+/* Bouton Instagram dans le tableau Suivi artistes */
+.instagram-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-color: #344b32;
+  background: #203021;
+  color: var(--green);
+  text-decoration: none;
+  font-weight: 750;
+}
+
+.instagram-button:hover {
+  background: #2a3d2a;
+  border-color: var(--green);
+  color: #d0ffa0;
+  text-decoration: none;
+}
+
+.pipeline-table td:nth-child(2) {
+  min-width: 150px;
+  vertical-align: middle;
 }
 
 /* =========================================================
    ÉCRANS INTERMÉDIAIRES
 ========================================================= */
 
-@media (max-width: 1200px) {
-  .app-shell {
-    grid-template-columns: 220px minmax(0, 1fr);
-  }
-
-  .main {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-
+@media (max-width: 1350px) {
   .stats-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .playlist-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1137,10 +833,6 @@ textarea:focus-visible {
   }
 }
 
-/* =========================================================
-   MOBILES ET TABLETTES
-========================================================= */
-
 @media (max-width: 700px) {
   .app-shell {
     display: block;
@@ -1150,15 +842,11 @@ textarea:focus-visible {
     position: sticky;
     z-index: 10;
     top: 0;
-
     height: auto;
     min-height: 0;
-
     padding: 10px 12px;
-
     border-right: 0;
     border-bottom: 1px solid var(--line);
-
     backdrop-filter: blur(18px);
     background: #0d100ef2;
   }
@@ -1181,15 +869,12 @@ textarea:focus-visible {
     display: flex;
     gap: 5px;
     overflow-x: auto;
-    padding-bottom: 3px;
   }
 
   .nav-item {
     padding: 10px 11px;
     white-space: nowrap;
     font-size: 11px;
-    flex-shrink: 0;
-    gap: 7px;
   }
 
   .nav-item span {
@@ -1231,7 +916,6 @@ textarea:focus-visible {
   }
 
   .stats-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 9px;
   }
 
@@ -1261,12 +945,10 @@ textarea:focus-visible {
 
   .search {
     flex-basis: 100%;
-    min-width: 0;
   }
 
   .toolbar select {
     flex: 1;
-    min-width: 0;
   }
 
   .playlist-grid {
@@ -1274,7 +956,7 @@ textarea:focus-visible {
   }
 
   .form-grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: 1fr;
   }
 
   .span-2 {
@@ -1289,41 +971,22 @@ textarea:focus-visible {
     border-radius: 12px;
   }
 
+  .nav-item {
+    gap: 7px;
+  }
+
   .nav-item:not(.active) {
     color: #899489;
   }
 
-  #view-pipeline .toolbar {
-    align-items: stretch;
-  }
-
-  #view-pipeline .toolbar .search,
-  #view-pipeline .toolbar select,
-  #view-pipeline .toolbar .btn {
-    width: 100%;
-    min-width: 0;
-  }
-
-  .pipeline-table {
-    min-width: 1000px;
-  }
-
   .pipeline-select {
-    min-width: 170px;
+    min-width: 155px;
   }
 
-  .pipeline-table td {
-    padding: 12px;
-  }
-
-  .modal {
-    padding: 20px;
+  .row-actions {
+    flex-wrap: wrap;
   }
 }
-
-/* =========================================================
-   PETITS TÉLÉPHONES
-========================================================= */
 
 @media (max-width: 380px) {
   .nav-item {
@@ -1340,42 +1003,6 @@ textarea:focus-visible {
   }
 
   .stats-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .stat-card {
-    padding: 12px;
-  }
-
-  .stat-card strong {
-    font-size: 25px;
-  }
-
-  .welcome {
-    padding: 18px 16px;
-  }
-
-  .main {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  .button-row .btn {
-    flex: 1 1 auto;
-  }
-}
-
-/* =========================================================
-   RÉDUCTION DES ANIMATIONS
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+    grid-template-columns: 1fr 1fr;
   }
 }
