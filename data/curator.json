@@ -250,10 +250,25 @@
       "status": "active",
       "createdAt": "2026-10-28T18:39:37.792Z",
       "updatedAt": "2026-10-28T18:39:37.792Z"
+    },
+    {
+      "id": "track_mvsgnx61_ftkchm",
+      "title": "Hustle Everyday",
+      "artist": "Shaptey",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/6lhtHIHpE6nsvIxyJ1ADtz",
+      "instagramUrl": "https://www.instagram.com/shaptey7777/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T18:41:45.385Z",
+      "updatedAt": "2026-10-28T18:41:45.385Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T18:39:37.792Z"
+  "updatedAt": "2026-10-28T18:41:45.385Z"
 }
