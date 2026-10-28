@@ -100,10 +100,25 @@
       "status": "active",
       "createdAt": "2026-10-28T10:45:24.619Z",
       "updatedAt": "2026-10-28T10:45:24.619Z"
+    },
+    {
+      "id": "track_mvrzqwhh_50kt9k",
+      "title": "Qui t'es",
+      "artist": "Solo Machina",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/6zHvSJvfzmAxcOct5Qc13o",
+      "instagramUrl": "https://www.instagram.com/solo_machina/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T10:48:10.997Z",
+      "updatedAt": "2026-10-28T10:48:10.997Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T10:45:24.619Z"
+  "updatedAt": "2026-10-28T10:48:10.997Z"
 }
