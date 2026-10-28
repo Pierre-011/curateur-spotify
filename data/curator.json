@@ -110,15 +110,15 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "waiting",
+      "pipelineStatus": "discussion",
       "notes": "",
       "status": "active",
       "createdAt": "2026-10-28T10:48:10.997Z",
-      "updatedAt": "2026-10-28T10:48:18.475Z"
+      "updatedAt": "2026-10-28T10:48:22.037Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T10:48:18.475Z"
+  "updatedAt": "2026-10-28T10:48:22.037Z"
 }
