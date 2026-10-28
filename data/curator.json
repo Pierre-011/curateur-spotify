@@ -70,10 +70,25 @@
       "status": "active",
       "createdAt": "2026-10-28T10:37:07.852Z",
       "updatedAt": "2026-10-28T10:37:07.852Z"
+    },
+    {
+      "id": "track_mvrzk8bn_k94z5d",
+      "title": "C'est carré",
+      "artist": "Dyss MK",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/2HWNv7ZMPYD5zRendPRHDP",
+      "instagramUrl": "https://www.instagram.com/dyss.mk/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T10:42:59.747Z",
+      "updatedAt": "2026-10-28T10:42:59.747Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T10:37:07.852Z"
+  "updatedAt": "2026-10-28T10:42:59.748Z"
 }
