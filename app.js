@@ -1,13 +1,14 @@
 /* =========================================================
    CURATOR DESK
-   Connexion GitHub + Suivi artistes + Placements + Instagram
+   Connexion GitHub, morceaux, playlists, placements,
+   suivi des artistes et liens Instagram.
 ========================================================= */
 
 (() => {
   "use strict";
 
   /* =========================================================
-     CONFIGURATION ET UTILITAIRES
+     1. CONFIGURATION ET UTILITAIRES
   ========================================================= */
 
   const $ = id => document.getElementById(id);
@@ -16,6 +17,8 @@
 
   const TOKEN_KEY = "curatorDesk.githubToken";
   const CONFIG_KEY = "curatorDesk.githubRepoConfig";
+
+  const DATA_PATH = "data/curator.json";
 
   const PIPELINE_STAGES = [
     { value: "to_contact", label: "À contacter", tone: "gray" },
@@ -32,40 +35,51 @@
   );
 
   const todayISO = () => {
-    const d = new Date();
+    const date = new Date();
 
     return [
-      d.getFullYear(),
-      String(d.getMonth() + 1).padStart(2, "0"),
-      String(d.getDate()).padStart(2, "0")
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0")
     ].join("-");
   };
 
   const uid = prefix =>
-    `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+    `${prefix}_${Date.now().toString(36)}_${Math.random()
+      .toString(36)
+      .slice(2, 8)}`;
 
   const esc = value =>
-    String(value ?? "").replace(/[&<>"']/g, char => ({
+    String(value ?? "").replace(/[&<>"']/g, character => ({
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#39;"
-    }[char]));
+    })[character]);
 
   function setText(id, value) {
     const element = $(id);
-    if (element) element.textContent = String(value ?? "");
+
+    if (element) {
+      element.textContent = String(value ?? "");
+    }
   }
 
   function setHtml(id, value) {
     const element = $(id);
-    if (element) element.innerHTML = value;
+
+    if (element) {
+      element.innerHTML = value;
+    }
   }
 
   function setValue(id, value) {
     const element = $(id);
-    if (element) element.value = value ?? "";
+
+    if (element) {
+      element.value = value ?? "";
+    }
   }
 
   function listen(id, eventName, handler) {
@@ -74,88 +88,19 @@
     if (element) {
       element.addEventListener(eventName, handler);
     } else {
-      console.warn(`Curator Desk : élément HTML absent : #${id}`);
+      console.warn(
+        `Curator Desk : élément HTML absent : #${id}`
+      );
     }
   }
 
-/* Vérification des liens Spotify */
-function validSpotifyUrl(value) {
-  const input = String(value ?? "").trim();
-
-  // Le lien Spotify est facultatif pour les morceaux en discussion.
-  if (!input) return true;
-
-  try {
-    const url = new URL(input);
-
-    // Accepter uniquement les liens HTTPS.
-    if (url.protocol !== "https:") {
-      return false;
-    }
-
-    const hostname = url.hostname.toLowerCase();
-
-    // Accepter les liens courts officiels de Spotify.
-    if (
-      hostname === "spotify.link" ||
-      hostname === "www.spotify.link"
-    ) {
-      return true;
-    }
-
-    // Vérifier le domaine Spotify.
-    if (
-      hostname !== "open.spotify.com" &&
-      hostname !== "www.open.spotify.com"
-    ) {
-      return false;
-    }
-
-    // Gérer les formats classiques et les formats localisés,
-    // par exemple /track/ID et /intl-fr/track/ID.
-    const parts = url.pathname
-      .split("/")
-      .filter(Boolean);
-
-    if (parts[0] && /^intl-[a-z]{2}(?:-[a-z]{2})?$/i.test(parts[0])) {
-      parts.shift();
-    }
-
-    // Accepter les morceaux, playlists et albums.
-    const typesAutorises = ["track", "playlist", "album"];
-
-    if (!typesAutorises.includes(parts[0])) {
-      return false;
-    }
-
-    // Vérifier que l'identifiant existe.
-    if (!parts[1] || !/^[A-Za-z0-9]+$/.test(parts[1])) {
-      return false;
-    }
-
-    return true;
-
-  } catch {
-    return false;
-  }
-}
-
-  function validInstagramUrl(value) {
-    if (!value) return true;
-
+  function loadSavedConfig() {
     try {
-      const url = new URL(value);
-
-      return (
-        url.protocol === "https:" &&
-        [
-          "instagram.com",
-          "www.instagram.com",
-          "m.instagram.com"
-        ].includes(url.hostname.toLowerCase())
+      return JSON.parse(
+        localStorage.getItem(CONFIG_KEY) || "{}"
       );
     } catch {
-      return false;
+      return {};
     }
   }
 
@@ -163,12 +108,162 @@ function validSpotifyUrl(value) {
     return /^[A-Za-z0-9_.-]+$/.test(value);
   }
 
+  /* =========================================================
+     2. LIENS SPOTIFY
+
+     Accepte les URL Spotify classiques et localisées,
+     les liens courts et les URI Spotify.
+
+     Exemples :
+     https://open.spotify.com/track/IDENTIFIANT
+     https://open.spotify.com/intl-fr/track/IDENTIFIANT
+     https://open.spotify.com/playlist/IDENTIFIANT
+     https://spotify.link/...
+     spotify:track:IDENTIFIANT
+  ========================================================= */
+
+  function normalizeSpotifyUrl(value) {
+    let input = String(value ?? "").trim();
+
+    // Le lien Spotify n'est pas obligatoire.
+    if (!input) {
+      return "";
+    }
+
+    // Retirer les chevrons parfois présents au copier-coller.
+    input = input.replace(/^<(.+)>$/, "$1").trim();
+
+    // Accepter les URI Spotify de type spotify:track:IDENTIFIANT.
+    const spotifyUri = input.match(
+      /^spotify:(track|playlist|album):([A-Za-z0-9]+)$/i
+    );
+
+    if (spotifyUri) {
+      input =
+        `https://open.spotify.com/` +
+        `${spotifyUri[1].toLowerCase()}/` +
+        `${spotifyUri[2]}`;
+    }
+
+    // Remplacer HTTP par HTTPS.
+    if (/^http:\/\//i.test(input)) {
+      input = input.replace(/^http:/i, "https:");
+    }
+
+    // Ajouter HTTPS lorsque le protocole est absent.
+    else if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(input)) {
+      input = "https://" + input;
+    }
+
+    try {
+      const url = new URL(input);
+
+      const hostname = url.hostname
+        .toLowerCase()
+        .replace(/\.$/, "");
+
+      // N'accepter que HTTPS.
+      if (url.protocol !== "https:") {
+        return null;
+      }
+
+      // Vérifier le domaine sans accepter les faux domaines.
+      const isSpotifyDomain =
+        hostname === "spotify.com" ||
+        hostname.endsWith(".spotify.com") ||
+        hostname === "spotify.link" ||
+        hostname.endsWith(".spotify.link") ||
+        hostname === "spoti.fi" ||
+        hostname.endsWith(".spoti.fi");
+
+      if (!isSpotifyDomain) {
+        return null;
+      }
+
+      // Refuser les identifiants intégrés et les ports inhabituels.
+      if (url.username || url.password || url.port) {
+        return null;
+      }
+
+      // Conserver les paramètres de partage du lien.
+      url.protocol = "https:";
+
+      return url.href;
+
+    } catch {
+      return null;
+    }
+  }
+
+  function validSpotifyUrl(value) {
+    return normalizeSpotifyUrl(value) !== null;
+  }
+
+  /* =========================================================
+     3. LIENS INSTAGRAM
+  ========================================================= */
+
+  function normalizeInstagramUrl(value) {
+    let input = String(value ?? "").trim();
+
+    // Le lien Instagram est facultatif.
+    if (!input) {
+      return "";
+    }
+
+    // Ajouter HTTPS si nécessaire.
+    if (/^http:\/\//i.test(input)) {
+      input = input.replace(/^http:/i, "https:");
+    } else if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(input)) {
+      input = "https://" + input;
+    }
+
+    try {
+      const url = new URL(input);
+
+      const hostname = url.hostname.toLowerCase();
+
+      const allowedHosts = [
+        "instagram.com",
+        "www.instagram.com",
+        "m.instagram.com"
+      ];
+
+      if (
+        url.protocol !== "https:" ||
+        !allowedHosts.includes(hostname) ||
+        url.username ||
+        url.password ||
+        url.port
+      ) {
+        return null;
+      }
+
+      return url.href;
+
+    } catch {
+      return null;
+    }
+  }
+
+  function validInstagramUrl(value) {
+    return normalizeInstagramUrl(value) !== null;
+  }
+
+  /* =========================================================
+     4. DATES
+  ========================================================= */
+
   function dateLabel(value) {
-    if (!value) return "—";
+    if (!value) {
+      return "—";
+    }
 
     const [year, month, day] = value.split("-").map(Number);
 
-    if (!year || !month || !day) return "—";
+    if (!year || !month || !day) {
+      return "—";
+    }
 
     return new Date(
       Date.UTC(year, month - 1, day, 12)
@@ -181,11 +276,15 @@ function validSpotifyUrl(value) {
   }
 
   function daysUntil(value) {
-    if (!value) return null;
+    if (!value) {
+      return null;
+    }
 
     const [year, month, day] = value.split("-").map(Number);
 
-    if (!year || !month || !day) return null;
+    if (!year || !month || !day) {
+      return null;
+    }
 
     const target = Date.UTC(year, month - 1, day);
 
@@ -200,18 +299,8 @@ function validSpotifyUrl(value) {
     return Math.round((target - current) / 86400000);
   }
 
-  function loadSavedConfig() {
-    try {
-      return JSON.parse(
-        localStorage.getItem(CONFIG_KEY) || "{}"
-      );
-    } catch {
-      return {};
-    }
-  }
-
   /* =========================================================
-     ÉTAT DE L'APPLICATION
+     5. ÉTAT DE L'APPLICATION
   ========================================================= */
 
   const savedConfig = loadSavedConfig();
@@ -226,18 +315,20 @@ function validSpotifyUrl(value) {
     data: {
       playlists: [],
       tracks: [],
-      settings: { soonDays: 7 }
+      settings: {
+        soonDays: 7
+      }
     },
 
     sha: null,
-    path: "data/curator.json",
+    path: DATA_PATH,
 
     connected: false,
     busy: false
   };
 
   /* =========================================================
-     STATUT DES ÉCHANGES
+     6. STATUT DES ÉCHANGES
   ========================================================= */
 
   function pipelineStageOf(track) {
@@ -245,12 +336,7 @@ function validSpotifyUrl(value) {
       return track.pipelineStatus;
     }
 
-    /*
-      Compatibilité avec les anciens morceaux :
-      une fiche disposant déjà d'une playlist et de dates
-      est considérée comme placée.
-    */
-
+    // Compatibilité avec les anciennes fiches.
     if (
       track.playlistId &&
       track.placementStart &&
@@ -274,7 +360,7 @@ function validSpotifyUrl(value) {
   }
 
   /* =========================================================
-     STATUT DES PLACEMENTS
+     7. STATUT DES PLACEMENTS
   ========================================================= */
 
   function getStatus(track) {
@@ -331,17 +417,24 @@ function validSpotifyUrl(value) {
     );
   }
 
+  /* =========================================================
+     8. LIENS AFFICHÉS DANS LES TABLEAUX
+  ========================================================= */
+
   function trackLink(track) {
-    if (
-      !track.spotifyUrl ||
-      !validSpotifyUrl(track.spotifyUrl)
-    ) {
+    const spotifyUrl = normalizeSpotifyUrl(track.spotifyUrl);
+
+    if (!spotifyUrl) {
+      return "";
+    }
+
+    if (spotifyUrl === null) {
       return "";
     }
 
     return `
       <a
-        href="${esc(track.spotifyUrl)}"
+        href="${esc(spotifyUrl)}"
         target="_blank"
         rel="noopener noreferrer"
       >Spotify ↗</a>
@@ -349,17 +442,20 @@ function validSpotifyUrl(value) {
   }
 
   function instagramButton(track) {
-    if (
-      !track.instagramUrl ||
-      !validInstagramUrl(track.instagramUrl)
-    ) {
-      return `<span class="muted-inline">Non renseigné</span>`;
+    const instagramUrl = normalizeInstagramUrl(
+      track.instagramUrl
+    );
+
+    if (!instagramUrl || instagramUrl === null) {
+      return `
+        <span class="muted-inline">Non renseigné</span>
+      `;
     }
 
     return `
       <a
         class="small-btn instagram-button"
-        href="${esc(track.instagramUrl)}"
+        href="${esc(instagramUrl)}"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Ouvrir Instagram de ${esc(track.artist)}"
@@ -368,7 +464,7 @@ function validSpotifyUrl(value) {
   }
 
   /* =========================================================
-     TABLEAU DES PLACEMENTS
+     9. TABLEAU DES PLACEMENTS
   ========================================================= */
 
   function trackRow(track, actions = true) {
@@ -480,7 +576,7 @@ function validSpotifyUrl(value) {
   }
 
   /* =========================================================
-     TABLEAU DE SUIVI ARTISTES
+     10. TABLEAU DE SUIVI DES ARTISTES
   ========================================================= */
 
   function pipelineTableHtml(items) {
@@ -598,7 +694,6 @@ function validSpotifyUrl(value) {
     return `
       <div class="table-wrap">
         <table class="pipeline-table">
-
           <thead>
             <tr>
               <th>Morceau / artiste</th>
@@ -613,14 +708,13 @@ function validSpotifyUrl(value) {
           <tbody>
             ${rows}
           </tbody>
-
         </table>
       </div>
     `;
   }
 
   /* =========================================================
-     TABLEAU DE BORD
+     11. TABLEAU DE BORD
   ========================================================= */
 
   function renderDashboard() {
@@ -701,7 +795,7 @@ function validSpotifyUrl(value) {
   }
 
   /* =========================================================
-     RECHERCHE ET AFFICHAGE DES PLACEMENTS
+     12. RECHERCHE ET AFFICHAGE DES PLACEMENTS
   ========================================================= */
 
   function renderPlacements() {
@@ -716,7 +810,9 @@ function validSpotifyUrl(value) {
 
     const rows = state.data.tracks
       .filter(track => {
-        if (!isPlaced(track)) return false;
+        if (!isPlaced(track)) {
+          return false;
+        }
 
         const playlist = playlistById(track.playlistId);
 
@@ -750,7 +846,7 @@ function validSpotifyUrl(value) {
   }
 
   /* =========================================================
-     RECHERCHE ET AFFICHAGE DU SUIVI ARTISTES
+     13. RECHERCHE ET AFFICHAGE DU SUIVI ARTISTES
   ========================================================= */
 
   function renderPipeline() {
@@ -803,13 +899,15 @@ function validSpotifyUrl(value) {
   }
 
   /* =========================================================
-     AFFICHAGE DES PLAYLISTS
+     14. AFFICHAGE DES PLAYLISTS
   ========================================================= */
 
   function renderPlaylists() {
     const container = $("playlistsGrid");
 
-    if (!container) return;
+    if (!container) {
+      return;
+    }
 
     container.innerHTML = state.data.playlists.length
       ? state.data.playlists.map(playlist => {
@@ -822,12 +920,15 @@ function validSpotifyUrl(value) {
             track => track.status !== "removed"
           ).length;
 
+          const playlistUrl = normalizeSpotifyUrl(
+            playlist.spotifyUrl
+          );
+
           const spotifyLink =
-            playlist.spotifyUrl &&
-            validSpotifyUrl(playlist.spotifyUrl)
+            playlistUrl && playlistUrl !== null
               ? `
                   <a
-                    href="${esc(playlist.spotifyUrl)}"
+                    href="${esc(playlistUrl)}"
                     target="_blank"
                     rel="noopener noreferrer"
                   >Spotify ↗</a>
@@ -883,7 +984,7 @@ function validSpotifyUrl(value) {
   }
 
   /* =========================================================
-     NOTIFICATIONS
+     15. NOTIFICATIONS
   ========================================================= */
 
   function showNotice(message, error = false) {
@@ -916,7 +1017,9 @@ function validSpotifyUrl(value) {
   function setStatus(message, error = false) {
     const element = $("connectionStatus");
 
-    if (!element) return;
+    if (!element) {
+      return;
+    }
 
     element.textContent = message;
     element.classList.toggle("error", error);
@@ -946,7 +1049,7 @@ function validSpotifyUrl(value) {
   }
 
   /* =========================================================
-     API GITHUB
+     16. API GITHUB
   ========================================================= */
 
   async function gh(path, options = {}) {
@@ -979,31 +1082,33 @@ function validSpotifyUrl(value) {
     }
 
     if (!response.ok) {
+      let message = body.message ||
+        `GitHub a répondu ${response.status}`;
+
       if (response.status === 401) {
-        throw new Error("Jeton invalide ou expiré");
+        message = "Jeton invalide ou expiré";
+      } else if (response.status === 403) {
+        message =
+          "Accès refusé. Vérifie les permissions du jeton.";
+      } else if (response.status === 404) {
+        message = "Dépôt ou fichier introuvable";
+      } else if (response.status === 409) {
+        message =
+          "Conflit GitHub. Recharge les données et réessaie.";
       }
 
-      if (response.status === 403) {
-        throw new Error(
-          "Accès refusé. Vérifie les permissions du jeton."
-        );
-      }
+      const error = new Error(message);
 
-      if (response.status === 404) {
-        throw new Error("Dépôt ou fichier introuvable");
-      }
+      error.status = response.status;
 
-      throw new Error(
-        body.message ||
-        `GitHub a répondu ${response.status}`
-      );
+      throw error;
     }
 
     return body;
   }
 
   /* =========================================================
-     CONNEXION ET RESTAURATION
+     17. CONNEXION ET RESTAURATION
   ========================================================= */
 
   async function connect(automatic = false) {
@@ -1031,17 +1136,20 @@ function validSpotifyUrl(value) {
         "Renseigne le compte GitHub, le dépôt et le jeton.",
         true
       );
+
       return;
     }
 
     if (
       !validRepoPart(owner) ||
-      !validRepoPart(repo)
+      !validRepoPart(repo) ||
+      !validRepoPart(branch)
     ) {
       setStatus(
-        "Nom de compte ou de dépôt invalide.",
+        "Nom de compte, de dépôt ou de branche invalide.",
         true
       );
+
       return;
     }
 
@@ -1056,6 +1164,8 @@ function validSpotifyUrl(value) {
       connectButton.disabled = true;
     }
 
+    state.connected = false;
+
     setStatus(
       automatic
         ? "Restauration de la connexion GitHub…"
@@ -1063,16 +1173,13 @@ function validSpotifyUrl(value) {
     );
 
     try {
-      /*
-        Vérifie d'abord l'accès au dépôt.
-        Cela évite d'initialiser les données si le dépôt
-        n'est pas accessible.
-      */
-
+      // Vérifier les droits d'accès au dépôt.
       await gh(
-        `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`
+        `/repos/${encodeURIComponent(owner)}/` +
+        `${encodeURIComponent(repo)}`
       );
 
+      // Mémoriser la connexion dans ce navigateur.
       localStorage.setItem(TOKEN_KEY, token);
 
       localStorage.setItem(
@@ -1091,12 +1198,12 @@ function validSpotifyUrl(value) {
       state.connected = true;
 
       setStatus(
-        "Connecté. La connexion est mémorisée dans ce navigateur."
+        "Connecté. Les données sont synchronisées avec GitHub."
       );
 
       if (!automatic) {
         showNotice(
-          "Données chargées depuis GitHub. La connexion est mémorisée dans ce navigateur et les modifications seront enregistrées dans le dépôt."
+          "Connexion réussie. Les données ont été chargées depuis GitHub."
         );
       }
 
@@ -1122,11 +1229,12 @@ function validSpotifyUrl(value) {
   }
 
   /* =========================================================
-     CHARGEMENT DES DONNÉES
+     18. ENCODAGE UTF-8 / BASE64
   ========================================================= */
 
   function decodeBase64Utf8(value) {
     const binary = atob(value.replace(/\n/g, ""));
+
     const bytes = Uint8Array.from(
       binary,
       character => character.charCodeAt(0)
@@ -1136,12 +1244,20 @@ function validSpotifyUrl(value) {
   }
 
   function encodeBase64Utf8(value) {
-    return btoa(
-      unescape(
-        encodeURIComponent(value)
-      )
-    );
+    const bytes = new TextEncoder().encode(value);
+
+    let binary = "";
+
+    bytes.forEach(byte => {
+      binary += String.fromCharCode(byte);
+    });
+
+    return btoa(binary);
   }
+
+  /* =========================================================
+     19. CHARGEMENT DES DONNÉES GITHUB
+  ========================================================= */
 
   async function loadData() {
     const path = state.path
@@ -1181,35 +1297,31 @@ function validSpotifyUrl(value) {
       };
 
     } catch (error) {
-      /*
-        Si le fichier de données n'existe pas encore,
-        on initialise les tableaux. Le dépôt a déjà été
-        vérifié dans connect().
-      */
-
-      if (
-        String(error.message).includes("introuvable")
-      ) {
+      // Initialiser le fichier uniquement s'il est absent.
+      if (error.status === 404) {
         state.sha = null;
 
         state.data = {
           playlists: [],
           tracks: [],
-          settings: { soonDays: 7 }
+          settings: {
+            soonDays: 7
+          }
         };
 
         await saveData(
           "Initialiser les données Curator Desk"
         );
 
-      } else {
-        throw error;
+        return;
       }
+
+      throw error;
     }
   }
 
   /* =========================================================
-     SAUVEGARDE SUR GITHUB
+     20. SAUVEGARDE SUR GITHUB
   ========================================================= */
 
   async function saveData(
@@ -1275,56 +1387,64 @@ function validSpotifyUrl(value) {
   }
 
   /* =========================================================
-     MODIFICATIONS AVEC ANNULATION SI ÉCHEC
+     21. MODIFICATIONS AVEC ANNULATION SI ÉCHEC
   ========================================================= */
 
-async function mutate(callback, message) {
-  if (!state.connected) {
-    showNotice(
-      "Tu n'es pas connecté à GitHub. Va dans « Connexion & données », connecte-toi et attends la confirmation avant d'enregistrer.",
-      true
-    );
-    return false;
+  async function mutate(callback, message) {
+    if (!state.connected) {
+      showNotice(
+        "Tu n'es pas connecté à GitHub. Ouvre « Connexion & données », connecte-toi et attends la confirmation avant d'enregistrer.",
+        true
+      );
+
+      return false;
+    }
+
+    const previousData = JSON.stringify(state.data);
+
+    try {
+      callback();
+
+      await saveData(message);
+
+      renderAll();
+
+      showNotice(
+        "✅ Modifications enregistrées sur GitHub."
+      );
+
+      return true;
+
+    } catch (error) {
+      // Restaurer les données en mémoire si l'enregistrement échoue.
+      state.data = JSON.parse(previousData);
+
+      renderAll();
+
+      showNotice(
+        `❌ Enregistrement impossible : ${error.message}`,
+        true
+      );
+
+      console.error(
+        "Erreur de sauvegarde GitHub :",
+        error
+      );
+
+      return false;
+    }
   }
-
-  const previousData = JSON.stringify(state.data);
-
-  try {
-    callback();
-
-    await saveData(message);
-
-    renderAll();
-
-    showNotice("✅ Modifications enregistrées sur GitHub.");
-
-    return true;
-
-  } catch (error) {
-    // Annule les changements en mémoire si GitHub refuse la sauvegarde.
-    state.data = JSON.parse(previousData);
-
-    renderAll();
-
-    showNotice(
-      `❌ Enregistrement impossible : ${error.message}`,
-      true
-    );
-
-    console.error("Erreur de sauvegarde GitHub :", error);
-
-    return false;
-  }
-}
 
   /* =========================================================
-     CHAMPS OBLIGATOIRES SI LE MORCEAU EST PLACÉ
+     22. CHAMPS OBLIGATOIRES SI LE MORCEAU EST PLACÉ
   ========================================================= */
 
   function syncPlacementFields() {
     const statusElement = $("trackWorkflowStatus");
 
-    if (!statusElement) return;
+    if (!statusElement) {
+      return;
+    }
 
     const isPlacedStage =
       statusElement.value === "placed";
@@ -1349,12 +1469,12 @@ async function mutate(callback, message) {
       "placementFieldsHint",
       isPlacedStage
         ? "Pour enregistrer un morceau comme placé, renseigne une playlist, une date de début et une date de fin."
-        : "Tant que le morceau n’est pas placé, la playlist et les dates restent facultatives. Tu pourras les compléter plus tard."
+        : "Tant que le morceau n'est pas placé, la playlist et les dates restent facultatives. Tu pourras les compléter plus tard."
     );
   }
 
   /* =========================================================
-     OUVERTURE DU FORMULAIRE D'UN MORCEAU
+     23. OUVERTURE DU FORMULAIRE D'UN MORCEAU
   ========================================================= */
 
   function openTrack(id = null, defaultStage = "to_contact") {
@@ -1366,13 +1486,7 @@ async function mutate(callback, message) {
       ? pipelineStageOf(track)
       : defaultStage;
 
-    /*
-      CORRECTION DU BOUTON D'AJOUT :
-      si aucune playlist n'existe encore, ne bloque pas
-      l'ouverture du formulaire. On commence simplement
-      avec un statut « À contacter ».
-    */
-
+    // Sans playlist, commencer par le suivi plutôt que par le placement.
     if (
       !track &&
       initialStage === "placed" &&
@@ -1399,12 +1513,6 @@ async function mutate(callback, message) {
     setValue("trackTitle", track?.title || "");
     setValue("trackArtist", track?.artist || "");
     setValue("trackUrl", track?.spotifyUrl || "");
-
-    /*
-      Nouveau champ :
-      le lien Instagram est conservé séparément pour
-      chaque morceau.
-    */
 
     setValue(
       "trackInstagram",
@@ -1450,14 +1558,14 @@ async function mutate(callback, message) {
       dialog.showModal();
     } else {
       showNotice(
-        "Le formulaire est introuvable. Vérifie que index.html contient la fenêtre placementDialog.",
+        "Le formulaire est introuvable. Vérifie que index.html contient placementDialog.",
         true
       );
     }
   }
 
   /* =========================================================
-     OUVERTURE DU FORMULAIRE PLAYLIST
+     24. OUVERTURE DU FORMULAIRE PLAYLIST
   ========================================================= */
 
   function openPlaylist(id = null) {
@@ -1483,6 +1591,7 @@ async function mutate(callback, message) {
     setValue("playlistTitle", playlist?.name || "");
     setValue("playlistUrl", playlist?.spotifyUrl || "");
     setValue("playlistGenre", playlist?.genre || "");
+
     setValue(
       "playlistDescription",
       playlist?.description || ""
@@ -1501,159 +1610,163 @@ async function mutate(callback, message) {
   }
 
   /* =========================================================
-     ENREGISTREMENT D'UN MORCEAU
+     25. ENREGISTREMENT D'UN MORCEAU
   ========================================================= */
 
-async function submitTrack(event) {
-  event.preventDefault();
+  async function submitTrack(event) {
+    event.preventDefault();
 
-  const id = $("placementId")?.value || "";
+    const id = $("placementId")?.value || "";
 
-  const title = ($("trackTitle")?.value || "").trim();
-  const artist = ($("trackArtist")?.value || "").trim();
+    const title = ($("trackTitle")?.value || "").trim();
+    const artist = ($("trackArtist")?.value || "").trim();
 
-  const spotifyUrl = ($("trackUrl")?.value || "").trim();
-  const instagramUrl = ($("trackInstagram")?.value || "").trim();
-
-  const playlistId = $("trackPlaylist")?.value || "";
-
-  const start = $("trackStart")?.value || "";
-  const end = $("trackEnd")?.value || "";
-
-  const workflowStatus =
-    $("trackWorkflowStatus")?.value || "to_contact";
-
-  const notes =
-    ($("trackNotes")?.value || "").trim();
-
-  // Vérifier le titre et l'artiste
-  if (!title || !artist) {
-    showNotice(
-      "Renseigne au minimum le titre du morceau et le nom de l'artiste.",
-      true
-    );
-    return;
-  }
-
-  // Vérifier le lien Spotify
-  if (!validSpotifyUrl(spotifyUrl)) {
-    showNotice(
-      "Le lien Spotify n'est pas valide.",
-      true
-    );
-    return;
-  }
-
-  // Vérifier le lien Instagram
-  if (!validInstagramUrl(instagramUrl)) {
-    showNotice(
-      "Colle un lien Instagram valide, par exemple https://www.instagram.com/nomdelartiste/.",
-      true
-    );
-    return;
-  }
-
-  // Vérifier les dates
-  if (start && end && end < start) {
-    showNotice(
-      "La date de fin doit être égale ou postérieure à la date de début.",
-      true
-    );
-    return;
-  }
-
-  // Un morceau placé doit avoir une playlist et des dates
-  if (
-    workflowStatus === "placed" &&
-    (!playlistId || !start || !end)
-  ) {
-    showNotice(
-      "Pour marquer ce morceau comme placé, renseigne la playlist et les dates de début et de fin.",
-      true
-    );
-    return;
-  }
-
-  // Retrouver la fiche existante en cas de modification
-  const old = id
-    ? state.data.tracks.find(item => item.id === id)
-    : null;
-
-  // Préparer la fiche du morceau
-  const record = {
-    ...(old || {}),
-
-    id: id || uid("track"),
-
-    title,
-    artist,
-
-    spotifyUrl,
-    instagramUrl,
-
-    playlistId,
-    placementStart: start,
-    placementEnd: end,
-
-    pipelineStatus: workflowStatus,
-
-    notes,
-
-    status: old?.status === "removed"
-      ? "removed"
-      : "active",
-
-    createdAt:
-      old?.createdAt || new Date().toISOString(),
-
-    updatedAt: new Date().toISOString()
-  };
-
-  /*
-   * IMPORTANT :
-   * On tente d'abord de sauvegarder les données sur GitHub.
-   * On ne ferme le formulaire qu'en cas de réussite.
-   */
-
-  const saved = await mutate(() => {
-    const index = state.data.tracks.findIndex(
-      item => item.id === record.id
+    // CORRECTION : normalisation du lien Spotify.
+    const spotifyUrl = normalizeSpotifyUrl(
+      $("trackUrl")?.value || ""
     );
 
-    if (index >= 0) {
-      // Modifier un morceau existant
-      state.data.tracks[index] = record;
+    // Normalisation du lien Instagram.
+    const instagramUrl = normalizeInstagramUrl(
+      $("trackInstagram")?.value || ""
+    );
+
+    const playlistId = $("trackPlaylist")?.value || "";
+
+    const start = $("trackStart")?.value || "";
+    const end = $("trackEnd")?.value || "";
+
+    const workflowStatus =
+      $("trackWorkflowStatus")?.value || "to_contact";
+
+    const notes = ($("trackNotes")?.value || "").trim();
+
+    // Le titre et l'artiste sont obligatoires.
+    if (!title || !artist) {
+      showNotice(
+        "Renseigne au minimum le titre du morceau et le nom de l'artiste.",
+        true
+      );
+
+      return;
+    }
+
+    // Ne rejeter le lien que si sa normalisation a échoué.
+    if (spotifyUrl === null) {
+      showNotice(
+        "Colle un lien Spotify valide provenant de spotify.com, spotify.link ou spoti.fi.",
+        true
+      );
+
+      return;
+    }
+
+    // Vérifier Instagram.
+    if (instagramUrl === null) {
+      showNotice(
+        "Colle un lien Instagram valide, par exemple https://www.instagram.com/nomdelartiste/.",
+        true
+      );
+
+      return;
+    }
+
+    // Vérifier les dates.
+    if (start && end && end < start) {
+      showNotice(
+        "La date de fin doit être égale ou postérieure à la date de début.",
+        true
+      );
+
+      return;
+    }
+
+    // Un morceau placé doit avoir une playlist et deux dates.
+    if (
+      workflowStatus === "placed" &&
+      (!playlistId || !start || !end)
+    ) {
+      showNotice(
+        "Pour marquer ce morceau comme placé, renseigne la playlist et les dates de début et de fin.",
+        true
+      );
+
+      return;
+    }
+
+    // Récupérer la fiche existante si elle est modifiée.
+    const old = id
+      ? state.data.tracks.find(item => item.id === id)
+      : null;
+
+    const record = {
+      ...(old || {}),
+
+      id: id || uid("track"),
+
+      title,
+      artist,
+
+      spotifyUrl,
+      instagramUrl,
+
+      playlistId,
+
+      placementStart: start,
+      placementEnd: end,
+
+      pipelineStatus: workflowStatus,
+
+      notes,
+
+      status: old?.status === "removed"
+        ? "removed"
+        : "active",
+
+      createdAt:
+        old?.createdAt || new Date().toISOString(),
+
+      updatedAt: new Date().toISOString()
+    };
+
+    // Conserver le formulaire ouvert tant que GitHub n'a pas confirmé.
+    const saved = await mutate(() => {
+      const index = state.data.tracks.findIndex(
+        item => item.id === record.id
+      );
+
+      if (index >= 0) {
+        state.data.tracks[index] = record;
+      } else {
+        state.data.tracks.push(record);
+      }
+
+    }, id
+      ? "Mettre à jour le suivi d'un morceau"
+      : "Ajouter un morceau au suivi"
+    );
+
+    if (saved === true) {
+      const dialog = $("placementDialog");
+
+      if (dialog?.open) {
+        dialog.close();
+      }
+
+      showNotice(
+        "✅ Morceau enregistré avec succès dans les données GitHub."
+      );
+
     } else {
-      // Ajouter un nouveau morceau
-      state.data.tracks.push(record);
+      showNotice(
+        "❌ Le morceau n'a pas été enregistré. Vérifie le message d'erreur et réessaie.",
+        true
+      );
     }
-  }, id
-    ? "Mettre à jour le suivi d'un morceau"
-    : "Ajouter un morceau au suivi"
-  );
-
-  // Fermer le formulaire uniquement si GitHub confirme la sauvegarde
-  if (saved === true) {
-    const dialog = $("placementDialog");
-
-    if (dialog?.open) {
-      dialog.close();
-    }
-
-    showNotice(
-      "✅ Morceau enregistré avec succès dans les données GitHub."
-    );
-  } else {
-    // La sauvegarde a échoué : garder le formulaire ouvert.
-    showNotice(
-      "❌ Le morceau n'a pas été enregistré. Vérifie le message d'erreur et réessaie.",
-      true
-    );
   }
-}
 
   /* =========================================================
-     ENREGISTREMENT D'UNE PLAYLIST
+     26. ENREGISTREMENT D'UNE PLAYLIST
   ========================================================= */
 
   async function submitPlaylist(event) {
@@ -1661,23 +1774,32 @@ async function submitTrack(event) {
 
     const id = $("playlistId")?.value || "";
 
-    const spotifyUrl =
-      ($("playlistUrl")?.value || "").trim();
+    const spotifyUrl = normalizeSpotifyUrl(
+      $("playlistUrl")?.value || ""
+    );
 
-    if (
-      !validSpotifyUrl(spotifyUrl)
-    ) {
+    if (spotifyUrl === null) {
       showNotice(
-        "Le lien Spotify de la playlist n'est pas valide.",
+        "Colle un lien Spotify valide pour la playlist.",
         true
       );
+
+      return;
+    }
+
+    const title = ($("playlistTitle")?.value || "").trim();
+
+    if (!title) {
+      showNotice(
+        "Renseigne le nom de la playlist.",
+        true
+      );
+
       return;
     }
 
     const old = id
-      ? state.data.playlists.find(
-          item => item.id === id
-        )
+      ? state.data.playlists.find(item => item.id === id)
       : null;
 
     const playlist = {
@@ -1685,7 +1807,7 @@ async function submitTrack(event) {
 
       id: id || uid("playlist"),
 
-      name: ($("playlistTitle")?.value || "").trim(),
+      name: title,
 
       spotifyUrl,
 
@@ -1697,17 +1819,10 @@ async function submitTrack(event) {
       active: true,
 
       createdAt:
-        old?.createdAt ||
-        new Date().toISOString()
+        old?.createdAt || new Date().toISOString()
     };
 
-    const dialog = $("playlistDialog");
-
-    if (dialog) {
-      dialog.close();
-    }
-
-    await mutate(() => {
+    const saved = await mutate(() => {
       const index = state.data.playlists.findIndex(
         item => item.id === playlist.id
       );
@@ -1722,10 +1837,18 @@ async function submitTrack(event) {
       ? "Modifier une playlist"
       : "Ajouter une playlist"
     );
+
+    if (saved) {
+      const dialog = $("playlistDialog");
+
+      if (dialog?.open) {
+        dialog.close();
+      }
+    }
   }
 
   /* =========================================================
-     NAVIGATION ENTRE LES PAGES
+     27. NAVIGATION ENTRE LES PAGES
   ========================================================= */
 
   function go(view) {
@@ -1742,6 +1865,7 @@ async function submitTrack(event) {
         `La page « ${view} » est absente de index.html. Vérifie que le HTML est à jour.`,
         true
       );
+
       return;
     }
 
@@ -1775,16 +1899,11 @@ async function submitTrack(event) {
   }
 
   /* =========================================================
-     AJOUT D'UN MORCEAU — BOUTONS CORRIGÉS
+     28. OUVERTURE DU FORMULAIRE D'AJOUT
   ========================================================= */
 
   function openTrackSafely(stage = "to_contact") {
     try {
-      /*
-        Si aucune playlist n'est disponible, le formulaire
-        s'ouvre en mode suivi, sans exiger de dates.
-      */
-
       if (
         stage === "placed" &&
         state.data.playlists.length === 0
@@ -1808,7 +1927,7 @@ async function submitTrack(event) {
   }
 
   /* =========================================================
-     MODIFICATION RAPIDE DU STATUT
+     29. MODIFICATION RAPIDE DU STATUT
   ========================================================= */
 
   async function handlePipelineStageChange(event) {
@@ -1816,21 +1935,21 @@ async function submitTrack(event) {
       "[data-stage-track]"
     );
 
-    if (!select) return;
+    if (!select) {
+      return;
+    }
 
     const track = state.data.tracks.find(
       item => item.id === select.dataset.stageTrack
     );
 
-    if (!track) return;
+    if (!track) {
+      return;
+    }
 
     const nextStage = select.value;
 
-    /*
-      Pour passer à « Placé », il faut renseigner
-      les informations du placement dans le formulaire.
-    */
-
+    // Le passage à « Placé » demande les informations du placement.
     if (
       nextStage === "placed" &&
       (
@@ -1863,20 +1982,24 @@ async function submitTrack(event) {
   }
 
   /* =========================================================
-     ACTIONS SUR LES MORCEAUX ET PLAYLISTS
+     30. ACTIONS SUR LES MORCEAUX ET LES PLAYLISTS
   ========================================================= */
 
   function bindDelegatedActions() {
     document.body.addEventListener("click", async event => {
       const button = event.target.closest("button");
 
-      if (!button) return;
+      if (!button) {
+        return;
+      }
 
+      // Modifier un morceau.
       if (button.dataset.editTrack) {
         openTrack(button.dataset.editTrack);
         return;
       }
 
+      // Retirer un placement.
       if (button.dataset.removeTrack) {
         await mutate(() => {
           const track = state.data.tracks.find(
@@ -1892,6 +2015,7 @@ async function submitTrack(event) {
         return;
       }
 
+      // Réactiver un placement.
       if (button.dataset.restoreTrack) {
         await mutate(() => {
           const track = state.data.tracks.find(
@@ -1907,6 +2031,7 @@ async function submitTrack(event) {
         return;
       }
 
+      // Supprimer un morceau.
       if (
         button.dataset.deleteTrack &&
         confirm("Supprimer définitivement ce morceau du suivi ?")
@@ -1921,23 +2046,27 @@ async function submitTrack(event) {
         return;
       }
 
+      // Modifier une playlist.
       if (button.dataset.editPlaylist) {
         openPlaylist(button.dataset.editPlaylist);
         return;
       }
 
+      // Supprimer une playlist.
       if (button.dataset.deletePlaylist) {
         const playlist = state.data.playlists.find(
           item => item.id === button.dataset.deletePlaylist
         );
 
-        if (!playlist) return;
+        if (!playlist) {
+          return;
+        }
 
-        if (
-          state.data.tracks.some(
-            track => track.playlistId === playlist.id
-          )
-        ) {
+        const hasTracks = state.data.tracks.some(
+          track => track.playlistId === playlist.id
+        );
+
+        if (hasTracks) {
           showNotice(
             "Cette playlist est associée à un ou plusieurs morceaux. Modifie d'abord leurs fiches avant de la supprimer.",
             true
@@ -1964,7 +2093,7 @@ async function submitTrack(event) {
   }
 
   /* =========================================================
-     EXPORT JSON
+     31. EXPORT JSON
   ========================================================= */
 
   function exportData() {
@@ -1981,6 +2110,7 @@ async function submitTrack(event) {
     anchor.download = `curator-backup-${todayISO()}.json`;
 
     document.body.appendChild(anchor);
+
     anchor.click();
     anchor.remove();
 
@@ -1990,13 +2120,15 @@ async function submitTrack(event) {
   }
 
   /* =========================================================
-     IMPORT JSON
+     32. IMPORT JSON
   ========================================================= */
 
   async function importData(event) {
     const file = event.target.files?.[0];
 
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     try {
       const data = JSON.parse(
@@ -2024,7 +2156,9 @@ async function submitTrack(event) {
         state.data = {
           playlists: data.playlists,
           tracks: data.tracks,
-          settings: data.settings || { soonDays: 7 }
+          settings: data.settings || {
+            soonDays: 7
+          }
         };
 
       }, "Restaurer une sauvegarde JSON");
@@ -2041,22 +2175,25 @@ async function submitTrack(event) {
   }
 
   /* =========================================================
-     INITIALISATION DES ÉVÉNEMENTS
+     33. INITIALISATION DES ÉVÉNEMENTS
   ========================================================= */
 
   function initializeEvents() {
+    // Navigation principale.
     document.querySelectorAll(".nav-item").forEach(button => {
       button.addEventListener("click", () => {
         go(button.dataset.view);
       });
     });
 
+    // Boutons de navigation secondaire.
     document.querySelectorAll("[data-goto]").forEach(button => {
       button.addEventListener("click", () => {
         go(button.dataset.goto);
       });
     });
 
+    // Date affichée dans l'en-tête.
     setText(
       "todayLabel",
       new Date().toLocaleDateString("fr-FR", {
@@ -2066,11 +2203,7 @@ async function submitTrack(event) {
       })
     );
 
-    /*
-      Tous les boutons d'ajout passent par openTrackSafely.
-      L'absence de playlist ne bloque plus l'ouverture.
-    */
-
+    // Ajouter un morceau depuis les différents boutons.
     listen("quickAdd", "click", () => {
       openTrackSafely("to_contact");
     });
@@ -2083,19 +2216,23 @@ async function submitTrack(event) {
       openTrackSafely("placed");
     });
 
+    // Ajouter une playlist.
     listen("addPlaylist", "click", () => {
       openPlaylist();
     });
 
+    // Formulaires.
     listen("placementForm", "submit", submitTrack);
     listen("playlistForm", "submit", submitPlaylist);
 
+    // Mise à jour des champs obligatoires.
     listen(
       "trackWorkflowStatus",
       "change",
       syncPlacementFields
     );
 
+    // Recherche et filtres des placements.
     listen(
       "placementSearch",
       "input",
@@ -2108,6 +2245,7 @@ async function submitTrack(event) {
       renderPlacements
     );
 
+    // Recherche et filtres du suivi.
     listen(
       "pipelineSearch",
       "input",
@@ -2120,10 +2258,12 @@ async function submitTrack(event) {
       renderPipeline
     );
 
+    // Connexion GitHub.
     listen("connectBtn", "click", () => {
       connect();
     });
 
+    // Déconnexion.
     listen("disconnectBtn", "click", () => {
       state.token = "";
       state.connected = false;
@@ -2140,6 +2280,7 @@ async function submitTrack(event) {
       updateConnectionUi();
     });
 
+    // Fermeture des fenêtres modales.
     document.querySelectorAll("[data-close]").forEach(button => {
       button.addEventListener("click", () => {
         const dialog = $(button.dataset.close);
@@ -2150,6 +2291,7 @@ async function submitTrack(event) {
       });
     });
 
+    // Changement rapide du statut depuis les tableaux.
     listen(
       "pipelineList",
       "change",
@@ -2162,14 +2304,16 @@ async function submitTrack(event) {
       handlePipelineStageChange
     );
 
+    // Import et export des données.
     listen("exportBtn", "click", exportData);
     listen("importFile", "change", importData);
 
+    // Boutons Modifier, Supprimer, Retirer et Réactiver.
     bindDelegatedActions();
   }
 
   /* =========================================================
-     INITIALISATION ET RECONNEXION
+     34. INITIALISATION ET RECONNEXION
   ========================================================= */
 
   function initialize() {
@@ -2182,11 +2326,7 @@ async function submitTrack(event) {
 
     renderAll();
 
-    /*
-      Restaure la connexion à partir du token mémorisé
-      et de la configuration conservée dans Edge.
-    */
-
+    // Restaurer la connexion mémorisée dans ce navigateur.
     if (
       state.token &&
       state.owner &&
