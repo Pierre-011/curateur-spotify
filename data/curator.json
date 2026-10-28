@@ -220,10 +220,25 @@
       "status": "active",
       "createdAt": "2026-10-28T18:36:40.082Z",
       "updatedAt": "2026-10-28T18:36:40.082Z"
+    },
+    {
+      "id": "track_mvsgju4e_rafe4g",
+      "title": "10EURRR",
+      "artist": "Loto",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/4zEYB5RHvVVEqSYQYxb0KJ",
+      "instagramUrl": "https://www.instagram.com/lotodotcom/?hl=fr",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T18:38:34.814Z",
+      "updatedAt": "2026-10-28T18:38:34.814Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T18:36:40.082Z"
+  "updatedAt": "2026-10-28T18:38:34.814Z"
 }
