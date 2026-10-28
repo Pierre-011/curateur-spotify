@@ -280,10 +280,25 @@
       "status": "active",
       "createdAt": "2026-10-28T18:49:00.006Z",
       "updatedAt": "2026-10-28T18:49:00.006Z"
+    },
+    {
+      "id": "track_mvshimug_3vcu0h",
+      "title": "Lovecstasy",
+      "artist": "Jayb",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/4Y0DwJEo7NBzupzUcSbPSy",
+      "instagramUrl": "https://www.instagram.com/jayb.rockstar",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T19:05:38.344Z",
+      "updatedAt": "2026-10-28T19:05:38.344Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T18:49:00.006Z"
+  "updatedAt": "2026-10-28T19:05:38.344Z"
 }
