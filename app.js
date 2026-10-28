@@ -78,11 +78,67 @@
     }
   }
 
-  function validSpotifyUrl(value) {
-    if (!value) return true;
+/* Vérification des liens Spotify */
+function validSpotifyUrl(value) {
+  const input = String(value ?? "").trim();
 
-    return /^https:\/\/open\.spotify\.com\/(track|playlist|album)\/[A-Za-z0-9]+(?:[/?#].*)?$/.test(value);
+  // Le lien Spotify est facultatif pour les morceaux en discussion.
+  if (!input) return true;
+
+  try {
+    const url = new URL(input);
+
+    // Accepter uniquement les liens HTTPS.
+    if (url.protocol !== "https:") {
+      return false;
+    }
+
+    const hostname = url.hostname.toLowerCase();
+
+    // Accepter les liens courts officiels de Spotify.
+    if (
+      hostname === "spotify.link" ||
+      hostname === "www.spotify.link"
+    ) {
+      return true;
+    }
+
+    // Vérifier le domaine Spotify.
+    if (
+      hostname !== "open.spotify.com" &&
+      hostname !== "www.open.spotify.com"
+    ) {
+      return false;
+    }
+
+    // Gérer les formats classiques et les formats localisés,
+    // par exemple /track/ID et /intl-fr/track/ID.
+    const parts = url.pathname
+      .split("/")
+      .filter(Boolean);
+
+    if (parts[0] && /^intl-[a-z]{2}(?:-[a-z]{2})?$/i.test(parts[0])) {
+      parts.shift();
+    }
+
+    // Accepter les morceaux, playlists et albums.
+    const typesAutorises = ["track", "playlist", "album"];
+
+    if (!typesAutorises.includes(parts[0])) {
+      return false;
+    }
+
+    // Vérifier que l'identifiant existe.
+    if (!parts[1] || !/^[A-Za-z0-9]+$/.test(parts[1])) {
+      return false;
+    }
+
+    return true;
+
+  } catch {
+    return false;
   }
+}
 
   function validInstagramUrl(value) {
     if (!value) return true;
