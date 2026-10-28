@@ -85,10 +85,25 @@
       "status": "active",
       "createdAt": "2026-10-28T10:42:59.747Z",
       "updatedAt": "2026-10-28T10:42:59.747Z"
+    },
+    {
+      "id": "track_mvrznc3v_27lmtw",
+      "title": "J'suis là",
+      "artist": "Islem",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/3hOncOG1UyF9sqnR07aDpW",
+      "instagramUrl": "https://www.instagram.com/islemmusic",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T10:45:24.619Z",
+      "updatedAt": "2026-10-28T10:45:24.619Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T10:42:59.748Z"
+  "updatedAt": "2026-10-28T10:45:24.619Z"
 }
