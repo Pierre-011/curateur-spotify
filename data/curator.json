@@ -10,9 +10,25 @@
       "createdAt": "2026-10-27T21:05:35.178Z"
     }
   ],
-  "tracks": [],
+  "tracks": [
+    {
+      "id": "track_mvrz538z_hkci26",
+      "title": "PTSD",
+      "artist": "G-DU",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/1VFhWgM7KjwqtmXE5VlfW7",
+      "instagramUrl": "https://www.instagram.com/g_du_officiel/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T10:31:13.331Z",
+      "updatedAt": "2026-10-28T10:31:13.331Z"
+    }
+  ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-27T21:05:35.180Z"
+  "updatedAt": "2026-10-28T10:31:13.332Z"
 }
