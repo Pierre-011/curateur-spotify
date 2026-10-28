@@ -40,10 +40,25 @@
       "status": "active",
       "createdAt": "2026-10-28T10:34:47.031Z",
       "updatedAt": "2026-10-28T10:34:47.032Z"
+    },
+    {
+      "id": "track_mvrzbkhq_s3p3kc",
+      "title": "Ca glisse",
+      "artist": "Mossmo Cotchino",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/25vQbiiyEHZEBNkImZE5KL",
+      "instagramUrl": "https://www.instagram.com/mossmocotchino/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T10:36:15.614Z",
+      "updatedAt": "2026-10-28T10:36:15.614Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T10:34:47.032Z"
+  "updatedAt": "2026-10-28T10:36:15.614Z"
 }
