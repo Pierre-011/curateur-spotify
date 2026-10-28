@@ -1222,40 +1222,44 @@
      MODIFICATIONS AVEC ANNULATION SI ÉCHEC
   ========================================================= */
 
-  async function mutate(callback, message) {
-    if (!state.connected) {
-      showNotice(
-        "Connecte-toi à GitHub dans « Connexion & données » avant de modifier les données.",
-        true
-      );
+async function mutate(callback, message) {
+  if (!state.connected) {
+    showNotice(
+      "Tu n'es pas connecté à GitHub. Va dans « Connexion & données », connecte-toi et attends la confirmation avant d'enregistrer.",
+      true
+    );
+    return false;
+  }
 
-      return;
-    }
+  const previousData = JSON.stringify(state.data);
 
-    const previousData = JSON.stringify(state.data);
-
+  try {
     callback();
 
-    try {
-      await saveData(message);
+    await saveData(message);
 
-      renderAll();
+    renderAll();
 
-      showNotice(
-        "Modifications enregistrées sur GitHub."
-      );
+    showNotice("✅ Modifications enregistrées sur GitHub.");
 
-    } catch (error) {
-      state.data = JSON.parse(previousData);
+    return true;
 
-      renderAll();
+  } catch (error) {
+    // Annule les changements en mémoire si GitHub refuse la sauvegarde.
+    state.data = JSON.parse(previousData);
 
-      showNotice(
-        `Enregistrement impossible : ${error.message}`,
-        true
-      );
-    }
+    renderAll();
+
+    showNotice(
+      `❌ Enregistrement impossible : ${error.message}`,
+      true
+    );
+
+    console.error("Erreur de sauvegarde GitHub :", error);
+
+    return false;
   }
+}
 
   /* =========================================================
      CHAMPS OBLIGATOIRES SI LE MORCEAU EST PLACÉ
@@ -1444,131 +1448,153 @@
      ENREGISTREMENT D'UN MORCEAU
   ========================================================= */
 
-  async function submitTrack(event) {
-    event.preventDefault();
+async function submitTrack(event) {
+  event.preventDefault();
 
-    const id = $("placementId")?.value || "";
+  const id = $("placementId")?.value || "";
 
-    const title = ($("trackTitle")?.value || "").trim();
-    const artist = ($("trackArtist")?.value || "").trim();
+  const title = ($("trackTitle")?.value || "").trim();
+  const artist = ($("trackArtist")?.value || "").trim();
 
-    const spotifyUrl = ($("trackUrl")?.value || "").trim();
-    const instagramUrl = ($("trackInstagram")?.value || "").trim();
+  const spotifyUrl = ($("trackUrl")?.value || "").trim();
+  const instagramUrl = ($("trackInstagram")?.value || "").trim();
 
-    const playlistId = $("trackPlaylist")?.value || "";
+  const playlistId = $("trackPlaylist")?.value || "";
 
-    const start = $("trackStart")?.value || "";
-    const end = $("trackEnd")?.value || "";
+  const start = $("trackStart")?.value || "";
+  const end = $("trackEnd")?.value || "";
 
-    const workflowStatus =
-      $("trackWorkflowStatus")?.value || "to_contact";
+  const workflowStatus =
+    $("trackWorkflowStatus")?.value || "to_contact";
 
-    const notes =
-      ($("trackNotes")?.value || "").trim();
+  const notes =
+    ($("trackNotes")?.value || "").trim();
 
-    if (!title || !artist) {
-      showNotice(
-        "Renseigne au minimum le titre du morceau et le nom de l'artiste.",
-        true
-      );
-      return;
+  // Vérifier le titre et l'artiste
+  if (!title || !artist) {
+    showNotice(
+      "Renseigne au minimum le titre du morceau et le nom de l'artiste.",
+      true
+    );
+    return;
+  }
+
+  // Vérifier le lien Spotify
+  if (!validSpotifyUrl(spotifyUrl)) {
+    showNotice(
+      "Le lien Spotify n'est pas valide.",
+      true
+    );
+    return;
+  }
+
+  // Vérifier le lien Instagram
+  if (!validInstagramUrl(instagramUrl)) {
+    showNotice(
+      "Colle un lien Instagram valide, par exemple https://www.instagram.com/nomdelartiste/.",
+      true
+    );
+    return;
+  }
+
+  // Vérifier les dates
+  if (start && end && end < start) {
+    showNotice(
+      "La date de fin doit être égale ou postérieure à la date de début.",
+      true
+    );
+    return;
+  }
+
+  // Un morceau placé doit avoir une playlist et des dates
+  if (
+    workflowStatus === "placed" &&
+    (!playlistId || !start || !end)
+  ) {
+    showNotice(
+      "Pour marquer ce morceau comme placé, renseigne la playlist et les dates de début et de fin.",
+      true
+    );
+    return;
+  }
+
+  // Retrouver la fiche existante en cas de modification
+  const old = id
+    ? state.data.tracks.find(item => item.id === id)
+    : null;
+
+  // Préparer la fiche du morceau
+  const record = {
+    ...(old || {}),
+
+    id: id || uid("track"),
+
+    title,
+    artist,
+
+    spotifyUrl,
+    instagramUrl,
+
+    playlistId,
+    placementStart: start,
+    placementEnd: end,
+
+    pipelineStatus: workflowStatus,
+
+    notes,
+
+    status: old?.status === "removed"
+      ? "removed"
+      : "active",
+
+    createdAt:
+      old?.createdAt || new Date().toISOString(),
+
+    updatedAt: new Date().toISOString()
+  };
+
+  /*
+   * IMPORTANT :
+   * On tente d'abord de sauvegarder les données sur GitHub.
+   * On ne ferme le formulaire qu'en cas de réussite.
+   */
+
+  const saved = await mutate(() => {
+    const index = state.data.tracks.findIndex(
+      item => item.id === record.id
+    );
+
+    if (index >= 0) {
+      // Modifier un morceau existant
+      state.data.tracks[index] = record;
+    } else {
+      // Ajouter un nouveau morceau
+      state.data.tracks.push(record);
     }
+  }, id
+    ? "Mettre à jour le suivi d'un morceau"
+    : "Ajouter un morceau au suivi"
+  );
 
-    if (!validSpotifyUrl(spotifyUrl)) {
-      showNotice(
-        "Le lien Spotify n'est pas valide.",
-        true
-      );
-      return;
-    }
-
-    if (!validInstagramUrl(instagramUrl)) {
-      showNotice(
-        "Colle un lien Instagram valide, par exemple https://www.instagram.com/nomdelartiste/.",
-        true
-      );
-      return;
-    }
-
-    if (
-      start &&
-      end &&
-      end < start
-    ) {
-      showNotice(
-        "La date de fin doit être égale ou postérieure à la date de début.",
-        true
-      );
-      return;
-    }
-
-    if (
-      workflowStatus === "placed" &&
-      (!playlistId || !start || !end)
-    ) {
-      showNotice(
-        "Pour marquer ce morceau comme placé, renseigne la playlist et les dates de début et de fin.",
-        true
-      );
-      return;
-    }
-
-    const old = id
-      ? state.data.tracks.find(item => item.id === id)
-      : null;
-
-    const record = {
-      ...(old || {}),
-
-      id: id || uid("track"),
-
-      title,
-      artist,
-
-      spotifyUrl,
-      instagramUrl,
-
-      playlistId,
-      placementStart: start,
-      placementEnd: end,
-
-      pipelineStatus: workflowStatus,
-
-      notes,
-
-      status: old?.status === "removed"
-        ? "removed"
-        : "active",
-
-      createdAt:
-        old?.createdAt ||
-        new Date().toISOString(),
-
-      updatedAt: new Date().toISOString()
-    };
-
+  // Fermer le formulaire uniquement si GitHub confirme la sauvegarde
+  if (saved === true) {
     const dialog = $("placementDialog");
 
-    if (dialog) {
+    if (dialog?.open) {
       dialog.close();
     }
 
-    await mutate(() => {
-      const index = state.data.tracks.findIndex(
-        item => item.id === record.id
-      );
-
-      if (index >= 0) {
-        state.data.tracks[index] = record;
-      } else {
-        state.data.tracks.push(record);
-      }
-
-    }, id
-      ? "Mettre à jour le suivi d'un morceau"
-      : "Ajouter un morceau au suivi"
+    showNotice(
+      "✅ Morceau enregistré avec succès dans les données GitHub."
+    );
+  } else {
+    // La sauvegarde a échoué : garder le formulaire ouvert.
+    showNotice(
+      "❌ Le morceau n'a pas été enregistré. Vérifie le message d'erreur et réessaie.",
+      true
     );
   }
+}
 
   /* =========================================================
      ENREGISTREMENT D'UNE PLAYLIST
