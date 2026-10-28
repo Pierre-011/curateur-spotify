@@ -295,10 +295,25 @@
       "status": "active",
       "createdAt": "2026-10-28T19:05:38.344Z",
       "updatedAt": "2026-10-28T19:05:38.344Z"
+    },
+    {
+      "id": "track_mvshkh7f_v7n0nd",
+      "title": "Ma dernière fois",
+      "artist": "L3nny",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/2QdrqKUaxDoW1ROQ6mtley",
+      "instagramUrl": "https://www.instagram.com/l3nny_slb/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-10-28T19:07:04.347Z",
+      "updatedAt": "2026-10-28T19:07:04.347Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T19:05:38.344Z"
+  "updatedAt": "2026-10-28T19:07:04.347Z"
 }
