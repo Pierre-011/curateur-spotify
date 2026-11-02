@@ -370,10 +370,25 @@
       "status": "active",
       "createdAt": "2026-11-02T18:51:58.073Z",
       "updatedAt": "2026-11-02T18:51:58.073Z"
+    },
+    {
+      "id": "track_mvzmcm0d_vvlaph",
+      "title": "Mavericks",
+      "artist": "*LILSLIMEANZ",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/7ntM8TTi21DIB8Q7rknCgX",
+      "instagramUrl": "https://www.instagram.com/lilslimeanz/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-02T18:55:18.637Z",
+      "updatedAt": "2026-11-02T18:55:18.637Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-02T18:51:58.073Z"
+  "updatedAt": "2026-11-02T18:55:18.637Z"
 }
