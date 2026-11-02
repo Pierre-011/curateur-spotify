@@ -385,10 +385,25 @@
       "status": "active",
       "createdAt": "2026-11-02T18:55:18.637Z",
       "updatedAt": "2026-11-02T18:55:18.637Z"
+    },
+    {
+      "id": "track_mvzmiw1n_o81gql",
+      "title": "Slow motion (Fenibwoi)",
+      "artist": "#InDaFrench",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/7pQTfEfY7K6JwxVDzyDiCv",
+      "instagramUrl": "https://www.instagram.com/indafrench_/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-02T19:00:11.579Z",
+      "updatedAt": "2026-11-02T19:00:11.579Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-02T18:55:18.637Z"
+  "updatedAt": "2026-11-02T19:00:11.579Z"
 }
