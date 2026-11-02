@@ -459,6 +459,57 @@
      7. TABLEAU DE SUIVI DES ARTISTES
   ========================================================= */
 
+  /* =========================================================
+     COPIE DU MESSAGE PERSONNALISÉ POUR LES ARTISTES
+  ========================================================= */
+
+  async function copyOutreachMessage(trackId) {
+    const track = state.data.tracks.find(
+      item => item.id === trackId
+    );
+
+    if (!track) {
+      showNotice("Impossible de retrouver ce morceau.", true);
+      return;
+    }
+
+    const message =
+      `Salut ${track.artist}, j’ai découvert ton son ${track.title} et j’aime beaucoup ! J’aimerais le placer dans ma playlist Spotify BANGER. Tu n’as rien à payer ! En plus, je peux faire une story et un post Insta en collaboration avec toi. De ton côté, tu peux également promouvoir la playlist sans problème ! Est-ce que tu serais partant ?`;
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(message);
+      } else {
+        // Solution de secours pour les contextes sans Clipboard API.
+        const textarea = document.createElement("textarea");
+        textarea.value = message;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+
+        document.body.appendChild(textarea);
+        textarea.select();
+
+        const copied = document.execCommand("copy");
+        textarea.remove();
+
+        if (!copied) {
+          throw new Error("Échec de la copie");
+        }
+      }
+
+      showNotice(
+        `✅ Message pour ${track.artist} copié avec succès !`
+      );
+    } catch (error) {
+      console.error("Erreur de copie :", error);
+
+      showNotice(
+        "Impossible de copier le message. Vérifie les autorisations du navigateur.",
+        true
+      );
+    }
+  }
+
   function pipelineTableHtml(items) {
     if (!items.length) {
       return `
@@ -553,6 +604,11 @@
 
           <td>
             <div class="row-actions">
+
+              <button
+                class="small-btn"
+                data-copy-outreach="${esc(track.id)}"
+              >📋 Copier le message</button>
 
               <button
                 class="small-btn"
@@ -1882,6 +1938,12 @@
       const button = event.target.closest("button");
 
       if (!button) {
+        return;
+      }
+
+      // Copier le message personnalisé de prise de contact.
+      if (button.dataset.copyOutreach) {
+        await copyOutreachMessage(button.dataset.copyOutreach);
         return;
       }
 
