@@ -340,10 +340,25 @@
       "status": "active",
       "createdAt": "2026-10-28T19:18:04.376Z",
       "updatedAt": "2026-10-28T19:18:04.376Z"
+    },
+    {
+      "id": "track_mvzm0794_21ef0s",
+      "title": "FRAPPE LYR!CAL",
+      "artist": "!GREK",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/32huAAqpaHLI3okoDIOz6J",
+      "instagramUrl": "https://www.instagram.com/igrek1.3_/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-02T18:45:39.640Z",
+      "updatedAt": "2026-11-02T18:45:39.640Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-10-28T19:18:04.376Z"
+  "updatedAt": "2026-11-02T18:45:39.641Z"
 }
