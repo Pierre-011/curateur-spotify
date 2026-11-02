@@ -355,10 +355,25 @@
       "status": "active",
       "createdAt": "2026-11-02T18:45:39.640Z",
       "updatedAt": "2026-11-02T18:45:39.640Z"
+    },
+    {
+      "id": "track_mvzm8b95_a2ixy4",
+      "title": "Tempête D'amour",
+      "artist": "\"Fujin",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/7ylpu4MMiyCtKVdSQFPA8q",
+      "instagramUrl": "https://www.instagram.com/fujin.cs",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-02T18:51:58.073Z",
+      "updatedAt": "2026-11-02T18:51:58.073Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-02T18:45:39.641Z"
+  "updatedAt": "2026-11-02T18:51:58.073Z"
 }
