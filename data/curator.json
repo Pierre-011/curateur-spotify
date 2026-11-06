@@ -664,10 +664,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:56:56.371Z",
       "updatedAt": "2026-11-06T10:56:56.371Z"
+    },
+    {
+      "id": "track_mw4zbm1t_rdgnou",
+      "title": "NEXT GEN",
+      "artist": "$EKAI",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/1nk7dVz1pOBPXFrDF2zTnp",
+      "instagramUrl": "https://www.instagram.com/mynameissekai/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T12:57:17.921Z",
+      "updatedAt": "2026-11-06T12:57:17.922Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:56:56.371Z"
+  "updatedAt": "2026-11-06T12:57:17.923Z"
 }
