@@ -694,10 +694,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:00:24.952Z",
       "updatedAt": "2026-11-06T13:00:24.952Z"
+    },
+    {
+      "id": "track_mw4zi0z6_8ipumo",
+      "title": "DERNIERE DANSE",
+      "artist": "$hico",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/33H91141o20PzcYHBRekge",
+      "instagramUrl": "https://www.instagram.com/purpp_rain/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:02:17.202Z",
+      "updatedAt": "2026-11-06T13:02:17.202Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:00:24.953Z"
+  "updatedAt": "2026-11-06T13:02:17.203Z"
 }
