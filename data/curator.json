@@ -1039,10 +1039,25 @@
       "status": "active",
       "createdAt": "2026-11-06T15:12:32.807Z",
       "updatedAt": "2026-11-06T15:12:32.807Z"
+    },
+    {
+      "id": "track_mw54dqph_estiio",
+      "title": "Bazooka",
+      "artist": "1vsti",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/3tQYnmHQbFO8motUwCR27D",
+      "instagramUrl": "https://www.instagram.com/1vsti.officiel",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T15:18:55.349Z",
+      "updatedAt": "2026-11-06T15:18:55.349Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T15:12:32.808Z"
+  "updatedAt": "2026-11-06T15:18:55.349Z"
 }
