@@ -409,10 +409,25 @@
       "status": "active",
       "createdAt": "2026-11-02T19:00:11.579Z",
       "updatedAt": "2026-11-02T19:00:11.579Z"
+    },
+    {
+      "id": "track_mw4t0azp_ug6sqs",
+      "title": "Koffi",
+      "artist": "T-N9UF",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/5QPgve0RWbLBNeCawXD1do",
+      "instagramUrl": "https://www.instagram.com/t9_350/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:00:32.677Z",
+      "updatedAt": "2026-11-06T10:00:32.678Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-02T19:04:24.082Z"
+  "updatedAt": "2026-11-06T10:00:32.678Z"
 }
