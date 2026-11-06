@@ -889,10 +889,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:51:34.372Z",
       "updatedAt": "2026-11-06T13:55:09.911Z"
+    },
+    {
+      "id": "track_mw51qhj2_0lpxap",
+      "title": "BETHARRAM",
+      "artist": "115shen",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/0NdEnR2XcouMQQPr3oYB2u",
+      "instagramUrl": "https://www.instagram.com/115shen",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T14:04:51.134Z",
+      "updatedAt": "2026-11-06T14:04:51.134Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:55:09.912Z"
+  "updatedAt": "2026-11-06T14:04:51.135Z"
 }
