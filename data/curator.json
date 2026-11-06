@@ -724,10 +724,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:05:32.541Z",
       "updatedAt": "2026-11-06T13:05:32.541Z"
+    },
+    {
+      "id": "track_mw4zuc0e_l88p4j",
+      "title": "Message",
+      "artist": "$oloWithAttitude",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/1TV58s07QplZiKjb64eCXN",
+      "instagramUrl": "https://www.instagram.com/s0l0with.attitude/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:11:51.374Z",
+      "updatedAt": "2026-11-06T13:11:51.374Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:05:32.541Z"
+  "updatedAt": "2026-11-06T13:11:51.374Z"
 }
