@@ -799,10 +799,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:23:23.971Z",
       "updatedAt": "2026-11-06T13:23:23.971Z"
+    },
+    {
+      "id": "track_mw50dnpf_jxjmtw",
+      "title": "TOMBER POUR MOI",
+      "artist": "€mrod",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/10jJ7BdCJuQsYf6RBjdLeD",
+      "instagramUrl": "https://www.instagram.com/emrod_rap",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:26:52.996Z",
+      "updatedAt": "2026-11-06T13:26:52.996Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:23:23.972Z"
+  "updatedAt": "2026-11-06T13:26:52.996Z"
 }
