@@ -919,10 +919,25 @@
       "status": "active",
       "createdAt": "2026-11-06T14:10:25.428Z",
       "updatedAt": "2026-11-06T14:10:25.428Z"
+    },
+    {
+      "id": "track_mw522maf_dfaj7e",
+      "title": "CARAMEL",
+      "artist": "13 rpg",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/6MCD0yWyzkRBx1BeaergJv",
+      "instagramUrl": "https://www.instagram.com/13.rpg/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T14:14:17.175Z",
+      "updatedAt": "2026-11-06T14:14:17.175Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T14:10:25.429Z"
+  "updatedAt": "2026-11-06T14:14:17.175Z"
 }
