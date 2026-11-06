@@ -529,10 +529,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:23:10.792Z",
       "updatedAt": "2026-11-06T10:23:10.792Z"
+    },
+    {
+      "id": "track_mw4tz1yo_gx4695",
+      "title": "JEUNETRAPSTAR",
+      "artist": "Fils2jahh",
+      "spotifyUrl": "https://open.spotify.com/album/5FJyOaz6TkjN2DBmnMI7F7",
+      "instagramUrl": "https://www.instagram.com/fils2jahh/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:27:33.936Z",
+      "updatedAt": "2026-11-06T10:27:33.936Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:23:10.792Z"
+  "updatedAt": "2026-11-06T10:27:33.937Z"
 }
