@@ -994,10 +994,25 @@
       "status": "active",
       "createdAt": "2026-11-06T14:59:50.349Z",
       "updatedAt": "2026-11-06T14:59:50.349Z"
+    },
+    {
+      "id": "track_mw54219s_rsye2c",
+      "title": "PA KITE'M",
+      "artist": "1MECB1",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/6L7hT89IYyQZDvKNs8rOv5",
+      "instagramUrl": "https://www.instagram.com/1mecb1",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T15:09:49.168Z",
+      "updatedAt": "2026-11-06T15:09:49.168Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T14:59:50.349Z"
+  "updatedAt": "2026-11-06T15:09:49.169Z"
 }
