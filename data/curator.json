@@ -859,10 +859,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:35:10.766Z",
       "updatedAt": "2026-11-06T13:35:10.766Z"
+    },
+    {
+      "id": "track_mw50zkug_u429hs",
+      "title": "POPEYE",
+      "artist": "0ver",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/6lIFW9laSqolOegMJSul0d",
+      "instagramUrl": "https://www.instagram.com/0ver_uctlm/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:43:55.720Z",
+      "updatedAt": "2026-11-06T13:43:55.720Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:35:10.767Z"
+  "updatedAt": "2026-11-06T13:43:55.720Z"
 }
