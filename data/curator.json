@@ -574,10 +574,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:34:04.538Z",
       "updatedAt": "2026-11-06T10:34:04.538Z"
+    },
+    {
+      "id": "track_mw4uhr0v_p3637j",
+      "title": "Red Flag",
+      "artist": "Le T",
+      "spotifyUrl": "https://open.spotify.com/album/1Uy33ulhGVmbU6Fc64d7oN",
+      "instagramUrl": "https://www.instagram.com/t3rrell_slime/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:42:06.223Z",
+      "updatedAt": "2026-11-06T10:42:06.223Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:34:04.538Z"
+  "updatedAt": "2026-11-06T10:42:06.224Z"
 }
