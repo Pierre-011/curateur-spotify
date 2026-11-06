@@ -739,10 +739,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:11:51.374Z",
       "updatedAt": "2026-11-06T13:11:51.374Z"
+    },
+    {
+      "id": "track_mw501n12_guulgj",
+      "title": "Chaud",
+      "artist": "$wain",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/0WmOk1OB3SHqCprpR40tMX",
+      "instagramUrl": "https://www.instagram.com/swain.off/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:17:32.246Z",
+      "updatedAt": "2026-11-06T13:17:32.246Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:11:51.374Z"
+  "updatedAt": "2026-11-06T13:17:32.247Z"
 }
