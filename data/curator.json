@@ -1114,10 +1114,25 @@
       "status": "active",
       "createdAt": "2026-11-06T15:39:35.978Z",
       "updatedAt": "2026-11-06T15:39:35.978Z"
+    },
+    {
+      "id": "track_mw55dzic_o729b4",
+      "title": "SNOWFALL",
+      "artist": "242VOL",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/5KLhgf4EXvuvJAfR4pL5Rb",
+      "instagramUrl": "https://www.instagram.com/24deuxx",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T15:47:06.372Z",
+      "updatedAt": "2026-11-06T15:47:06.372Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T15:39:35.979Z"
+  "updatedAt": "2026-11-06T15:47:06.374Z"
 }
