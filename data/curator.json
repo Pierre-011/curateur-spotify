@@ -844,10 +844,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:33:05.334Z",
       "updatedAt": "2026-11-06T13:33:05.334Z"
+    },
+    {
+      "id": "track_mw50obse_ura2vj",
+      "title": "Lightspeed",
+      "artist": "08 Ouarz",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/6VnanfyPuGkjz9xJdvsCBG",
+      "instagramUrl": "https://www.instagram.com/08ouarz",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:35:10.766Z",
+      "updatedAt": "2026-11-06T13:35:10.766Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:33:05.334Z"
+  "updatedAt": "2026-11-06T13:35:10.767Z"
 }
