@@ -884,15 +884,15 @@
       "playlistId": "",
       "placementStart": "2026-11-06",
       "placementEnd": "2026-11-20",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "approved",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:51:34.372Z",
-      "updatedAt": "2026-11-06T13:54:45.312Z"
+      "updatedAt": "2026-11-06T13:54:50.342Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:54:45.313Z"
+  "updatedAt": "2026-11-06T13:54:50.342Z"
 }
