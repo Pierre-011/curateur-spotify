@@ -784,10 +784,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:22:14.261Z",
       "updatedAt": "2026-11-06T13:22:14.261Z"
+    },
+    {
+      "id": "track_mw5096f7_j780qq",
+      "title": "Parle Moi",
+      "artist": "£ouso",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/2yxxMZmHVdTXrRjul72ysR",
+      "instagramUrl": "https://www.instagram.com/le_louss/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:23:23.971Z",
+      "updatedAt": "2026-11-06T13:23:23.971Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:22:14.262Z"
+  "updatedAt": "2026-11-06T13:23:23.972Z"
 }
