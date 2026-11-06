@@ -484,10 +484,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:12:58.109Z",
       "updatedAt": "2026-11-06T10:12:58.109Z"
+    },
+    {
+      "id": "track_mw4thr2j_1uh6pi",
+      "title": "Malheur",
+      "artist": "Kaze Sweat",
+      "spotifyUrl": "https://open.spotify.com/album/3qcTxK3qWcP88xGtAx2ZV3",
+      "instagramUrl": "https://www.instagram.com/kazesweat/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:14:06.667Z",
+      "updatedAt": "2026-11-06T10:14:06.667Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:12:58.110Z"
+  "updatedAt": "2026-11-06T10:14:06.667Z"
 }
