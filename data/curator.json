@@ -904,10 +904,25 @@
       "status": "active",
       "createdAt": "2026-11-06T14:04:51.134Z",
       "updatedAt": "2026-11-06T14:04:51.134Z"
+    },
+    {
+      "id": "track_mw51xnh0_ndhou2",
+      "title": "LQPEC",
+      "artist": "12flenory",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/1zU98HWTdeGOdf2j2jXbId",
+      "instagramUrl": "https://www.instagram.com/12flenory/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T14:10:25.428Z",
+      "updatedAt": "2026-11-06T14:10:25.428Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T14:04:51.135Z"
+  "updatedAt": "2026-11-06T14:10:25.429Z"
 }
