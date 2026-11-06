@@ -814,10 +814,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:26:52.996Z",
       "updatedAt": "2026-11-06T13:26:52.996Z"
+    },
+    {
+      "id": "track_mw50k1fc_twmuab",
+      "title": "ALLIAGE",
+      "artist": "03Gelow",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/1q6oAQPlWtrXOBdTU2RKNO",
+      "instagramUrl": "https://www.instagram.com/03gelow/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:31:50.712Z",
+      "updatedAt": "2026-11-06T13:31:50.712Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:26:52.996Z"
+  "updatedAt": "2026-11-06T13:31:50.713Z"
 }
