@@ -882,17 +882,17 @@
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/1W1cEpmTZuPGdLqpHMgCaS",
       "instagramUrl": "https://www.instagram.com/100mask_/",
       "playlistId": "",
-      "placementStart": "2026-11-06",
-      "placementEnd": "2026-11-20",
+      "placementStart": "",
+      "placementEnd": "",
       "pipelineStatus": "to_contact",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:51:34.372Z",
-      "updatedAt": "2026-11-06T13:53:28.411Z"
+      "updatedAt": "2026-11-06T13:53:50.645Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:53:28.412Z"
+  "updatedAt": "2026-11-06T13:53:50.646Z"
 }
