@@ -769,10 +769,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:19:55.310Z",
       "updatedAt": "2026-11-06T13:19:55.310Z"
+    },
+    {
+      "id": "track_mw507omt_aq543w",
+      "title": "Franc Parler",
+      "artist": "£orbnn",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/1wFMAoYbpGn53L7KdUpFDV",
+      "instagramUrl": "https://www.instagram.com/lorbnn",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:22:14.261Z",
+      "updatedAt": "2026-11-06T13:22:14.261Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:19:55.311Z"
+  "updatedAt": "2026-11-06T13:22:14.262Z"
 }
