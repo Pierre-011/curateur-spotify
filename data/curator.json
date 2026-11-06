@@ -589,10 +589,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:42:06.223Z",
       "updatedAt": "2026-11-06T10:42:06.223Z"
+    },
+    {
+      "id": "track_mw4ujv2o_2hlmc0",
+      "title": "Haute Couture",
+      "artist": "Kaiwabi",
+      "spotifyUrl": "https://open.spotify.com/album/7dZyiThH1db2whQw1ujK8n",
+      "instagramUrl": "https://www.instagram.com/kaiwabi_/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:43:44.784Z",
+      "updatedAt": "2026-11-06T10:43:44.784Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:42:06.224Z"
+  "updatedAt": "2026-11-06T10:43:44.785Z"
 }
