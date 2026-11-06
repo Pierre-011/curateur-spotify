@@ -979,10 +979,25 @@
       "status": "active",
       "createdAt": "2026-11-06T14:54:00.404Z",
       "updatedAt": "2026-11-06T14:54:00.404Z"
+    },
+    {
+      "id": "track_mw53p77x_20m4wb",
+      "title": "J'lâche pas",
+      "artist": "1HUM1",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/5TCUSRZzp6CSnpX35DwBNG",
+      "instagramUrl": "https://www.instagram.com/1hum1_",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T14:59:50.349Z",
+      "updatedAt": "2026-11-06T14:59:50.349Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T14:54:00.404Z"
+  "updatedAt": "2026-11-06T14:59:50.349Z"
 }
