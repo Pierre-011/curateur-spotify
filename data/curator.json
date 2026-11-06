@@ -709,10 +709,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:02:17.202Z",
       "updatedAt": "2026-11-06T13:02:17.202Z"
+    },
+    {
+      "id": "track_mw4zm7p9_76p5oj",
+      "title": "Flamme",
+      "artist": "$ir fil",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/7FXZd2lGP5ymR0hk0Xyr2V",
+      "instagramUrl": "https://www.instagram.com/36sirfil/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:05:32.541Z",
+      "updatedAt": "2026-11-06T13:05:32.541Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:02:17.203Z"
+  "updatedAt": "2026-11-06T13:05:32.541Z"
 }
