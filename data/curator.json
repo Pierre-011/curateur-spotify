@@ -1099,10 +1099,25 @@
       "status": "active",
       "createdAt": "2026-11-06T15:36:59.128Z",
       "updatedAt": "2026-11-06T15:36:59.128Z"
+    },
+    {
+      "id": "track_mw554bze_ve1kmv",
+      "title": "TRAP",
+      "artist": "225CASH.CO",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/4NMYiHDj0YmSKzcfy3nht4",
+      "instagramUrl": "https://www.instagram.com/225CASH.CO",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T15:39:35.978Z",
+      "updatedAt": "2026-11-06T15:39:35.978Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T15:36:59.129Z"
+  "updatedAt": "2026-11-06T15:39:35.979Z"
 }
