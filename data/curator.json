@@ -1084,10 +1084,25 @@
       "status": "active",
       "createdAt": "2026-11-06T15:24:35.558Z",
       "updatedAt": "2026-11-06T15:24:35.558Z"
+    },
+    {
+      "id": "track_mw550yyg_bldblx",
+      "title": "LACRYMAL",
+      "artist": "222 Digital",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/6E8mRjtttzyBIkaKBvxY1G",
+      "instagramUrl": "https://www.instagram.com/222_digital/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T15:36:59.128Z",
+      "updatedAt": "2026-11-06T15:36:59.128Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T15:24:35.559Z"
+  "updatedAt": "2026-11-06T15:36:59.129Z"
 }
