@@ -454,10 +454,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:05:35.907Z",
       "updatedAt": "2026-11-06T10:05:35.907Z"
+    },
+    {
+      "id": "track_mw4tbys9_j8pjyl",
+      "title": "Dégradé Kontou",
+      "artist": "TheSame",
+      "spotifyUrl": "https://open.spotify.com/album/5XvmwOTNEIcde3b9G3fPRr",
+      "instagramUrl": "https://www.instagram.com/thesame971/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:09:36.729Z",
+      "updatedAt": "2026-11-06T10:09:36.729Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:05:35.908Z"
+  "updatedAt": "2026-11-06T10:09:36.730Z"
 }
