@@ -499,10 +499,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:14:06.667Z",
       "updatedAt": "2026-11-06T10:14:06.667Z"
+    },
+    {
+      "id": "track_mw4tkuio_ovvxht",
+      "title": "Un Peu",
+      "artist": "HK Dybala",
+      "spotifyUrl": "https://open.spotify.com/album/5y4zr1r03U9MYkiEcnou5K",
+      "instagramUrl": "https://www.instagram.com/hk_baww/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:16:31.104Z",
+      "updatedAt": "2026-11-06T10:16:31.104Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:14:06.667Z"
+  "updatedAt": "2026-11-06T10:16:31.104Z"
 }
