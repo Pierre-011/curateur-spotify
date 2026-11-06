@@ -439,10 +439,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:03:54.141Z",
       "updatedAt": "2026-11-06T10:03:54.141Z"
+    },
+    {
+      "id": "track_mw4t6syr_pktrag",
+      "title": "J'TE JURE",
+      "artist": "Jey Chris",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/0XmzZCfQp8cnApf8soKJat",
+      "instagramUrl": "https://www.instagram.com/jey_chris_2_3k/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:05:35.907Z",
+      "updatedAt": "2026-11-06T10:05:35.907Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:03:54.141Z"
+  "updatedAt": "2026-11-06T10:05:35.908Z"
 }
