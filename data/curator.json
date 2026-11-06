@@ -679,10 +679,25 @@
       "status": "active",
       "createdAt": "2026-11-06T12:57:17.921Z",
       "updatedAt": "2026-11-06T12:57:17.922Z"
+    },
+    {
+      "id": "track_mw4zfmd4_2cssch",
+      "title": "LA GRANDE MAISON",
+      "artist": "$hain",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/2dGiiajIIXNVHR6eKvqiNN",
+      "instagramUrl": "https://www.instagram.com/shain4her/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:00:24.952Z",
+      "updatedAt": "2026-11-06T13:00:24.952Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T12:57:17.923Z"
+  "updatedAt": "2026-11-06T13:00:24.953Z"
 }
