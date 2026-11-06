@@ -1054,10 +1054,25 @@
       "status": "active",
       "createdAt": "2026-11-06T15:18:55.349Z",
       "updatedAt": "2026-11-06T15:18:55.349Z"
+    },
+    {
+      "id": "track_mw54fgqu_69576m",
+      "title": "FOREVER BALL",
+      "artist": "1Yungs",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/4rRfx4qiSpkw6azaNS3td8",
+      "instagramUrl": "https://www.instagram.com/1yungs",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T15:20:15.750Z",
+      "updatedAt": "2026-11-06T15:20:15.750Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T15:18:55.349Z"
+  "updatedAt": "2026-11-06T15:20:15.751Z"
 }
