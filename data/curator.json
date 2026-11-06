@@ -634,10 +634,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:50:16.743Z",
       "updatedAt": "2026-11-06T10:50:16.743Z"
+    },
+    {
+      "id": "track_mw4uu9sh_svsnnw",
+      "title": "Pas d'Idole",
+      "artist": "Nesta",
+      "spotifyUrl": "https://open.spotify.com/album/6hp9moFMS2xUez2eqpU007",
+      "instagramUrl": "https://www.instagram.com/nesta_lmp/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:51:50.417Z",
+      "updatedAt": "2026-11-06T10:51:50.417Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:50:16.744Z"
+  "updatedAt": "2026-11-06T10:51:50.418Z"
 }
