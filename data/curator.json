@@ -874,10 +874,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:43:55.720Z",
       "updatedAt": "2026-11-06T13:43:55.720Z"
+    },
+    {
+      "id": "track_mw519eqs_4br2x1",
+      "title": "BELDIA",
+      "artist": "100Mask",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/1W1cEpmTZuPGdLqpHMgCaS",
+      "instagramUrl": "https://www.instagram.com/100mask_/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:51:34.372Z",
+      "updatedAt": "2026-11-06T13:51:34.372Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:43:55.720Z"
+  "updatedAt": "2026-11-06T13:51:34.374Z"
 }
