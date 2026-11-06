@@ -829,10 +829,25 @@
       "status": "active",
       "createdAt": "2026-11-06T13:31:50.712Z",
       "updatedAt": "2026-11-06T13:31:50.712Z"
+    },
+    {
+      "id": "track_mw50ln06_5aogui",
+      "title": "STARLINK",
+      "artist": "03H36",
+      "spotifyUrl": "https://open.spotify.com/intl-fr/album/5cuIed3ai2r7k97oaKRgN4",
+      "instagramUrl": "https://www.instagram.com/03h36__/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T13:33:05.334Z",
+      "updatedAt": "2026-11-06T13:33:05.334Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T13:31:50.713Z"
+  "updatedAt": "2026-11-06T13:33:05.334Z"
 }
