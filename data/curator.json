@@ -619,10 +619,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:45:59.381Z",
       "updatedAt": "2026-11-06T10:45:59.381Z"
+    },
+    {
+      "id": "track_mw4us9if_5tsva3",
+      "title": "Advienne que pourra",
+      "artist": "17Morro",
+      "spotifyUrl": "https://open.spotify.com/album/2dDpYDgE60Dw87ViPYqHs3",
+      "instagramUrl": "https://www.instagram.com/17morro/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:50:16.743Z",
+      "updatedAt": "2026-11-06T10:50:16.743Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:45:59.381Z"
+  "updatedAt": "2026-11-06T10:50:16.744Z"
 }
