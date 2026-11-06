@@ -544,10 +544,25 @@
       "status": "active",
       "createdAt": "2026-11-06T10:27:33.936Z",
       "updatedAt": "2026-11-06T10:27:33.936Z"
+    },
+    {
+      "id": "track_mw4u3cc5_7yb7ks",
+      "title": "Sentiment",
+      "artist": "Mamiwata",
+      "spotifyUrl": "https://open.spotify.com/album/0IgtPeHPqrej4sEF4IEtUl",
+      "instagramUrl": "https://www.instagram.com/mamiwata_music/",
+      "playlistId": "",
+      "placementStart": "",
+      "placementEnd": "",
+      "pipelineStatus": "to_contact",
+      "notes": "",
+      "status": "active",
+      "createdAt": "2026-11-06T10:30:54.005Z",
+      "updatedAt": "2026-11-06T10:30:54.005Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-06T10:27:33.937Z"
+  "updatedAt": "2026-11-06T10:30:54.005Z"
 }
