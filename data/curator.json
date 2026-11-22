@@ -1124,15 +1124,15 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "declined",
+      "pipelineStatus": "approved",
       "notes": "",
       "status": "removed",
       "createdAt": "2026-11-06T15:47:06.372Z",
-      "updatedAt": "2026-11-22T16:46:00.458Z"
+      "updatedAt": "2026-11-22T16:46:08.701Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-22T16:46:00.459Z"
+  "updatedAt": "2026-11-22T16:46:08.701Z"
 }
