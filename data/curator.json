@@ -914,11 +914,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T14:10:25.428Z",
-      "updatedAt": "2026-11-06T14:10:25.428Z"
+      "updatedAt": "2026-11-24T12:58:56.064Z"
     },
     {
       "id": "track_mw522maf_dfaj7e",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:58:33.070Z"
+  "updatedAt": "2026-11-24T12:58:56.065Z"
 }
