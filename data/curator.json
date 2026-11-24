@@ -824,11 +824,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:31:50.712Z",
-      "updatedAt": "2026-11-06T13:31:50.712Z"
+      "updatedAt": "2026-11-24T13:02:14.500Z"
     },
     {
       "id": "track_mw50ln06_5aogui",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:01:48.565Z"
+  "updatedAt": "2026-11-24T13:02:14.500Z"
 }
