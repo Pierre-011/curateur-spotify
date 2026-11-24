@@ -626,14 +626,14 @@
       "artist": "17Morro",
       "spotifyUrl": "https://open.spotify.com/album/2dDpYDgE60Dw87ViPYqHs3",
       "instagramUrl": "https://www.instagram.com/17morro/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-24",
+      "placementEnd": "2026-12-01",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:50:16.743Z",
-      "updatedAt": "2026-11-24T13:36:28.435Z"
+      "updatedAt": "2026-11-24T16:41:23.212Z"
     },
     {
       "id": "track_mw4uu9sh_svsnnw",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T16:37:05.264Z"
+  "updatedAt": "2026-11-24T16:41:23.212Z"
 }
