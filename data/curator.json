@@ -644,11 +644,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:51:50.417Z",
-      "updatedAt": "2026-11-06T10:51:50.417Z"
+      "updatedAt": "2026-11-24T13:36:10.185Z"
     },
     {
       "id": "track_mw4v0tv7_qo32bl",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:35:48.088Z"
+  "updatedAt": "2026-11-24T13:36:10.185Z"
 }
