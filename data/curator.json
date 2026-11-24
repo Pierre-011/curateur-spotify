@@ -1034,11 +1034,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T15:12:32.807Z",
-      "updatedAt": "2026-11-06T15:12:32.807Z"
+      "updatedAt": "2026-11-24T12:55:10.243Z"
     },
     {
       "id": "track_mw54dqph_estiio",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:54:48.221Z"
+  "updatedAt": "2026-11-24T12:55:10.243Z"
 }
