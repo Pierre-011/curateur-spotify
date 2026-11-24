@@ -614,11 +614,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "declined",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:45:59.381Z",
-      "updatedAt": "2026-11-06T10:45:59.381Z"
+      "updatedAt": "2026-11-24T13:36:41.189Z"
     },
     {
       "id": "track_mw4us9if_5tsva3",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:36:28.435Z"
+  "updatedAt": "2026-11-24T13:36:41.189Z"
 }
