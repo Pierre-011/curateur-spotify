@@ -854,11 +854,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:35:10.766Z",
-      "updatedAt": "2026-11-06T13:35:10.766Z"
+      "updatedAt": "2026-11-24T13:01:28.007Z"
     },
     {
       "id": "track_mw50zkug_u429hs",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:00:06.667Z"
+  "updatedAt": "2026-11-24T13:01:28.008Z"
 }
