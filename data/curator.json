@@ -1016,14 +1016,14 @@
       "artist": "1mor",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/5DOytfKXE3xx5pG1ZBuRAn",
       "instagramUrl": "https://www.instagram.com/1mor_music",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-24",
+      "placementEnd": "2026-12-01",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T15:11:14.166Z",
-      "updatedAt": "2026-11-24T12:55:35.113Z"
+      "updatedAt": "2026-11-24T14:42:51.340Z"
     },
     {
       "id": "track_mw545jjb_zavvqj",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:37:10.065Z"
+  "updatedAt": "2026-11-24T14:42:51.341Z"
 }
