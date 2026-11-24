@@ -779,11 +779,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:22:14.261Z",
-      "updatedAt": "2026-11-06T13:22:14.261Z"
+      "updatedAt": "2026-11-24T13:04:41.590Z"
     },
     {
       "id": "track_mw5096f7_j780qq",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:03:23.180Z"
+  "updatedAt": "2026-11-24T13:04:41.590Z"
 }
