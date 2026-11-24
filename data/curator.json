@@ -1109,11 +1109,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "declined",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T15:39:35.978Z",
-      "updatedAt": "2026-11-06T15:39:35.978Z"
+      "updatedAt": "2026-11-24T12:53:13.891Z"
     },
     {
       "id": "track_mw55dzic_o729b4",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:52:48.063Z"
+  "updatedAt": "2026-11-24T12:53:13.891Z"
 }
