@@ -671,14 +671,14 @@
       "artist": "$EKAI",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/1nk7dVz1pOBPXFrDF2zTnp",
       "instagramUrl": "https://www.instagram.com/mynameissekai/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-24",
+      "placementEnd": "2026-12-01",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T12:57:17.921Z",
-      "updatedAt": "2026-11-24T13:35:31.035Z"
+      "updatedAt": "2026-11-24T16:32:06.714Z"
     },
     {
       "id": "track_mw4zfmd4_2cssch",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T16:27:56.291Z"
+  "updatedAt": "2026-11-24T16:32:06.714Z"
 }
