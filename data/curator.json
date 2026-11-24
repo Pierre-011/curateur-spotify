@@ -1004,11 +1004,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T15:09:49.168Z",
-      "updatedAt": "2026-11-06T15:09:49.168Z"
+      "updatedAt": "2026-11-24T12:56:01.706Z"
     },
     {
       "id": "track_mw543uuu_hmudrz",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:55:35.113Z"
+  "updatedAt": "2026-11-24T12:56:01.706Z"
 }
