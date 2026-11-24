@@ -659,11 +659,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "declined",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:56:56.371Z",
-      "updatedAt": "2026-11-06T10:56:56.371Z"
+      "updatedAt": "2026-11-24T13:35:48.088Z"
     },
     {
       "id": "track_mw4zbm1t_rdgnou",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:35:31.035Z"
+  "updatedAt": "2026-11-24T13:35:48.088Z"
 }
