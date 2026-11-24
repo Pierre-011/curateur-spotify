@@ -839,11 +839,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:33:05.334Z",
-      "updatedAt": "2026-11-06T13:33:05.334Z"
+      "updatedAt": "2026-11-24T13:01:48.565Z"
     },
     {
       "id": "track_mw50obse_ura2vj",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:01:28.008Z"
+  "updatedAt": "2026-11-24T13:01:48.565Z"
 }
