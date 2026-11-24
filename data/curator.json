@@ -1079,11 +1079,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T15:24:35.558Z",
-      "updatedAt": "2026-11-06T15:24:35.558Z"
+      "updatedAt": "2026-11-24T12:54:05.024Z"
     },
     {
       "id": "track_mw550yyg_bldblx",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:53:42.793Z"
+  "updatedAt": "2026-11-24T12:54:05.024Z"
 }
