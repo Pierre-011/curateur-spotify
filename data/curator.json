@@ -1064,11 +1064,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T15:20:15.750Z",
-      "updatedAt": "2026-11-06T15:20:15.750Z"
+      "updatedAt": "2026-11-24T12:54:26.645Z"
     },
     {
       "id": "track_mw54l17q_3uq8mm",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:54:05.024Z"
+  "updatedAt": "2026-11-24T12:54:26.645Z"
 }
