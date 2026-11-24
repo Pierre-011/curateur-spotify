@@ -749,11 +749,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:17:32.246Z",
-      "updatedAt": "2026-11-06T13:17:32.246Z"
+      "updatedAt": "2026-11-24T13:05:23.975Z"
     },
     {
       "id": "track_mw504pf2_tejpfj",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:05:00.807Z"
+  "updatedAt": "2026-11-24T13:05:23.975Z"
 }
