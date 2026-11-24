@@ -929,11 +929,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T14:14:17.175Z",
-      "updatedAt": "2026-11-06T14:14:17.175Z"
+      "updatedAt": "2026-11-24T12:58:33.070Z"
     },
     {
       "id": "track_mw52d1yx_pienyb",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:58:07.509Z"
+  "updatedAt": "2026-11-24T12:58:33.070Z"
 }
