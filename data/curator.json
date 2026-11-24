@@ -989,11 +989,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T14:59:50.349Z",
-      "updatedAt": "2026-11-06T14:59:50.349Z"
+      "updatedAt": "2026-11-24T12:56:21.169Z"
     },
     {
       "id": "track_mw54219s_rsye2c",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:56:01.706Z"
+  "updatedAt": "2026-11-24T12:56:21.169Z"
 }
