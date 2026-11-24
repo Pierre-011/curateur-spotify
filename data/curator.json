@@ -629,11 +629,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:50:16.743Z",
-      "updatedAt": "2026-11-06T10:50:16.743Z"
+      "updatedAt": "2026-11-24T13:36:28.435Z"
     },
     {
       "id": "track_mw4uu9sh_svsnnw",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:36:10.185Z"
+  "updatedAt": "2026-11-24T13:36:28.435Z"
 }
