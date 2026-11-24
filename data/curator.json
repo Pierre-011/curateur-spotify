@@ -959,11 +959,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T14:39:53.136Z",
-      "updatedAt": "2026-11-06T14:39:53.136Z"
+      "updatedAt": "2026-11-24T12:57:46.090Z"
     },
     {
       "id": "track_mw53hp78_qvtbdw",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:56:47.208Z"
+  "updatedAt": "2026-11-24T12:57:46.091Z"
 }
