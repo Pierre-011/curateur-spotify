@@ -1121,18 +1121,18 @@
       "artist": "242VOL",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/5KLhgf4EXvuvJAfR4pL5Rb",
       "instagramUrl": "https://www.instagram.com/24deuxx",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-24",
+      "placementEnd": "2026-12-01",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "removed",
       "createdAt": "2026-11-06T15:47:06.372Z",
-      "updatedAt": "2026-11-24T12:52:48.063Z"
+      "updatedAt": "2026-11-24T16:16:33.503Z"
     }
   ],
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T16:09:47.510Z"
+  "updatedAt": "2026-11-24T16:16:33.503Z"
 }
