@@ -884,11 +884,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:51:34.372Z",
-      "updatedAt": "2026-11-06T13:55:09.911Z"
+      "updatedAt": "2026-11-24T12:59:40.033Z"
     },
     {
       "id": "track_mw51qhj2_0lpxap",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:59:16.199Z"
+  "updatedAt": "2026-11-24T12:59:40.033Z"
 }
