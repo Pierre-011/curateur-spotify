@@ -869,11 +869,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:43:55.720Z",
-      "updatedAt": "2026-11-06T13:43:55.720Z"
+      "updatedAt": "2026-11-24T13:00:06.667Z"
     },
     {
       "id": "track_mw519eqs_4br2x1",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T12:59:40.033Z"
+  "updatedAt": "2026-11-24T13:00:06.667Z"
 }
