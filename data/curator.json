@@ -746,14 +746,14 @@
       "artist": "$wain",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/0WmOk1OB3SHqCprpR40tMX",
       "instagramUrl": "https://www.instagram.com/swain.off/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-24",
+      "placementEnd": "2026-12-01",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:17:32.246Z",
-      "updatedAt": "2026-11-24T13:05:23.975Z"
+      "updatedAt": "2026-11-24T16:09:47.506Z"
     },
     {
       "id": "track_mw504pf2_tejpfj",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T14:42:51.341Z"
+  "updatedAt": "2026-11-24T16:09:47.510Z"
 }
