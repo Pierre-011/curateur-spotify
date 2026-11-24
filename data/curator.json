@@ -911,14 +911,14 @@
       "artist": "12flenory",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/1zU98HWTdeGOdf2j2jXbId",
       "instagramUrl": "https://www.instagram.com/12flenory/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-24",
+      "placementEnd": "2026-12-01",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T14:10:25.428Z",
-      "updatedAt": "2026-11-24T12:58:56.064Z"
+      "updatedAt": "2026-11-24T16:27:56.290Z"
     },
     {
       "id": "track_mw522maf_dfaj7e",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T16:22:15.176Z"
+  "updatedAt": "2026-11-24T16:27:56.291Z"
 }
