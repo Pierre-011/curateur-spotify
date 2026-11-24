@@ -794,11 +794,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:23:23.971Z",
-      "updatedAt": "2026-11-06T13:23:23.971Z"
+      "updatedAt": "2026-11-24T13:03:23.180Z"
     },
     {
       "id": "track_mw50dnpf_jxjmtw",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T13:03:02.344Z"
+  "updatedAt": "2026-11-24T13:03:23.180Z"
 }
