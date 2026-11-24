@@ -1091,14 +1091,14 @@
       "artist": "222 Digital",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/6E8mRjtttzyBIkaKBvxY1G",
       "instagramUrl": "https://www.instagram.com/222_digital/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-24",
+      "placementEnd": "2026-12-01",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T15:36:59.128Z",
-      "updatedAt": "2026-11-24T12:53:42.793Z"
+      "updatedAt": "2026-11-24T16:22:15.175Z"
     },
     {
       "id": "track_mw554bze_ve1kmv",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T16:16:42.919Z"
+  "updatedAt": "2026-11-24T16:22:15.176Z"
 }
