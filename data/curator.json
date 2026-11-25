@@ -866,14 +866,14 @@
       "artist": "0ver",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/6lIFW9laSqolOegMJSul0d",
       "instagramUrl": "https://www.instagram.com/0ver_uctlm/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-25",
+      "placementEnd": "2026-12-02",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:43:55.720Z",
-      "updatedAt": "2026-11-24T13:00:06.667Z"
+      "updatedAt": "2026-11-25T18:44:55.518Z"
     },
     {
       "id": "track_mw519eqs_4br2x1",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-24T16:41:23.212Z"
+  "updatedAt": "2026-11-25T18:44:55.518Z"
 }
