@@ -731,14 +731,14 @@
       "artist": "$oloWithAttitude",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/1TV58s07QplZiKjb64eCXN",
       "instagramUrl": "https://www.instagram.com/s0l0with.attitude/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-25",
+      "placementEnd": "2026-12-02",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T13:11:51.374Z",
-      "updatedAt": "2026-11-24T13:05:55.855Z"
+      "updatedAt": "2026-11-25T19:15:57.809Z"
     },
     {
       "id": "track_mw501n12_guulgj",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-25T19:09:02.060Z"
+  "updatedAt": "2026-11-25T19:15:57.809Z"
 }
