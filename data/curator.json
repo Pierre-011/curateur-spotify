@@ -596,14 +596,14 @@
       "artist": "Kaiwabi",
       "spotifyUrl": "https://open.spotify.com/album/7dZyiThH1db2whQw1ujK8n",
       "instagramUrl": "https://www.instagram.com/kaiwabi_/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-25",
+      "placementEnd": "2026-12-02",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:43:44.784Z",
-      "updatedAt": "2026-11-24T13:37:10.065Z"
+      "updatedAt": "2026-11-25T19:04:13.153Z"
     },
     {
       "id": "track_mw4umqxh_1l0has",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-25T18:44:55.518Z"
+  "updatedAt": "2026-11-25T19:04:13.153Z"
 }
