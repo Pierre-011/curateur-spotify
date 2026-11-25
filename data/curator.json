@@ -926,14 +926,14 @@
       "artist": "13 rpg",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/6MCD0yWyzkRBx1BeaergJv",
       "instagramUrl": "https://www.instagram.com/13.rpg/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-25",
+      "placementEnd": "2026-12-02",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T14:14:17.175Z",
-      "updatedAt": "2026-11-24T12:58:33.070Z"
+      "updatedAt": "2026-11-25T19:09:02.060Z"
     },
     {
       "id": "track_mw52d1yx_pienyb",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-25T19:04:13.153Z"
+  "updatedAt": "2026-11-25T19:09:02.060Z"
 }
