@@ -89,11 +89,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-10-28T10:42:59.747Z",
-      "updatedAt": "2026-10-28T10:42:59.747Z"
+      "updatedAt": "2026-11-26T19:55:00.158Z"
     },
     {
       "id": "track_mvrznc3v_27lmtw",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-26T19:54:46.503Z"
+  "updatedAt": "2026-11-26T19:55:00.158Z"
 }
