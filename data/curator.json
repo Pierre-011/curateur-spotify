@@ -134,11 +134,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-10-28T10:49:47.527Z",
-      "updatedAt": "2026-10-28T10:49:47.527Z"
+      "updatedAt": "2026-11-26T19:54:02.042Z"
     },
     {
       "id": "track_mvrztydy_h91pcb",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-26T19:53:46.517Z"
+  "updatedAt": "2026-11-26T19:54:02.042Z"
 }
