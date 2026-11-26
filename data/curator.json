@@ -374,11 +374,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-02T18:51:58.073Z",
-      "updatedAt": "2026-11-02T18:51:58.073Z"
+      "updatedAt": "2026-11-26T19:49:45.009Z"
     },
     {
       "id": "track_mvzmcm0d_vvlaph",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-26T19:49:27.384Z"
+  "updatedAt": "2026-11-26T19:49:45.009Z"
 }
