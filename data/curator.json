@@ -434,11 +434,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "declined",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:03:54.141Z",
-      "updatedAt": "2026-11-06T10:03:54.141Z"
+      "updatedAt": "2026-11-26T19:48:39.962Z"
     },
     {
       "id": "track_mw4t6syr_pktrag",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-26T19:48:25.659Z"
+  "updatedAt": "2026-11-26T19:48:39.962Z"
 }
