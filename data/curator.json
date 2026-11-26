@@ -494,11 +494,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:14:06.667Z",
-      "updatedAt": "2026-11-06T10:14:06.667Z"
+      "updatedAt": "2026-11-26T19:47:33.714Z"
     },
     {
       "id": "track_mw4tkuio_ovvxht",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-26T19:47:05.132Z"
+  "updatedAt": "2026-11-26T19:47:33.714Z"
 }
