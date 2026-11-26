@@ -314,11 +314,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-10-28T19:07:04.347Z",
-      "updatedAt": "2026-10-28T19:07:04.347Z"
+      "updatedAt": "2026-11-26T19:51:00.970Z"
     },
     {
       "id": "track_mvshotcd_xn91ne",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-26T19:50:33.564Z"
+  "updatedAt": "2026-11-26T19:51:00.970Z"
 }
