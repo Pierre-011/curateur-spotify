@@ -194,11 +194,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-10-28T18:30:41.352Z",
-      "updatedAt": "2026-10-28T18:30:41.352Z"
+      "updatedAt": "2026-11-26T19:53:02.222Z"
     },
     {
       "id": "track_mvsgg8k8_jomrx6",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-26T19:52:47.740Z"
+  "updatedAt": "2026-11-26T19:53:02.222Z"
 }
