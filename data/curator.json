@@ -539,11 +539,11 @@
       "playlistId": "",
       "placementStart": "",
       "placementEnd": "",
-      "pipelineStatus": "to_contact",
+      "pipelineStatus": "contacted",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:27:33.936Z",
-      "updatedAt": "2026-11-06T10:27:33.936Z"
+      "updatedAt": "2026-11-26T19:46:32.829Z"
     },
     {
       "id": "track_mw4u3cc5_7yb7ks",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-26T19:46:17.792Z"
+  "updatedAt": "2026-11-26T19:46:32.829Z"
 }
