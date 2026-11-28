@@ -416,14 +416,14 @@
       "artist": "T-N9UF",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/5QPgve0RWbLBNeCawXD1do",
       "instagramUrl": "https://www.instagram.com/t9_350/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:00:32.677Z",
-      "updatedAt": "2026-11-26T19:48:54.969Z"
+      "updatedAt": "2026-11-28T13:05:08.657Z"
     },
     {
       "id": "track_mw4t4mfx_vizue6",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T12:59:19.796Z"
+  "updatedAt": "2026-11-28T13:05:08.657Z"
 }
