@@ -206,14 +206,14 @@
       "artist": "Maël",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/6bAfGuMjNB6M41Z0YagaTm",
       "instagramUrl": "https://www.instagram.com/maelcestlui/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-10-28T18:35:46.904Z",
-      "updatedAt": "2026-11-26T19:52:47.740Z"
+      "updatedAt": "2026-11-28T13:25:00.406Z"
     },
     {
       "id": "track_mvsghdle_pnglkn",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T13:21:43.587Z"
+  "updatedAt": "2026-11-28T13:25:00.406Z"
 }
