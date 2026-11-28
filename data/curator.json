@@ -146,14 +146,14 @@
       "artist": "Oso",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/3KGqnjptNy93AQ2MDabdy8",
       "instagramUrl": "https://www.instagram.com/oso.off/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-10-28T10:50:33.430Z",
-      "updatedAt": "2026-11-26T19:53:46.517Z"
+      "updatedAt": "2026-11-28T13:09:26.228Z"
     },
     {
       "id": "track_mvsfw9v8_xrf3qd",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T13:05:08.657Z"
+  "updatedAt": "2026-11-28T13:09:26.228Z"
 }
