@@ -116,14 +116,14 @@
       "artist": "Solo Machina",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/6zHvSJvfzmAxcOct5Qc13o",
       "instagramUrl": "https://www.instagram.com/solo_machina/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-10-28T10:48:10.997Z",
-      "updatedAt": "2026-11-26T19:54:31.195Z"
+      "updatedAt": "2026-11-28T12:59:19.796Z"
     },
     {
       "id": "track_mvrzsyyv_74xr2b",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T12:56:21.680Z"
+  "updatedAt": "2026-11-28T12:59:19.796Z"
 }
