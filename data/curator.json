@@ -1031,14 +1031,14 @@
       "artist": "1nconnu",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/4fG1D9gPClfkasY6VGfFrK",
       "instagramUrl": "https://www.instagram.com/1nconnu__/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T15:12:32.807Z",
-      "updatedAt": "2026-11-24T12:55:10.243Z"
+      "updatedAt": "2026-11-28T13:16:45.874Z"
     },
     {
       "id": "track_mw54dqph_estiio",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T13:12:20.038Z"
+  "updatedAt": "2026-11-28T13:16:45.874Z"
 }
