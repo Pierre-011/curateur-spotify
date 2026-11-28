@@ -967,18 +967,18 @@
     },
     {
       "id": "track_mw53hp78_qvtbdw",
-      "title": "Ecoutez Nos Ames",
+      "title": "Nos Ames",
       "artist": "19'Sides",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/7cb6NWtwpTWOiuRvRNZ2i4",
       "instagramUrl": "https://www.instagram.com/19sidesblow",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T14:54:00.404Z",
-      "updatedAt": "2026-11-24T12:56:47.208Z"
+      "updatedAt": "2026-11-28T13:12:20.038Z"
     },
     {
       "id": "track_mw53p77x_20m4wb",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T13:09:26.228Z"
+  "updatedAt": "2026-11-28T13:12:20.038Z"
 }
