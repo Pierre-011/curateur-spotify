@@ -476,14 +476,14 @@
       "artist": "Cleserra",
       "spotifyUrl": "https://open.spotify.com/album/6bwq2Rc45lg3yDJy2Z2Qqx",
       "instagramUrl": "https://www.instagram.com/cleserra/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:12:58.109Z",
-      "updatedAt": "2026-11-26T19:47:48.691Z"
+      "updatedAt": "2026-11-28T12:49:18.610Z"
     },
     {
       "id": "track_mw4thr2j_1uh6pi",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T12:43:24.396Z"
+  "updatedAt": "2026-11-28T12:49:18.610Z"
 }
