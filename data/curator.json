@@ -86,14 +86,14 @@
       "artist": "Dyss MK",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/2HWNv7ZMPYD5zRendPRHDP",
       "instagramUrl": "https://www.instagram.com/dyss.mk/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-10-28T10:42:59.747Z",
-      "updatedAt": "2026-11-26T19:55:00.158Z"
+      "updatedAt": "2026-11-28T13:21:43.587Z"
     },
     {
       "id": "track_mvrznc3v_27lmtw",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T13:16:45.874Z"
+  "updatedAt": "2026-11-28T13:21:43.587Z"
 }
