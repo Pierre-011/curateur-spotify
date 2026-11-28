@@ -371,14 +371,14 @@
       "artist": "\"Fujin",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/7ylpu4MMiyCtKVdSQFPA8q",
       "instagramUrl": "https://www.instagram.com/fujin.cs",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-02T18:51:58.073Z",
-      "updatedAt": "2026-11-26T19:49:45.009Z"
+      "updatedAt": "2026-11-28T12:40:47.651Z"
     },
     {
       "id": "track_mvzmcm0d_vvlaph",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-26T19:56:18.681Z"
+  "updatedAt": "2026-11-28T12:40:47.651Z"
 }
