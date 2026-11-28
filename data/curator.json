@@ -296,14 +296,14 @@
       "artist": "Jayb",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/4Y0DwJEo7NBzupzUcSbPSy",
       "instagramUrl": "https://www.instagram.com/jayb.rockstar",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-10-28T19:05:38.344Z",
-      "updatedAt": "2026-11-26T19:51:17.200Z"
+      "updatedAt": "2026-11-28T12:56:21.680Z"
     },
     {
       "id": "track_mvshkh7f_v7n0nd",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T12:52:46.898Z"
+  "updatedAt": "2026-11-28T12:56:21.680Z"
 }
