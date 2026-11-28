@@ -956,14 +956,14 @@
       "artist": "1502",
       "spotifyUrl": "https://open.spotify.com/intl-fr/album/3Cqt5K31xRaeyHxKEoIsM5",
       "instagramUrl": "https://www.instagram.com/millecinqcentdeux/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T14:39:53.136Z",
-      "updatedAt": "2026-11-24T12:57:46.090Z"
+      "updatedAt": "2026-11-28T13:26:39.661Z"
     },
     {
       "id": "track_mw53hp78_qvtbdw",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T13:25:00.406Z"
+  "updatedAt": "2026-11-28T13:26:39.661Z"
 }
