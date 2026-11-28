@@ -521,14 +521,14 @@
       "artist": "Matt",
       "spotifyUrl": "https://open.spotify.com/album/2RJuUKaTN2Kc0yIbOLv5wD",
       "instagramUrl": "https://www.instagram.com/matt8mess/",
-      "playlistId": "",
-      "placementStart": "",
-      "placementEnd": "",
-      "pipelineStatus": "contacted",
+      "playlistId": "playlist_mvr6d1ai_jdtsdi",
+      "placementStart": "2026-11-28",
+      "placementEnd": "2026-12-05",
+      "pipelineStatus": "placed",
       "notes": "",
       "status": "active",
       "createdAt": "2026-11-06T10:23:10.792Z",
-      "updatedAt": "2026-11-26T19:46:49.966Z"
+      "updatedAt": "2026-11-28T12:43:24.396Z"
     },
     {
       "id": "track_mw4tz1yo_gx4695",
@@ -1134,5 +1134,5 @@
   "settings": {
     "soonDays": 7
   },
-  "updatedAt": "2026-11-28T12:40:47.651Z"
+  "updatedAt": "2026-11-28T12:43:24.396Z"
 }
